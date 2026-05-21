@@ -1,27 +1,54 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-body { background: #f3f4f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-.auth-container { width: 100%; max-width: 420px; padding: 20px; }
-.form-wrapper { background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); overflow: hidden; }
+/* Vezlo Mart Custom Styles */
+:root {
+    --vezlo-blue: #2563EB;
+    --vezlo-red: #DC2626;
+    --vezlo-dark: #0f172a;
+    --vezlo-card: #1e293b;
+    --vezlo-border: #334155;
+}
 
-.tabs { display: flex; border-bottom: 2px solid #f3f4f6; }
-.tab-btn { flex: 1; padding: 16px; background: none; border: none; font-size: 16px; font-weight: 600; color: #6b7280; cursor: pointer; transition: 0.3s; }
-.tab-btn.active { color: #4f46e5; border-bottom: 2px solid #4f46e5; margin-bottom: -2px; }
+body { font-family: 'Inter', sans-serif; background-color: var(--vezlo-dark); }
 
-.auth-form { display: none; padding: 24px; flex-direction: column; gap: 16px; }
-.auth-form.active { display: flex; }
+/* Glassmorphism Navbar */
+.glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05); }
 
-.input-group { display: flex; flex-direction: column; gap: 6px; }
-.input-group label { font-size: 14px; font-weight: 500; color: #374151; }
-.input-group input { padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; outline: none; transition: border 0.2s; }
-.input-group input:focus { border-color: #4f46e5; }
+/* Navigation Links */
+.nav-link { cursor: pointer; font-size: 0.875rem; font-weight: 500; color: #94a3b8; transition: all 0.2s; }
+.nav-link:hover { color: #ffffff; }
 
-.checkbox-group { flex-direction: row; align-items: center; gap: 8px; }
-.checkbox-group input { width: 18px; height: 18px; }
+/* Buttons */
+.btn-primary { background: var(--vezlo-blue); color: white; padding: 0.625rem 1.25rem; border-radius: 0.5rem; font-weight: 600; transition: all 0.2s; border: none; cursor: pointer; }
+.btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+.btn-outline { background: transparent; color: white; padding: 0.625rem 1.25rem; border-radius: 0.5rem; font-weight: 600; transition: all 0.2s; border: 1.5px solid var(--vezlo-border); cursor: pointer; }
+.btn-outline:hover { border-color: var(--vezlo-blue); color: var(--vezlo-blue); }
+.btn-danger { background: var(--vezlo-red); color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; transition: all 0.2s; border: none; cursor: pointer; }
 
-.auth-btn { padding: 14px; background: #4f46e5; color: #fff; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-.auth-btn:hover { background: #4338ca; }
-.auth-btn:disabled { background: #a5a5a5; cursor: not-allowed; }
+/* Cards */
+.vezlo-card { background: var(--vezlo-card); border: 1px solid var(--vezlo-border); border-radius: 1rem; overflow: hidden; transition: all 0.3s ease; }
+.vezlo-card:hover { border-color: rgba(37, 99, 235, 0.5); transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
 
-.message { font-size: 13px; text-align: center; min-height: 18px; }
-.message.error { color: #ef4444; }
-.message.success { color: #10b981; }
+/* Form Inputs */
+.vezlo-input { width: 100%; background: rgba(30, 41, 59, 0.5); border: 1.5px solid var(--vezlo-border); border-radius: 0.5rem; padding: 0.75rem 1rem; color: white; outline: none; transition: border-color 0.2s; }
+.vezlo-input:focus { border-color: var(--vezlo-blue); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+
+/* Badges */
+.badge-blue { background: rgba(37, 99, 235, 0.15); color: var(--vezlo-blue); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
+.badge-red { background: rgba(220, 38, 38, 0.15); color: var(--vezlo-red); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
+
+/* Animations */
+.fade-in { animation: fadeIn 0.4s ease-out forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--vezlo-dark); }
+::-webkit-scrollbar-thumb { background: var(--vezlo-blue); border-radius: 3px; }
+
+/* Responsive Grid Helpers */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+
+@media (max-width: 1024px) { .grid-4 { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .grid-4, .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; } }
