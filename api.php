@@ -11,8 +11,8 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { exit(0); }
 
 // YOUR SECRET SUPABASE CREDENTIALS (HIDDEN FROM FRONTEND)
- $SUPABASE_URL = "YOUR_SUPABASE_URL";
- $SUPABASE_SECRET_KEY = "YOUR_SUPABASE_SERVICE_ROLE_KEY"; // Use Service Role key for full access, or Anon key with RLS
+ $SUPABASE_URL = "sb_publishable_mDWDbyoQ8crrc95Xjs9_8A_yL0GcBWx";
+ $SUPABASE_SECRET_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlZ2VtdXFoaW55eGVvamZiZHhkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMDkyNjIsImV4cCI6MjA4Njc4NTI2Mn0.xj1o2HaGqBBL-YpBLmHHBeUNOtNl20swXQBRp1RgdDk"; // Use Service Role key for full access, or Anon key with RLS
 
 // Helper to make cURL requests to Supabase
 function supabaseRequest($endpoint, $method = 'GET', $data = null, $token = null) {
