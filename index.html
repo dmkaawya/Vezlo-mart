@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VezloMart - Login / Register</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="form-wrapper">
+            <div class="tabs">
+                <button class="tab-btn active" id="login-tab" onclick="switchTab('login')">Login</button>
+                <button class="tab-btn" id="register-tab" onclick="switchTab('register')">Register</button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form id="login-form" class="auth-form active" onsubmit="handleLogin(event)">
+                <div class="input-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required placeholder="you@example.com">
+                </div>
+                <div class="input-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="auth-btn" id="login-btn">Sign In</button>
+                <p class="message" id="login-message"></p>
+            </form>
+
+            <!-- REGISTER FORM -->
+            <form id="register-form" class="auth-form" onsubmit="handleRegister(event)">
+                <div class="input-group">
+                    <label for="reg-name">Full Name</label>
+                    <input type="text" id="reg-name" required placeholder="John Doe">
+                </div>
+                <div class="input-group">
+                    <label for="reg-email">Email</label>
+                    <input type="email" id="reg-email" required placeholder="you@example.com">
+                </div>
+                <div class="input-group">
+                    <label for="reg-password">Password</label>
+                    <input type="password" id="reg-password" required minlength="6" placeholder="Min 6 characters">
+                </div>
+                <div class="input-group checkbox-group">
+                    <input type="checkbox" id="reg-is-reseller">
+                    <label for="reg-is-reseller">Register as a Reseller</label>
+                </div>
+                <button type="submit" class="auth-btn" id="register-btn">Create Account</button>
+                <p class="message" id="register-message"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Supabase JS Client (Vanilla) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+</body>
+</html>
