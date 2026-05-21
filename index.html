@@ -1,68 +1,1175 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vezlo Mart - Sri Lanka's Smartest Marketplace</title>
-    <meta name="description" content="Sri Lanka's smartest marketplace! Retail deals with COD or join our Reseller Network.">
-    <meta name="keywords" content="Reselling in Sri Lanka, Earn money online LK, Best online deals, Wholesale prices Sri Lanka, Cash on Delivery LK, Dropship LK, Vezlo Mart">
-    
+    <meta name="description" content="Sri Lanka's smartest marketplace! Get the best retail deals with Cash on Delivery, or join our exclusive Reseller Network to start your own business and earn from home.">
+    <meta name="keywords" content="Reselling in Sri Lanka, Earn money online LK, Best online deals, Wholesale prices Sri Lanka, Cash on Delivery LK, Dropship LK, Tech Gadgets, Men's Clothing, Vezlo Mart">
+    <meta property="og:title" content="Vezlo Mart - Sri Lanka's Smartest Marketplace">
+    <meta property="og:description" content="Get the best retail deals with COD or join our Reseller Network to earn from home!">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --bg: #06060e;
+            --bg2: #0c0c18;
+            --card: #111122;
+            --card2: #161630;
+            --border: #1e1e3a;
+            --fg: #eeeef5;
+            --fg2: #a0a0c0;
+            --muted: #5a5a80;
+            --blue: #2d5bff;
+            --blue2: #1a3fbb;
+            --blue-glow: rgba(45,91,255,0.25);
+            --red: #ff2d55;
+            --red2: #cc1144;
+            --red-glow: rgba(255,45,85,0.2);
+            --green: #00d68f;
+            --green-glow: rgba(0,214,143,0.15);
+            --yellow: #ffcc00;
+            --yellow-glow: rgba(255,204,0,0.15);
+            --purple: #8b5cf6;
+            --purple-glow: rgba(139,92,246,0.15);
+        }
+        .light {
+            --bg: #f0f2f8;
+            --bg2: #e4e7f0;
+            --card: #ffffff;
+            --card2: #f5f5ff;
+            --border: #d0d0e0;
+            --fg: #0f0f2e;
+            --fg2: #4a4a6a;
+            --muted: #8888aa;
+            --blue-glow: rgba(45,91,255,0.1);
+            --red-glow: rgba(255,45,85,0.08);
+            --green-glow: rgba(0,214,143,0.08);
+        }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--fg);overflow-x:hidden;transition:background .4s,color .4s;}
+        h1,h2,h3,h4,h5{font-family:'Space Grotesk',sans-serif;}
+        ::-webkit-scrollbar{width:5px}
+        ::-webkit-scrollbar-track{background:var(--bg)}
+        ::-webkit-scrollbar-thumb{background:var(--blue);border-radius:3px}
+
+        /* ─── NAV ─── */
+        .nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 24px;height:68px;display:flex;align-items:center;justify-content:space-between;transition:all .35s;}
+        .nav.scrolled{background:rgba(6,6,14,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:0 4px 30px rgba(0,0,0,0.3);}
+        .light .nav.scrolled{background:rgba(240,242,248,0.95);}
+        .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;user-select:none;}
+        .nav-logo .bolt{color:var(--blue);font-size:20px;filter:drop-shadow(0 0 8px var(--blue-glow));}
+        .nav-logo .mart{color:var(--blue);}
+        .nav-links{display:flex;align-items:center;gap:4px;}
+        .nav-link{padding:8px 16px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--fg2);cursor:pointer;transition:all .2s;border:none;background:none;font-family:'Inter',sans-serif;}
+        .nav-link:hover,.nav-link.active{color:var(--fg);background:rgba(45,91,255,0.08);}
+        .nav-link.active{color:var(--blue);}
+        .nav-right{display:flex;align-items:center;gap:10px;}
+        .nav-cart{position:relative;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid var(--border);background:var(--card);transition:all .2s;color:var(--fg);}
+        .nav-cart:hover{border-color:var(--blue);color:var(--blue);}
+        .nav-cart .count{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg);}
+        .theme-toggle{width:40px;height:40px;border-radius:10px;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--fg);font-size:15px;transition:all .2s;}
+        .theme-toggle:hover{border-color:var(--blue);color:var(--blue);}
+        .btn-login{background:var(--blue);color:#fff;border:none;padding:9px 22px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .25s;font-family:'Inter',sans-serif;}
+        .btn-login:hover{background:var(--blue2);transform:translateY(-1px);box-shadow:0 6px 20px var(--blue-glow);}
+        .btn-user{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);padding:5px 14px 5px 5px;border-radius:10px;cursor:pointer;color:var(--fg);transition:all .2s;}
+        .btn-user:hover{border-color:var(--blue);}
+        .btn-user .avatar{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;}
+        .mobile-btn{display:none;background:none;border:none;color:var(--fg);font-size:20px;cursor:pointer;}
+        .mobile-menu{display:none;position:fixed;top:68px;left:0;right:0;background:var(--card);border-bottom:1px solid var(--border);padding:12px 16px;z-index:899;flex-direction:column;gap:4px;animation:slideD .25s ease;}
+        .mobile-menu.open{display:flex;}
+        @keyframes slideD{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
+        /* ─── BUTTONS ─── */
+        .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer;border:none;transition:all .25s;font-family:'Inter',sans-serif;user-select:none;}
+        .btn-primary{background:var(--blue);color:#fff;}
+        .btn-primary:hover{background:var(--blue2);transform:translateY(-2px);box-shadow:0 8px 25px var(--blue-glow);}
+        .btn-red{background:var(--red);color:#fff;}
+        .btn-red:hover{background:var(--red2);box-shadow:0 6px 20px var(--red-glow);}
+        .btn-outline{background:transparent;color:var(--fg);border:1.5px solid var(--border);}
+        .btn-outline:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-glow);}
+        .btn-green{background:var(--green);color:#0a0a0a;font-weight:700;}
+        .btn-green:hover{box-shadow:0 6px 20px var(--green-glow);transform:translateY(-1px);}
+        .btn-ghost{background:none;color:var(--fg2);border:none;padding:8px 12px;}
+        .btn-ghost:hover{color:var(--blue);}
+        .btn-sm{padding:7px 16px;font-size:12px;border-radius:8px;}
+        .btn-lg{padding:14px 36px;font-size:16px;}
+
+        /* ─── CARDS ─── */
+        .card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .3s ease;}
+        .card:hover{border-color:rgba(45,91,255,0.35);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.25);}
+        .card-flat{background:var(--card);border:1px solid var(--border);border-radius:16px;transition:border-color .2s;}
+
+        /* ─── BADGES ─── */
+        .badge{display:inline-flex;align-items:center;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;gap:4px;}
+        .badge-blue{background:var(--blue-glow);color:var(--blue);}
+        .badge-red{background:var(--red-glow);color:var(--red);}
+        .badge-green{background:var(--green-glow);color:var(--green);}
+        .badge-yellow{background:var(--yellow-glow);color:var(--yellow);}
+        .badge-purple{background:var(--purple-glow);color:var(--purple);}
+
+        /* ─── INPUT ─── */
+        .input{width:100%;padding:12px 16px;border-radius:10px;background:var(--bg2);border:1.5px solid var(--border);color:var(--fg);font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;}
+        .input:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-glow);}
+        .input::placeholder{color:var(--muted);}
+        textarea.input{resize:vertical;min-height:80px;}
+
+        /* ─── HERO ─── */
+        .hero{position:relative;min-height:92vh;display:flex;align-items:center;overflow:hidden;}
+        .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(45,91,255,0.12) 0%,transparent 70%),radial-gradient(ellipse 60% 50% at 80% 60%,rgba(255,45,85,0.08) 0%,transparent 70%),var(--bg);}
+        .hero-shape{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:heroFloat 12s ease-in-out infinite;}
+        .hero-shape.s1{width:500px;height:500px;top:-10%;right:-5%;background:rgba(45,91,255,0.08);animation-delay:0s;}
+        .hero-shape.s2{width:350px;height:350px;bottom:5%;left:-5%;background:rgba(255,45,85,0.06);animation-delay:4s;}
+        .hero-shape.s3{width:250px;height:250px;top:40%;left:30%;background:rgba(139,92,246,0.06);animation-delay:8s;}
+        @keyframes heroFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(20px,-30px) scale(1.05)}66%{transform:translate(-15px,20px) scale(0.95)}}
+        .hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(45,91,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(45,91,255,0.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 20%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 20%,transparent 100%);}
+
+        /* ─── PRODUCT CARD ─── */
+        .pcard{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .3s ease;position:relative;}
+        .pcard:hover{border-color:var(--blue);transform:translateY(-6px);box-shadow:0 16px 48px rgba(0,0,0,0.3);}
+        .pcard:hover .pcard-img img{transform:scale(1.08);}
+        .pcard-img{position:relative;overflow:hidden;background:var(--bg2);}
+        .pcard-img img{width:100%;height:220px;object-fit:cover;transition:transform .5s ease;}
+        .pcard-tag{position:absolute;top:10px;left:10px;background:var(--red);color:#fff;padding:4px 10px;border-radius:6px;font-size:10.5px;font-weight:700;letter-spacing:.3px;z-index:2;}
+        .pcard-body{padding:16px;}
+        .pcard-cat{font-size:10.5px;color:var(--muted);text-transform:uppercase;font-weight:600;letter-spacing:.5px;margin-bottom:4px;}
+        .pcard-name{font-size:14.5px;font-weight:600;color:var(--fg);margin-bottom:8px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+        .pcard-price{display:flex;align-items:baseline;gap:8px;}
+        .pcard-price .now{font-size:20px;font-weight:800;color:var(--blue);}
+        .pcard-price .was{font-size:13px;color:var(--muted);text-decoration:line-through;}
+        .pcard-add{width:100%;margin-top:12px;padding:10px;border-radius:10px;background:var(--blue-glow);color:var(--blue);border:none;font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;}
+        .pcard-add:hover{background:var(--blue);color:#fff;}
+
+        /* ─── SECTION ─── */
+        .section{max-width:1280px;margin:0 auto;padding:0 24px;}
+        .section-title{font-size:32px;font-weight:800;margin-bottom:6px;}
+        .section-sub{color:var(--fg2);font-size:15px;margin-bottom:36px;}
+
+        /* ─── TOAST ─── */
+        .toast-box{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;}
+        .toast{padding:14px 22px;border-radius:12px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;animation:toastIn .3s ease;box-shadow:0 8px 30px rgba(0,0,0,0.4);min-width:260px;}
+        .toast-success{background:#0a2e1a;color:var(--green);border:1px solid rgba(0,214,143,0.2);}
+        .toast-error{background:#2a0a14;color:var(--red);border:1px solid rgba(255,45,85,0.2);}
+        .toast-info{background:#0a1a2e;color:var(--blue);border:1px solid rgba(45,91,255,0.2);}
+        .light .toast-success{background:#e6fff5;color:#006644;border-color:#b0ffd8;}
+        .light .toast-error{background:#fff0f3;color:#cc0033;border-color:#ffb0c0;}
+        .light .toast-info{background:#eef3ff;color:#0044cc;border-color:#b0c8ff;}
+        @keyframes toastIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+        /* ─── PAGE TRANSITIONS ─── */
+        .page{animation:pageIn .35s ease;}
+        @keyframes pageIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+        /* ─── FOOTER ─── */
+        .footer{background:var(--card);border-top:1px solid var(--border);margin-top:80px;padding:60px 24px 30px;}
+        .footer-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:40px;}
+        .footer a{color:var(--fg2);text-decoration:none;font-size:13.5px;transition:color .2s;}
+        .footer a:hover{color:var(--blue);}
+        .footer-social{display:flex;gap:10px;margin-top:14px;}
+        .footer-social a{width:36px;height:36px;border-radius:8px;background:var(--bg2);display:flex;align-items:center;justify-content:center;color:var(--fg2);font-size:15px;transition:all .2s;}
+        .footer-social a:hover{background:var(--blue-glow);color:var(--blue);}
+        .footer-bottom{max-width:1280px;margin:30px auto 0;padding-top:20px;border-top:1px solid var(--border);text-align:center;color:var(--muted);font-size:12.5px;}
+
+        /* ─── STAT ─── */
+        .stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;align-items:flex-start;justify-content:space-between;transition:all .25s;}
+        .stat-card:hover{border-color:rgba(45,91,255,0.3);}
+        .stat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+
+        /* ─── TABLE ─── */
+        .tbl{width:100%;border-collapse:separate;border-spacing:0;}
+        .tbl th{text-align:left;padding:12px 16px;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);}
+        .tbl td{padding:12px 16px;font-size:13px;border-bottom:1px solid var(--border);color:var(--fg2);}
+        .tbl tr:hover td{background:var(--bg2);}
+
+        /* ─── DASHBOARD ─── */
+        .dash-wrap{display:flex;min-height:calc(100vh - 68px);padding-top:68px;}
+        .dash-side{width:250px;background:var(--card);border-right:1px solid var(--border);position:fixed;top:68px;bottom:0;left:0;padding:20px 0;overflow-y:auto;z-index:100;transition:transform .3s;}
+        .dash-side-link{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:13px;font-weight:500;color:var(--fg2);cursor:pointer;transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:'Inter',sans-serif;}
+        .dash-side-link:hover{color:var(--fg);background:var(--bg2);}
+        .dash-side-link.active{color:var(--blue);background:var(--blue-glow);border-right:3px solid var(--blue);}
+        .dash-side-link i{width:18px;text-align:center;font-size:14px;}
+        .dash-side-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;padding:16px 20px 6px;}
+        .dash-main{flex:1;margin-left:250px;padding:28px;}
+
+        /* ─── MODAL ─── */
+        .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);z-index:5000;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .2s;}
+        .modal-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px;max-width:480px;width:100%;animation:scaleIn .25s ease;}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+
+        /* ─── RESPONSIVE ─── */
+        @media(max-width:1024px){
+            .dash-side{transform:translateX(-100%);}
+            .dash-main{margin-left:0;}
+            .footer-grid{grid-template-columns:1fr 1fr;}
+        }
+        @media(max-width:768px){
+            .nav-links{display:none!important;}
+            .mobile-btn{display:block!important;}
+            .hero{min-height:auto;padding-top:100px;padding-bottom:60px;}
+            .hero-inner{flex-direction:column;text-align:center;}
+            .hero-inner .hero-visual{display:none;}
+            .hero-title{font-size:34px!important;}
+            .pcard-img img{height:180px;}
+            .footer-grid{grid-template-columns:1fr;gap:24px;}
+            .stat-card{padding:14px;}
+            .section-title{font-size:24px;}
+            .grid-4{grid-template-columns:repeat(2,1fr)!important;gap:12px!important;}
+            .grid-3{grid-template-columns:1fr!important;}
+        }
+        @media(max-width:480px){
+            .grid-4{grid-template-columns:1fr!important;}
+            .pcard-img img{height:200px;}
+        }
+    </style>
 </head>
-<body class="bg-vezlo-dark text-white font-inter">
+<body>
+    <!-- Toast -->
+    <div class="toast-box" id="toast-box"></div>
+
+    <!-- Modal Container -->
+    <div id="modal-root"></div>
 
     <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 w-full z-50 glass transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center cursor-pointer" onclick="Router.navigate('home')">
-                    <i class="fas fa-bolt text-vezlo-blue text-xl mr-2"></i>
-                    <span class="text-xl font-extrabold tracking-tight">Vezlo<span class="text-vezlo-blue">Mart</span></span>
-                </div>
-                
-                <div class="hidden md:flex items-center space-x-6">
-                    <a onclick="Router.navigate('home')" class="nav-link active">Home</a>
-                    <a onclick="Router.navigate('about')" class="nav-link">About</a>
-                    <a onclick="Router.navigate('category')" class="nav-link">Categories</a>
-                    <a onclick="Router.navigate('offers')" class="nav-link text-vezlo-red font-semibold">Offers</a>
-                    <a onclick="Router.navigate('products')" class="nav-link">Products</a>
-                    <a onclick="Router.navigate('contact')" class="nav-link">Contact</a>
-                </div>
-
-                <div class="flex items-center space-x-4">
-                    <button class="relative p-2 hover:bg-white/10 rounded-full transition" onclick="Router.navigate('cart')">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span id="cart-count" class="absolute -top-1 -right-1 bg-vezlo-red text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold hidden">0</span>
-                    </button>
-                    <button id="auth-btn" class="bg-vezlo-blue hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition" onclick="Router.navigate('login')">
-                        Login
-                    </button>
-                    <button class="md:hidden p-2" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
-                </div>
-            </div>
+    <nav class="nav" id="navbar">
+        <div class="nav-logo" onclick="VZ.go('home')">
+            <i class="fas fa-bolt bolt"></i>
+            <span>Vezlo<span class="mart">Mart</span></span>
         </div>
-        
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-700 pb-3">
-            <a onclick="Router.navigate('home'); toggleMobileMenu()" class="block px-4 py-2 text-sm hover:bg-white/5">Home</a>
-            <a onclick="Router.navigate('about'); toggleMobileMenu()" class="block px-4 py-2 text-sm hover:bg-white/5">About</a>
-            <a onclick="Router.navigate('category'); toggleMobileMenu()" class="block px-4 py-2 text-sm hover:bg-white/5">Categories</a>
-            <a onclick="Router.navigate('offers'); toggleMobileMenu()" class="block px-4 py-2 text-sm hover:bg-white/5 text-vezlo-red">Offers</a>
-            <a onclick="Router.navigate('products'); toggleMobileMenu()" class="block px-4 py-2 text-sm hover:bg-white/5">Products</a>
-            <a onclick="Router.navigate('contact'); toggleMobileMenu()" class="block px-4 py-2 text-sm hover:bg-white/5">Contact</a>
+        <div class="nav-links" id="nav-links">
+            <button class="nav-link active" data-page="home" onclick="VZ.go('home')">Home</button>
+            <button class="nav-link" data-page="about" onclick="VZ.go('about')">About</button>
+            <button class="nav-link" data-page="category" onclick="VZ.go('category')">Categories</button>
+            <button class="nav-link" data-page="offers" onclick="VZ.go('offers')" style="color:var(--red)">Offers</button>
+            <button class="nav-link" data-page="products" onclick="VZ.go('products')">Products</button>
+            <button class="nav-link" data-page="contact" onclick="VZ.go('contact')">Contact</button>
+        </div>
+        <div class="nav-right">
+            <div class="nav-cart" onclick="VZ.go('cart')">
+                <i class="fas fa-shopping-bag" style="font-size:15px"></i>
+                <span class="count" id="cart-count" style="display:none">0</span>
+            </div>
+            <button class="theme-toggle" onclick="VZ.toggleTheme()" title="Toggle theme"><i class="fas fa-moon" id="theme-ico"></i></button>
+            <button class="btn-login" id="auth-btn" onclick="VZ.go('login')">Login</button>
+            <button class="btn-user" id="user-btn" style="display:none" onclick="VZ.go('dashboard')">
+                <div class="avatar" id="user-avatar">U</div>
+                <span style="font-size:13px;font-weight:500" id="user-name">User</span>
+            </button>
+            <button class="mobile-btn" style="display:none" onclick="VZ.toggleMobile()"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="nav-link" onclick="VZ.go('home');VZ.toggleMobile()">Home</button>
+        <button class="nav-link" onclick="VZ.go('about');VZ.toggleMobile()">About</button>
+        <button class="nav-link" onclick="VZ.go('category');VZ.toggleMobile()">Categories</button>
+        <button class="nav-link" onclick="VZ.go('offers');VZ.toggleMobile()">Offers</button>
+        <button class="nav-link" onclick="VZ.go('products');VZ.toggleMobile()">Products</button>
+        <button class="nav-link" onclick="VZ.go('contact');VZ.toggleMobile()">Contact</button>
+    </div>
 
-    <!-- Dynamic Page Container -->
-    <main id="app" class="pt-16 min-h-screen"></main>
+    <!-- Main App -->
+    <main id="app"></main>
 
-    <!-- Toast Notification -->
-    <div id="toast-container" class="fixed bottom-4 right-4 z-[9999] flex flex-col gap-2"></div>
+    <script>
+    /* ==============================================
+       VEZLO MART — COMPLETE SINGLE PAGE APPLICATION
+       ============================================== */
+    const VZ = {
+        // ── Config ──
+        CFG: {
+            whatsapp: '94775048455',
+            email: 'chat.dmkaawya@gmail.com',
+            phone: '0775048455',
+            delivery: 250,
+            resellerDiscount: 25,
+            pointsPerOrder: 10,
+            apiBase: '/api' // Secure API endpoint
+        },
 
-    <script src="app.js"></script>
+        // ── State ──
+        S: {
+            page: 'home',
+            theme: localStorage.getItem('vz-theme') || 'dark',
+            user: null,
+            role: 'guest',
+            resellerApproved: false,
+            cart: [],
+            dashTab: 'overview',
+            reviewRating: 0,
+            selProduct: null,
+            search: '',
+            lockdown: false,
+        },
+
+        // ── Demo Data ──
+        DB: {
+            products: [
+                { id:1, name:'Wireless Bluetooth Earbuds Pro', desc:'Premium sound quality with active noise cancellation. 30hr battery life, IPX5 water resistant.', price:4990, rprice:3740, cat:'Tech Gadgets', img:'https://picsum.photos/seed/vz-earbuds/500/500', stock:45, rating:4.5, revs:23, kw:['earbuds','bluetooth','audio'] },
+                { id:2, name:'Smart Fitness Watch X200', desc:'Heart rate, SpO2, GPS tracking. IP68 water resistant. 7-day battery.', price:8990, rprice:6740, cat:'Tech Gadgets', img:'https://picsum.photos/seed/vz-watch/500/500', stock:30, rating:4.2, revs:18, kw:['watch','fitness','smart'] },
+                { id:3, name:'Premium Cotton Slim Fit Shirt', desc:'100% cotton, modern slim fit. Available in 8 colors. Size S-XXL.', price:2490, rprice:1870, cat:"Men's Clothing", img:'https://picsum.photos/seed/vz-shirt/500/500', stock:100, rating:4.7, revs:42, kw:['shirt','cotton','men'] },
+                { id:4, name:'RGB Mechanical Gaming Keyboard', desc:'Cherry MX switches, per-key RGB, aluminum frame, wrist rest included.', price:7490, rprice:5620, cat:'Tech Gadgets', img:'https://picsum.photos/seed/vz-kb/500/500', stock:20, rating:4.8, revs:35, kw:['keyboard','gaming','rgb'] },
+                { id:5, name:'Designer Crossbody Bag', desc:'Vegan leather, adjustable strap, multiple compartments. 6 colors.', price:3490, rprice:2620, cat:"Women's Accessories", img:'https://picsum.photos/seed/vz-bag/500/500', stock:55, rating:4.3, revs:15, kw:['bag','crossbody','women'] },
+                { id:6, name:'Portable Power Bank 20000mAh', desc:'Fast charging, dual USB-C output, LED display, slim design.', price:3990, rprice:2990, cat:'Tech Gadgets', img:'https://picsum.photos/seed/vz-pb/500/500', stock:60, rating:4.6, revs:29, kw:['powerbank','charging','portable'] },
+                { id:7, name:'Sports Running Shoes AirMax', desc:'Lightweight mesh, cushioned sole, breathable. Sizes 6-12.', price:5990, rprice:4490, cat:'Footwear', img:'https://picsum.photos/seed/vz-shoe/500/500', stock:35, rating:4.4, revs:20, kw:['shoes','running','sports'] },
+                { id:8, name:'Wireless Charging Pad 15W', desc:'Qi-compatible, fast wireless charging, ultra-slim, LED ring indicator.', price:1990, rprice:1490, cat:'Tech Gadgets', img:'https://picsum.photos/seed/vz-charger/500/500', stock:80, rating:4.1, revs:12, kw:['charger','wireless','qi'] },
+                { id:9, name:'Stainless Steel Water Bottle 750ml', desc:'Double wall vacuum insulated. Cold 24hr / Hot 12hr. BPA free.', price:1990, rprice:1490, cat:'Home & Living', img:'https://picsum.photos/seed/vz-bottle/500/500', stock:90, rating:4.5, revs:31, kw:['bottle','steel','insulated'] },
+                { id:10, name:'Polarized Aviator Sunglasses', desc:'UV400 protection, lightweight titanium frame, premium polarized lenses.', price:2990, rprice:2240, cat:"Men's Accessories", img:'https://picsum.photos/seed/vz-glass/500/500', stock:40, rating:4.3, revs:17, kw:['sunglasses','aviator','uv'] },
+                { id:11, name:'USB-C Hub 7-in-1 Adapter', desc:'HDMI 4K, USB 3.0 x3, SD/TF reader, PD 100W pass-through.', price:4490, rprice:3370, cat:'Tech Gadgets', img:'https://picsum.photos/seed/vz-hub/500/500', stock:25, rating:4.6, revs:22, kw:['usb hub','adapter','usbc'] },
+                { id:12, name:'Aromatherapy Oil Diffuser', desc:'300ml capacity, 7 LED colors, auto shut-off, whisper quiet.', price:3490, rprice:2620, cat:'Home & Living', img:'https://picsum.photos/seed/vz-diff/500/500', stock:45, rating:4.4, revs:19, kw:['diffuser','oil','aromatherapy'] },
+            ],
+            coupons: [
+                { code:'WELCOME10', discount:10, min:2000 },
+                { code:'VEZLO25', discount:25, min:5000 },
+            ],
+            orders: [
+                { id:'VZ10001', uid:'cust1', items:[{pid:1,qty:1,price:4990}], total:5240, status:'delivered', del:250, pay:'COD', addr:'123 Main St, Colombo', date:'2025-01-15', pts:10 },
+                { id:'VZ10002', uid:'cust1', items:[{pid:3,qty:2,price:2490}], total:5230, status:'shipped', del:250, pay:'Bank Transfer', addr:'45 Galle Rd, Galle', date:'2025-01-20', pts:10 },
+                { id:'VZ10003', uid:'res1', items:[{pid:2,qty:1,price:6740},{pid:6,qty:1,price:2990}], total:9980, status:'processing', del:250, pay:'COD', addr:'78 Kandy Rd, Kandy', date:'2025-01-22', pts:20 },
+            ],
+            users: [
+                { id:'cust1', name:'Kasun Perera', email:'kasun@demo.com', role:'customer', phone:'0771234567', pts:20, joined:'2025-01-01' },
+                { id:'res1', name:'Chamari Silva', email:'chamari@demo.com', role:'reseller', resApproved:true, phone:'0779876543', pts:50, joined:'2024-12-15', stats:{ orders:15, delivered:12, canceled:1, returned:2, earnings:45000, gift:2000, rank:3 } },
+                { id:'staff1', name:'Admin Staff', email:'staff@vezlo.com', role:'staff', joined:'2024-06-01' },
+                { id:'mgr1', name:'Manager', email:'manager@vezlo.com', role:'manager', joined:'2024-01-01' },
+                { id:'own1', name:'Owner', email:'owner@vezlo.com', role:'owner', joined:'2023-01-01' },
+            ],
+            reviews: [
+                { id:1, pid:1, uid:'cust1', user:'Kasun Perera', rating:5, comment:'Amazing earbuds! Sound quality is incredible for this price.', date:'2025-01-16', reported:false, reply:null },
+                { id:2, pid:3, uid:'cust1', user:'Kasun Perera', rating:4, comment:'Good shirt, fits well. Color slightly different from image.', date:'2025-01-18', reported:false, reply:'Thank you! We will improve our product images.' },
+                { id:3, pid:4, uid:'res1', user:'Chamari Silva', rating:5, comment:'Best keyboard I have used. My customers love it!', date:'2025-01-20', reported:true, reply:null },
+            ],
+        },
+
+        // ── Init ──
+        init() {
+            document.documentElement.className = this.S.theme === 'light' ? 'light' : '';
+            this.updateThemeIcon();
+            this.render();
+            window.addEventListener('scroll', () => {
+                document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+            });
+        },
+
+        // ── Navigate ──
+        go(page) {
+            this.S.page = page;
+            this.render();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.querySelectorAll('.nav-link[data-page]').forEach(l => {
+                l.classList.toggle('active', l.dataset.page === page);
+            });
+        },
+
+        // ── Theme ──
+        toggleTheme() {
+            this.S.theme = this.S.theme === 'dark' ? 'light' : 'dark';
+            document.documentElement.className = this.S.theme === 'light' ? 'light' : '';
+            localStorage.setItem('vz-theme', this.S.theme);
+            this.updateThemeIcon();
+        },
+        updateThemeIcon() {
+            const ico = document.getElementById('theme-ico');
+            if (ico) ico.className = this.S.theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        },
+
+        // ── Mobile Menu ──
+        toggleMobile() {
+            document.getElementById('mobile-menu').classList.toggle('open');
+        },
+
+        // ── Toast ──
+        toast(msg, type = 'info') {
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
+            const el = document.createElement('div');
+            el.className = `toast toast-${type}`;
+            el.innerHTML = `<i class="fas ${icons[type]}"></i> ${msg}`;
+            document.getElementById('toast-box').appendChild(el);
+            setTimeout(() => { el.style.animation = 'toastIn .25s ease reverse forwards'; setTimeout(() => el.remove(), 250); }, 2800);
+        },
+
+        // ── Cart ──
+        addToCart(pid) {
+            const p = this.DB.products.find(x => x.id === pid);
+            if (!p) return;
+            const ex = this.S.cart.find(x => x.id === pid);
+            if (ex) ex.qty++; else this.S.cart.push({ ...p, qty: 1 });
+            this.toast(p.name + ' added to cart!', 'success');
+            this.updateCartBadge();
+        },
+        updateCartBadge() {
+            const c = this.S.cart.reduce((s, i) => s + i.qty, 0);
+            const el = document.getElementById('cart-count');
+            if (c > 0) { el.textContent = c; el.style.display = 'flex'; }
+            else el.style.display = 'none';
+        },
+
+        // ── Price Helper ──
+        isReseller() { return this.S.role === 'reseller' && this.S.resellerApproved; },
+        getPrice(p) { return this.isReseller() ? p.rprice : p.price; },
+
+        // ── WhatsApp Link ──
+        waLink(items, total) {
+            let m = `Hi Vezlo Mart! I'd like to order:\n\n`;
+            items.forEach(i => { m += `*${i.name}* x${i.qty} - Rs. ${this.getPrice(i) * i.qty}\n`; });
+            m += `\nDelivery: Rs. ${this.CFG.delivery}\nTotal: Rs. ${total + this.CFG.delivery}`;
+            if (this.S.user) m += `\n\nName: ${this.S.user.name}\nPhone: ${this.S.user.phone || 'N/A'}`;
+            return `https://wa.me/${this.CFG.whatsapp}?text=${encodeURIComponent(m)}`;
+        },
+
+        // ── Stars ──
+        stars(r) {
+            let s = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= Math.floor(r)) s += '<i class="fas fa-star" style="color:var(--yellow);font-size:11px"></i>';
+                else if (i - .5 <= r) s += '<i class="fas fa-star-half-alt" style="color:var(--yellow);font-size:11px"></i>';
+                else s += '<i class="far fa-star" style="color:var(--muted);font-size:11px"></i>';
+            }
+            return s;
+        },
+
+        // ── Demo Login ──
+        demoLogin(role) {
+            const u = this.DB.users.find(x => x.role === role || (role === 'customer' && x.role === 'customer'));
+            if (!u) return;
+            this.S.user = u;
+            this.S.role = u.role;
+            this.S.resellerApproved = u.resApproved || false;
+            document.getElementById('auth-btn').style.display = 'none';
+            document.getElementById('user-btn').style.display = 'flex';
+            document.getElementById('user-avatar').textContent = u.name[0];
+            document.getElementById('user-name').textContent = u.name.split(' ')[0];
+            this.toast('Logged in as ' + u.role + '!', 'success');
+            this.go('dashboard');
+        },
+        logout() {
+            this.S.user = null; this.S.role = 'guest'; this.S.resellerApproved = false; this.S.cart = [];
+            document.getElementById('auth-btn').style.display = '';
+            document.getElementById('user-btn').style.display = 'none';
+            this.updateCartBadge();
+            this.go('home');
+            this.toast('Logged out', 'info');
+        },
+
+        // ── Auth ──
+        login() {
+            const email = document.getElementById('l-email')?.value;
+            const pass = document.getElementById('l-pass')?.value;
+            if (!email || !pass) { this.toast('Please fill all fields', 'error'); return; }
+            // In production: Call API endpoint -> const res = await fetch(CFG.apiBase + '/login', {method:'POST', body:JSON.stringify({email,pass})});
+            // Demo: match email
+            const u = this.DB.users.find(x => x.email === email);
+            if (u) { this.S.user = u; this.S.role = u.role; this.S.resellerApproved = u.resApproved || false;
+                document.getElementById('auth-btn').style.display = 'none';
+                document.getElementById('user-btn').style.display = 'flex';
+                document.getElementById('user-avatar').textContent = u.name[0];
+                document.getElementById('user-name').textContent = u.name.split(' ')[0];
+                this.toast('Welcome back, ' + u.name.split(' ')[0] + '!', 'success'); this.go('dashboard');
+            } else { this.toast('Invalid credentials. Try demo logins below.', 'error'); }
+        },
+        register(type) {
+            const name = document.getElementById('r-name')?.value;
+            const email = document.getElementById('r-email')?.value;
+            const phone = document.getElementById('r-phone')?.value;
+            const pass = document.getElementById('r-pass')?.value;
+            if (!name || !email || !pass) { this.toast('Please fill all fields', 'error'); return; }
+            // In production: Call API endpoint -> await fetch(CFG.apiBase + '/register', {method:'POST', body:JSON.stringify({...})});
+            this.toast(type === 'reseller' ? 'Reseller application submitted! Pending approval.' : 'Account created!', 'success');
+            this.go('login');
+        },
+
+        // ── Place Order ──
+        placeOrder() {
+            const addr = document.getElementById('chk-addr')?.value;
+            const pay = document.querySelector('input[name=pay]:checked')?.value;
+            if (!addr) { this.toast('Please enter delivery address', 'error'); return; }
+            // In production: await fetch(CFG.apiBase + '/orders', {method:'POST', ...});
+            this.toast('Order placed successfully!', 'success');
+            this.S.cart = [];
+            this.updateCartBadge();
+            this.go('dashboard');
+        },
+
+        // ══════════════════════════
+        //  RENDER ENGINE
+        // ══════════════════════════
+        render() {
+            const app = document.getElementById('app');
+            switch(this.S.page) {
+                case 'home': app.innerHTML = this.pgHome(); break;
+                case 'about': app.innerHTML = this.pgAbout(); break;
+                case 'category': app.innerHTML = this.pgCategory(); break;
+                case 'offers': app.innerHTML = this.pgOffers(); break;
+                case 'products': app.innerHTML = this.pgProducts(); break;
+                case 'contact': app.innerHTML = this.pgContact(); break;
+                case 'login': app.innerHTML = this.pgLogin(); break;
+                case 'cart': app.innerHTML = this.pgCart(); break;
+                case 'checkout': app.innerHTML = this.pgCheckout(); break;
+                case 'dashboard': app.innerHTML = this.pgDashboard(); break;
+                default: app.innerHTML = this.pgHome();
+            }
+            this.updateCartBadge();
+        },
+
+        // ── Product Card Helper ──
+        pCard(p) {
+            const isR = this.isReseller();
+            const price = this.getPrice(p);
+            const disc = Math.round(((p.price - p.rprice) / p.price) * 100);
+            return `
+            <div class="pcard" onclick="VZ.addToCart(${p.id})">
+                ${isR && disc > 0 ? `<div class="pcard-tag">${disc}% OFF</div>` : ''}
+                <div class="pcard-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+                <div class="pcard-body">
+                    <div class="pcard-cat">${p.cat}</div>
+                    <div class="pcard-name">${p.name}</div>
+                    <div style="display:flex;align-items:center;gap:4px;margin:6px 0">${this.stars(p.rating)} <span style="font-size:11px;color:var(--muted)">(${p.revs})</span></div>
+                    <div class="pcard-price">
+                        <span class="now" style="${isR?'color:var(--green)':''}">Rs. ${price.toLocaleString()}</span>
+                        ${isR ? `<span class="was">Rs. ${p.price.toLocaleString()}</span>` : ''}
+                    </div>
+                    <button class="pcard-add"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                </div>
+            </div>`;
+        },
+
+        // ────────────────────────────────
+        //  PAGE: HOME
+        // ────────────────────────────────
+        pgHome() {
+            const featured = this.DB.products.slice(0, 8);
+            const cats = [...new Set(this.DB.products.map(p => p.cat))];
+            const catIcons = {'Tech Gadgets':'fa-microchip',"Men's Clothing":'fa-t-shirt',"Women's Accessories":'fa-gem','Footwear':'fa-shoe-prints','Home & Living':'fa-couch',"Men's Accessories":'fa-glasses'};
+            const catColors = {'Tech Gadgets':'var(--blue)',"Men's Clothing":'var(--red)',"Women's Accessories":'var(--purple)','Footwear':'var(--green)','Home & Living':'var(--yellow)',"Men's Accessories":'#ff6b35'};
+            return `
+            <div class="page">
+                <!-- HERO -->
+                <section class="hero">
+                    <div class="hero-bg"></div>
+                    <div class="hero-shape s1"></div>
+                    <div class="hero-shape s2"></div>
+                    <div class="hero-shape s3"></div>
+                    <div class="hero-grid-bg"></div>
+                    <div style="position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 24px;width:100%;">
+                        <div class="hero-inner" style="display:flex;align-items:center;gap:60px;">
+                            <div style="flex:1;min-width:0;">
+                                <div class="badge badge-blue" style="margin-bottom:20px;font-size:12px;padding:6px 16px;"><i class="fas fa-bolt"></i>&nbsp; Sri Lanka's Smartest Marketplace</div>
+                                <h1 class="hero-title" style="font-size:58px;font-weight:900;line-height:1.05;margin-bottom:20px;">Shop Smart.<br><span style="color:var(--blue)">Earn More.</span></h1>
+                                <p style="font-size:17px;color:var(--fg2);line-height:1.7;margin-bottom:36px;max-width:500px;">Get the best retail deals with Cash on Delivery, or join our exclusive Reseller Network to start your own business and earn from home.</p>
+                                <div style="display:flex;gap:14px;flex-wrap:wrap;">
+                                    <button class="btn btn-primary btn-lg" onclick="VZ.go('products')"><i class="fas fa-shopping-bag"></i> Shop Now</button>
+                                    <button class="btn btn-outline btn-lg" onclick="VZ.go('login')"><i class="fas fa-hand-holding-usd"></i> Become a Reseller</button>
+                                </div>
+                                <div style="display:flex;gap:40px;margin-top:48px;">
+                                    <div><div style="font-size:30px;font-weight:900;color:var(--blue)">2,500+</div><div style="font-size:12px;color:var(--muted)">Products</div></div>
+                                    <div><div style="font-size:30px;font-weight:900;color:var(--green)">1,200+</div><div style="font-size:12px;color:var(--muted)">Resellers</div></div>
+                                    <div><div style="font-size:30px;font-weight:900;color:var(--red)">COD</div><div style="font-size:12px;color:var(--muted)">Available</div></div>
+                                </div>
+                            </div>
+                            <div class="hero-visual" style="flex:1;min-width:0;">
+                                <div style="background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:24px;padding:24px;transform:rotate(1.5deg);box-shadow:0 24px 60px rgba(45,91,255,0.25);">
+                                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                                        ${featured.slice(0,4).map(p => `
+                                            <div style="background:rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;cursor:pointer;backdrop-filter:blur(4px);" onclick="event.stopPropagation();VZ.addToCart(${p.id})">
+                                                <img src="${p.img}" style="width:100%;height:120px;object-fit:cover;" alt="${p.name}">
+                                                <div style="padding:8px 10px;"><div style="font-size:11px;color:rgba(255,255,255,0.85);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.name}</div><div style="font-size:14px;color:#fff;font-weight:700;">Rs. ${p.price.toLocaleString()}</div></div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TRUST BAR -->
+                <section style="max-width:1280px;margin:0 auto;padding:50px 24px 0;">
+                    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;" class="grid-4">
+                        ${[
+                            {icon:'fa-truck',color:'var(--blue)',title:'Islandwide Delivery',sub:'Fast & secure shipping'},
+                            {icon:'fa-money-bill-wave',color:'var(--green)',title:'Cash on Delivery',sub:'Pay when you receive'},
+                            {icon:'fa-shield-alt',color:'var(--yellow)',title:'Trusted Quality',sub:'Verified products only'},
+                            {icon:'fa-headset',color:'var(--red)',title:'24/7 Support',sub:'WhatsApp & Call'},
+                        ].map(f => `
+                            <div class="card-flat" style="text-align:center;padding:28px 16px;">
+                                <div style="width:52px;height:52px;border-radius:14px;background:${f.color}15;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;"><i class="fas ${f.icon}" style="font-size:20px;color:${f.color}"></i></div>
+                                <div style="font-weight:600;font-size:14px;margin-bottom:4px;">${f.title}</div>
+                                <div style="font-size:12px;color:var(--muted)">${f.sub}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+
+                <!-- CATEGORIES -->
+                <section style="max-width:1280px;margin:0 auto;padding:80px 24px 0;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;">
+                        <div><h2 class="section-title" style="margin-bottom:4px">Shop by Category</h2><p style="color:var(--fg2);font-size:14px;">Find exactly what you need</p></div>
+                        <button class="btn btn-outline btn-sm" onclick="VZ.go('category')">View All <i class="fas fa-arrow-right" style="font-size:10px"></i></button>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;">
+                        ${cats.map(c => `
+                            <div class="card-flat" style="text-align:center;padding:28px 16px;cursor:pointer;" onclick="VZ.S.search='${c}';VZ.go('products')">
+                                <div style="width:56px;height:56px;border-radius:14px;background:${catColors[c]||'var(--blue)'}15;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;"><i class="fas ${catIcons[c]||'fa-box'}" style="font-size:22px;color:${catColors[c]||'var(--blue)'}"></i></div>
+                                <div style="font-weight:600;font-size:14px">${c}</div>
+                                <div style="font-size:12px;color:var(--muted);margin-top:4px">${this.DB.products.filter(p=>p.cat===c).length} items</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+
+                <!-- FEATURED PRODUCTS -->
+                <section style="max-width:1280px;margin:0 auto;padding:80px 24px 0;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;">
+                        <div><h2 class="section-title" style="margin-bottom:4px">Featured Products</h2><p style="color:var(--fg2);font-size:14px;">Handpicked just for you</p></div>
+                        <button class="btn btn-outline btn-sm" onclick="VZ.go('products')">View All <i class="fas fa-arrow-right" style="font-size:10px"></i></button>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;" class="grid-4">
+                        ${featured.map(p => this.pCard(p)).join('')}
+                    </div>
+                </section>
+
+                <!-- RESELLER CTA -->
+                <section style="max-width:1280px;margin:0 auto;padding:80px 24px 0;">
+                    <div class="card-flat" style="background:linear-gradient(135deg,#0a1628,#1a0a28);border:1px solid rgba(45,91,255,0.25);padding:56px;display:flex;gap:48px;align-items:center;flex-wrap:wrap;">
+                        <div style="flex:1;min-width:280px;">
+                            <div class="badge badge-green" style="margin-bottom:16px"><i class="fas fa-chart-line"></i>&nbsp; Reseller Program</div>
+                            <h2 style="font-size:38px;font-weight:900;margin-bottom:16px;">Start Earning From <span style="color:var(--green)">Home Today</span></h2>
+                            <p style="color:var(--fg2);line-height:1.7;margin-bottom:24px;">Join 1,200+ resellers earning with Vezlo Mart. Get exclusive wholesale prices, WhatsApp ordering, and full dashboard support.</p>
+                            <div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:24px;">
+                                ${['Up to 25% discount','WhatsApp ordering','Gift money & rewards','Zero joining fee'].map(t => `<div style="display:flex;align-items:center;gap:6px;"><i class="fas fa-check-circle" style="color:var(--green);font-size:13px"></i><span style="font-size:13.5px">${t}</span></div>`).join('')}
+                            </div>
+                            <button class="btn btn-primary btn-lg" onclick="VZ.go('login')"><i class="fas fa-rocket"></i> Join as Reseller</button>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;min-width:260px;">
+                            ${[{v:'25%',l:'Max Discount',c:'var(--green)'},{v:'LKR 0',l:'Joining Fee',c:'var(--blue)'},{v:'24/7',l:'Support',c:'var(--yellow)'},{v:'COD',l:'Available',c:'var(--red)'}].map(s => `
+                                <div class="card-flat" style="text-align:center;padding:22px 12px;"><div style="font-size:26px;font-weight:900;color:${s.c}">${s.v}</div><div style="font-size:11px;color:var(--muted);margin-top:4px">${s.l}</div></div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+
+                <!-- FOOTER -->
+                ${this.footer()}
+            </div>`;
+        },
+
+        // ────────────────────────────────
+        //  PAGE: ABOUT
+        // ────────────────────────────────
+        pgAbout() {
+            return `
+            <div class="page" style="padding-top:100px;max-width:900px;margin:0 auto;padding-left:24px;padding-right:24px;padding-bottom:80px;">
+                <h1 style="font-size:36px;font-weight:900;margin-bottom:8px;text-align:center;">About <span style="color:var(--blue)">Vezlo Mart</span></h1>
+                <p style="color:var(--fg2);text-align:center;margin-bottom:48px;">Empowering shoppers and entrepreneurs across Sri Lanka</p>
+                <div class="card-flat" style="padding:40px;margin-bottom:24px;">
+                    <p style="color:var(--fg2);line-height:1.8;font-size:15px;margin-bottom:20px;"><strong style="color:var(--fg)">Vezlo Mart</strong> is Sri Lanka's smartest marketplace, designed to empower both everyday shoppers and ambitious entrepreneurs. Whether you're looking for the best retail deals with Cash on Delivery, or you want to start your own business from home, we've got you covered.</p>
+                    <p style="color:var(--fg2);line-height:1.8;font-size:15px;">Our exclusive <strong style="color:var(--blue)">Reseller Network</strong> allows you to earn from home by accessing wholesale prices, managing customers through a dedicated dashboard, and ordering seamlessly via our website or WhatsApp.</p>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" class="grid-2">
+                    <div class="card-flat" style="padding:32px;"><div style="width:48px;height:48px;border-radius:12px;background:var(--red-glow);display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-bullseye" style="color:var(--red);font-size:20px"></i></div><h3 style="font-weight:700;margin-bottom:8px">Our Mission</h3><p style="color:var(--fg2);font-size:14px;line-height:1.7;">To democratize e-commerce in Sri Lanka, making it accessible for anyone to start a business with zero investment.</p></div>
+                    <div class="card-flat" style="padding:32px;"><div style="width:48px;height:48px;border-radius:12px;background:var(--blue-glow);display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-eye" style="color:var(--blue);font-size:20px"></i></div><h3 style="font-weight:700;margin-bottom:8px">Our Vision</h3><p style="color:var(--fg2);font-size:14px;line-height:1.7;">To become the most trusted and innovative platform connecting suppliers, resellers, and customers across the nation.</p></div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px;" class="grid-3">
+                    ${[{n:'2,500+',l:'Products',c:'var(--blue)'},{n:'1,200+',l:'Resellers',c:'var(--green)'},{n:'10,000+',l:'Happy Customers',c:'var(--yellow)'}].map(s => `
+                        <div class="card-flat" style="text-align:center;padding:28px;"><div style="font-size:32px;font-weight:900;color:${s.c}">${s.n}</div><div style="font-size:13px;color:var(--muted);margin-top:4px">${s.l}</div></div>
+                    `).join('')}
+                </div>
+            </div>`;
+        },
+
+        // ────────────────────────────────
+        //  PAGE: CATEGORY
+        // ────────────────────────────────
+        pgCategory() {
+            const cats = [...new Set(this.DB.products.map(p => p.cat))];
+            const catIcons = {'Tech Gadgets':'fa-microchip',"Men's Clothing":'fa-t-shirt',"Women's Accessories":'fa-gem','Footwear':'fa-shoe-prints','Home & Living':'fa-couch',"Men's Accessories":'fa-glasses'};
+            const catColors = {'Tech Gadgets':'var(--blue)',"Men's Clothing":'var(--red)',"Women's Accessories":'var(--purple)','Footwear':'var(--green)','Home & Living':'var(--yellow)',"Men's Accessories":'#ff6b35'};
+            return `
+            <div class="page" style="padding-top:100px;max-width:1280px;margin:0 auto;padding-left:24px;padding-right:24px;padding-bottom:80px;">
+                <h1 style="font-size:32px;font-weight:800;margin-bottom:8px;">All Categories</h1>
+                <p style="color:var(--fg2);margin-bottom:36px;">Browse our wide range of product categories</p>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;">
+                    ${cats.map(c => `
+                        <div class="card-flat" style="padding:36px 24px;text-align:center;cursor:pointer;" onclick="VZ.S.search='${c}';VZ.go('products')">
+                            <div style="width:64px;height:64px;border-radius:16px;background:${catColors[c]||'var(--blue)'}15;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><i class="fas ${catIcons[c]||'fa-box'}" style="font-size:26px;color:${catColors[c]||'var(--blue)'}"></i></div>
+                            <h3 style="font-weight:700;font-size:16px;margin-bottom:4px;">${c}</h3>
+                            <p style="font-size:13px;color:var(--muted)">${this.DB.products.filter(p=>p.cat===c).length} products available</p>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>`;
+        },
+
+        // ────────────────────────────────
+        //  PAGE: OFFERS
+        // ────────────────────────────────
+        pgOffers() {
+            const offers = this.DB.products.filter(p => ((p.price - p.rprice) / p.price) >= 0.2);
+            return `
+            <div class="page" style="padding-top:100px;max-width:1280px;margin:0 auto;padding-left:24px;padding-right:24px;padding-bottom:80px;">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:36px;">
+                    <h1 style="font-size:32px;font-weight:800;">Special Offers</h1>
+                    <span class="badge badge-red" style="animation:pulse 2s infinite"><i class="fas fa-fire"></i> Hot Deals</span>
+                </div>
+                ${this.isReseller() ? '<div class="card-flat" style="background:var(--green-glow);border-color:rgba(0,214,143,0.3);margin-bottom:24px;padding:14px 20px;display:flex;align-items:center;gap:10px;"><i class="fas fa-tag" style="color:var(--green)"></i><span style="font-size:13px;color:var(--green);font-weight:500;">Reseller prices active! Extra savings applied.</span></div>' : ''}
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;" class="grid-4">
+                    ${offers.map(p => this.pCard(p)).join('')}
+                </div>
+            </div>`;
+        },
+
+        // ────────────────────────────────
+        //  PAGE: PRODUCTS
+        // ────────────────────────────────
+        pgProducts() {
+            const q = this.S.search || '';
+            const cats = ['All', ...new Set(this.DB.products.map(p => p.cat))];
+            let prods = this.DB.products;
+            if (q && q !== 'All') prods = prods.filter(p => p.name.toLowerCase().includes(q.toLowerCase()) || p.cat.toLowerCase().includes(q.toLowerCase()) || p.kw.some(k => k.toLowerCase().includes(q.toLowerCase())));
+            return `
+            <div class="page" style="padding-top:100px;max-width:1280px;margin:0 auto;padding-left:24px;padding-right:24px;padding-bottom:80px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+                    <div><h1 style="font-size:28px;font-weight:800;">Products</h1><p style="color:var(--fg2);font-size:14px;">${prods.length} items${q ? ' for "'+q+'"' : ''}</p></div>
+                    <div style="display:flex;gap:8px;align-items:center;"><div style="position:relative;"><i class="fas fa-search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px"></i><input class="input" style="width:220px;padding-left:36px;" placeholder="Search products..." value="${q}" onkeyup="VZ.S.search=this.value;VZ.render()"></div></div>
+                </div>
+                <div style="display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap;">
+                    ${cats.map(c => `<button class="btn btn-sm ${q===c||(c==='All'&&!q)?'btn-primary':'btn-outline'}" onclick="VZ.S.search='${c==='All'?'':c}';VZ.render()">${c}</button>`).join('')}
+                </div>
+                ${this.isReseller() ? '<div class="card-flat" style="background:var(--green-glow);border-color:rgba(0,214,143,0.3);margin-bottom:20px;padding:14px 20px;display:flex;align-items:center;gap:10px;"><i class="fas fa-tag" style="color:var(--green)"></i><span style="font-size:13px;color:var(--green);font-weight:500;">Reseller prices active! You\'re seeing discounted wholesale prices.</span></div>' : ''}
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;" class="grid-4">
+                    ${prods.length > 0 ? prods.map(p => this.pCard(p)).join('') : '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;"><i class="fas fa-search" style="font-size:48px;color:var(--muted);margin-bottom:16px"></i><h3 style="color:var(--fg2);margin-bottom:8px">No products found</h3><p style="color:var(--muted)">Try a different search term</p></div>'}
+                </div>
+            </div>`;
+        },
+
+        // ────────────────────────────────
+        //  PAGE: CONTACT
+        // ────────────────────────────────
+        pgContact() {
+            return `
+            <div class="page" style="padding-top:100px;max-width:1000px;margin:0 auto;padding-left:24px;padding-right:24px;padding-bottom:80px;">
+                <h1 style="font-size:32px;font-weight:800;margin-bottom:8px;text-align:center;">Contact Us</h1>
+                <p style="color:var(--fg2);margin-bottom:36px;text-align:center;">We'd love to hear from you. Get in touch!</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;" class="grid-2">
+                    <div class="card-flat" style="padding:32px;">
+                        <h3 style="font-weight:700;margin-bottom:20px;">Send us a Message</h3>
+                        <div style="display:flex;flex-direction:column;gap:14px;">
+                            <input class="input" placeholder="Your Name">
+                            <input class="input" type="email" placeholder="Your Email">
+                            <input class="input" placeholder="Subject">
+                            <textarea class="input" placeholder="Your Message" rows="4"></textarea>
+                            <button class="btn btn-primary" onclick="VZ.toast('Message sent successfully!','success')"><i class="fas fa-paper-plane"></i> Send Message</button>
+                        </div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:16px;">
+                        ${[
+                            {icon:'fa-envelope',color:'var(--blue)',bg:'var(--blue-glow)',title:'Email',val:this.CFG.email},
+                            {icon:'fa-phone',color:'var(--green)',bg:'var(--green-glow)',title:'Phone',val:this.CFG.phone},
+                            {icon:'fab fa-whatsapp',color:'var(--green)',bg:'var(--green-glow)',title:'WhatsApp',val:this.CFG.phone,link:`https://wa.me/${this.CFG.whatsapp}`},
+                            {icon:'fa-map-marker-alt',color:'var(--red)',bg:'var(--red-glow)',title:'Location',val:'Colombo, Sri Lanka'},
+                        ].map(c => `
+                            <a ${c.link?`href="${c.link}" target="_blank"`:''} class="card-flat" style="padding:24px;display:flex;align-items:center;gap:16px;text-decoration:none;cursor:pointer;">
+                                <div style="width:50px;height:50px;border-radius:14px;background:${c.bg};display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas ${c.icon}" style="color:${c.color};font-size:20px"></i></div>
+                                <div><div style="font-weight:600;font-size:14px;color:var(--fg)">${c.title}</div><div style="font-size:13px;color:var(--fg2)">${c.val}</div></div>
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>`;
+        },
+
+        // ────────────────────────────────
+        //  PAGE: LOGIN / REGISTER
+        // ────────────────────────────────
+        pgLogin() {
+            return `
+            <div class="page" style="padding-top:100px;max-width:460px;margin:0 auto;padding-left:24px;padding-right:24px;padding-bottom:80px;">
+                <div style="text-align:center;margin-bottom:32px;">
+                    <i class="fas fa-bolt" style="color:var(--blue);font-size:28px;margin-bottom:8px;filter:drop-shadow(0 0 12px var(--blue-glow))"></i>
+                    <h1 style="font-size:26px;font-weight:800;">Welcome to VezloMart</h1>
+                    <p style="color:var(--fg2);font-size:14px;margin-top:4px;">Sign in or create your account</p>
+                </div>
+                <!-- Tabs -->
+                <div style="display:flex;background:var(--bg2);border-radius:12px;padding:4px;margin-bottom:24px;">
+                    <button class="btn btn-sm" id="tab-login" style="flex:1;border-radius:10px;justify-content:center;background:var(--blue);color:#fff" onclick="VZ.uiAuthTab('login')">Login</button>
+                    <button class="btn btn-sm btn-ghost" id="tab-reg" style="flex:1;border-radius:10px;justify-content:center;" onclick="VZ.uiAuthTab('register')">Register</button>
+                    <button class="btn btn-sm btn-ghost" id="tab-res" style="flex:1;border-radius:10px;justify-content:center;" onclick="VZ.uiAuthTab('reseller')">Reseller</button>
+                </div>
+                <!-- Login Form -->
+                <div id="form-login" class="card-flat" style="padding:28px;">
+                    <div style="display:flex;flex-direction:column;gap:14px;">
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:6px;">Email</label><input class="input" id="l-email" type="email" placeholder="you@example.com"></div>
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:6px;">Password</label><input class="input" id="l-pass" type="password" placeholder="Enter password"></div>
+                        <button class="btn btn-primary" style="width:100%" onclick="VZ.login()"><i class="fas fa-sign-in-alt"></i> Login</button>
+                    </div>
+                    <div style="margin-top:20px;padding:16px;background:var(--bg2);border-radius:10px;">
+                        <p style="font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:600;">Quick Demo Login:</p>
+                        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                            <button class="btn btn-outline btn-sm" onclick="VZ.demoLogin('customer')">Customer</button>
+                            <button class="btn btn-outline btn-sm" onclick="VZ.demoLogin('reseller')">Reseller</button>
+                            <button class="btn btn-outline btn-sm" onclick="VZ.demoLogin('staff')">Staff</button>
+                            <button class="btn btn-outline btn-sm" onclick="VZ.demoLogin('manager')">Manager</button>
+                            <button class="btn btn-outline btn-sm" onclick="VZ.demoLogin('owner')">Owner</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Register Form -->
+                <div id="form-register" class="card-flat" style="padding:28px;display:none;">
+                    <div style="display:flex;flex-direction:column;gap:14px;">
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:6px;">Full Name</label><input class="input" id="r-name" placeholder="Your name"></div>
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:6px;">Email</label><input class="input" id="r-email" type="email" placeholder="you@example.com"></div>
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:6px;">Phone (WhatsApp)</label><input class="input" id="r-phone" placeholder="07XXXXXXXX"></div>
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:6px;">Password</label><input class="input" id="r-pass" type="password" placeholder="Min 6 characters"></div>
+                        <button class="btn btn-primary" style="width:100%" onclick="VZ.register('customer')"><i class="fas fa-user-plus"></i> Create Account</button>
+                    </div>
+                </div>
+                <!-- Reseller Register Form -->
+                <div id="form-reseller" class="card-flat" style="padding:28px;display:none;">
+                    <div style="padding:14px;background:var(--blue-glow);border-radius:10px;border-left:3px solid var(--blue);margin-bottom:18px;">
+                        <p style="font-size:13px;color:var(--blue);font-weight:500;"><i class="fas fa-info-circle"></i> Join our Reseller Network! Your account will be reviewed by our team. Until approved, you can shop as a customer.</p>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:14px;">
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:6px;">Full Name</label><input class="input" id="r-name" placeholder="Your name"></div>
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:6px;">Email</label><input class="input" id="r-email" type="email" placeholder="you@example.com"></div>
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:6px;">Phone (WhatsApp)</label><input class="input" id="r-phone" placeholder="07XXXXXXXX"></div>
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:6px;">Password</label><input class="input" id="r-pass" type="password" placeholder="Min 6 characters"></div>
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:6px;">Business Name (Optional)</label><input class="input" placeholder="Your business name"></div>
+                        <button class="btn btn-primary" style="width:100%" onclick="VZ.register('reseller')"><i class="fas fa-rocket"></i> Register as Reseller</button>
+                    </div>
+                </div>
+            </div>`;
+        },
+
+        uiAuthTab(tab) {
+            document.getElementById('form-login').style.display = tab === 'login' ? '' : 'none';
+            document.getElementById('form-register').style.display = tab === 'register' ? '' : 'none';
+            document.getElementById('form-reseller').style.display = tab === 'reseller' ? '' : 'none';
+            const btns = { login: 'tab-login', register: 'tab-reg', reseller: 'tab-res' };
+            Object.entries(btns).forEach(([k, id]) => {
+                const el = document.getElementById(id);
+                if (k === tab) { el.className = 'btn btn-sm'; el.style.cssText = 'flex:1;border-radius:10px;justify-content:center;background:var(--blue);color:#fff'; }
+                else { el.className = 'btn btn-sm btn-ghost'; el.style.cssText = 'flex:1;border-radius:10px;justify-content:center;'; }
+            });
+        },
+
+        // ────────────────────────────────
+        //  PAGE: CART
+        // ────────────────────────────────
+        pgCart() {
+            const cart = this.S.cart;
+            const isR = this.isReseller();
+            const sub = cart.reduce((s, i) => s + this.getPrice(i) * i.qty, 0);
+            const del = cart.length > 0 ? this.CFG.delivery : 0;
+            const total = sub + del;
+            if (cart.length === 0) return `<div class="page" style="padding-top:100px;text-align:center;"><div style="padding:80px 24px;"><i class="fas fa-shopping-bag" style="font-size:56px;color:var(--muted);margin-bottom:20px"></i><h2 style="margin-bottom:8px">Your cart is empty</h2><p style="color:var(--fg2);margin-bottom:24px">Start shopping to add items here</p><button class="btn btn-primary" onclick="VZ.go('products')">Browse Products</button></div></div>`;
+            return `
+            <div class="page" style="padding-top:100px;max-width:1080px;margin:0 auto;padding-left:24px;padding-right:24px;padding-bottom:80px;">
+                <h1 style="font-size:28px;font-weight:800;margin-bottom:28px;"><i class="fas fa-shopping-bag" style="color:var(--blue)"></i> Shopping Cart</h1>
+                <div style="display:grid;grid-template-columns:1fr 360px;gap:28px;" class="grid-3">
+                    <div style="display:flex;flex-direction:column;gap:12px;">
+                        ${cart.map((item, i) => `
+                            <div class="card-flat" style="display:flex;gap:16px;align-items:center;padding:16px;">
+                                <img src="${item.img}" style="width:80px;height:80px;object-fit:cover;border-radius:10px;flex-shrink:0;">
+                                <div style="flex:1;min-width:0;">
+                                    <div style="font-weight:600;font-size:14px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</div>
+                                    <div style="font-size:17px;font-weight:700;color:var(--blue)">Rs. ${this.getPrice(item).toLocaleString()}</div>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:6px;">
+                                    <button class="btn btn-ghost btn-sm" onclick="VZ.cartQty(${i},-1)" style="padding:4px 10px;font-size:16px">-</button>
+                                    <span style="font-weight:600;min-width:20px;text-align:center;">${item.qty}</span>
+                                    <button class="btn btn-ghost btn-sm" onclick="VZ.cartQty(${i},1)" style="padding:4px 10px;font-size:16px">+</button>
+                                </div>
+                                <button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="VZ.cartRemove(${i})"><i class="fas fa-trash"></i></button>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="card-flat" style="padding:24px;position:sticky;top:90px;align-self:flex-start;">
+                        <h3 style="font-size:17px;font-weight:700;margin-bottom:18px;">Order Summary</h3>
+                        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--fg2);">
+                            <div style="display:flex;justify-content:space-between"><span>Subtotal</span><span>Rs. ${sub.toLocaleString()}</span></div>
+                            <div style="display:flex;justify-content:space-between"><span>Delivery</span><span>Rs. ${del.toLocaleString()}</span></div>
+                            ${isR ? `<div style="display:flex;justify-content:space-between;color:var(--green)"><span>Reseller Savings</span><span>- Rs. ${cart.reduce((s,i)=>s+((i.price-i.rprice)*i.qty),0).toLocaleString()}</span></div>` : ''}
+                        </div>
+                        <div style="border-top:1px solid var(--border);margin:14px 0;"></div>
+                        <div style="display:flex;justify-content:space-between;font-size:19px;font-weight:800;"><span>Total</span><span style="color:var(--blue)">Rs. ${total.toLocaleString()}</span></div>
+                        <div style="margin-top:16px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:6px;">Coupon Code</label><div style="display:flex;gap:6px;"><input class="input" id="coupon-inp" placeholder="Enter code" style="flex:1"><button class="btn btn-outline btn-sm" onclick="VZ.applyCoupon()">Apply</button></div></div>
+                        <button class="btn btn-primary" style="width:100%;margin-top:16px;" onclick="VZ.go('checkout')"><i class="fas fa-credit-card"></i> Proceed to Checkout</button>
+                        <a href="${this.waLink(cart, sub)}" target="_blank" class="btn btn-green" style="width:100%;margin-top:8px;text-decoration:none;justify-content:center;"><i class="fab fa-whatsapp"></i> Order via WhatsApp</a>
+                    </div>
+                </div>
+            </div>`;
+        },
+        cartQty(i, d) { this.S.cart[i].qty += d; if (this.S.cart[i].qty <= 0) this.S.cart.splice(i, 1); this.render(); },
+        cartRemove(i) { this.S.cart.splice(i, 1); this.render(); },
+        applyCoupon() {
+            const code = document.getElementById('coupon-inp')?.value?.trim().toUpperCase();
+            const c = this.DB.coupons.find(x => x.code === code);
+            if (c) this.toast('Coupon applied! ' + c.discount + '% discount', 'success');
+            else this.toast('Invalid coupon code', 'error');
+        },
+
+        // ────────────────────────────────
+        //  PAGE: CHECKOUT
+        // ────────────────────────────────
+        pgCheckout() {
+            const sub = this.S.cart.reduce((s, i) => s + this.getPrice(i) * i.qty, 0);
+            const total = sub + this.CFG.delivery;
+            return `
+            <div class="page" style="padding-top:100px;max-width:700px;margin:0 auto;padding-left:24px;padding-right:24px;padding-bottom:80px;">
+                <h1 style="font-size:28px;font-weight:800;margin-bottom:28px;">Checkout</h1>
+                <div class="card-flat" style="padding:28px;margin-bottom:20px;">
+                    <h3 style="font-weight:700;margin-bottom:18px;">Delivery Details</h3>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:6px;">Full Name</label><input class="input" value="${this.S.user?.name||''}"></div>
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:6px;">Phone</label><input class="input" value="${this.S.user?.phone||''}"></div>
+                    </div>
+                    <div style="margin-top:12px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:6px;">Delivery Address</label><textarea class="input" id="chk-addr" placeholder="Full delivery address">${this.S.user?.address||''}</textarea></div>
+                </div>
+                <div class="card-flat" style="padding:28px;margin-bottom:20px;">
+                    <h3 style="font-weight:700;margin-bottom:18px;">Payment Method</h3>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <label style="cursor:pointer;"><input type="radio" name="pay" value="COD" checked style="display:none"><div class="card-flat" style="text-align:center;padding:20px;border:2px solid var(--green);background:var(--green-glow)" id="pay-COD"><i class="fas fa-money-bill-wave" style="font-size:24px;color:var(--green);margin-bottom:8px"></i><div style="font-weight:600;font-size:13px">Cash on Delivery</div></div></label>
+                        <label style="cursor:pointer;"><input type="radio" name="pay" value="Bank Transfer" style="display:none"><div class="card-flat" style="text-align:center;padding:20px;" id="pay-Bank"><i class="fas fa-university" style="font-size:24px;color:var(--blue);margin-bottom:8px"></i><div style="font-weight:600;font-size:13px">Bank Transfer</div></div></label>
+                    </div>
+                </div>
+                <div class="card-flat" style="padding:28px;margin-bottom:20px;">
+                    <h3 style="font-weight:700;margin-bottom:14px;">Order Summary</h3>
+                    ${this.S.cart.map(i => `<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:var(--fg2)"><span>${i.name} x${i.qty}</span><span>Rs. ${(this.getPrice(i)*i.qty).toLocaleString()}</span></div>`).join('')}
+                    <div style="border-top:1px solid var(--border);margin:10px 0"></div>
+                    <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--fg2);margin-bottom:4px"><span>Delivery</span><span>Rs. ${this.CFG.delivery}</span></div>
+                    <div style="display:flex;justify-content:space-between;font-size:19px;font-weight:800;margin-top:8px"><span>Total</span><span style="color:var(--blue)">Rs. ${total.toLocaleString()}</span></div>
+                </div>
+                <button class="btn btn-primary btn-lg" style="width:100%" onclick="VZ.placeOrder()"><i class="fas fa-check-circle"></i> Place Order</button>
+            </div>`;
+        },
+
+        // ────────────────────────────────
+        //  PAGE: DASHBOARD
+        // ────────────────────────────────
+        pgDashboard() {
+            if (!this.S.user) return this.pgLogin();
+            const r = this.S.role;
+            return `
+            <div class="page dash-wrap">
+                <div class="dash-side" id="dash-side">
+                    <div style="padding:16px 20px;margin-bottom:8px;border-bottom:1px solid var(--border);">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;">${this.S.user.name[0]}</div>
+                            <div><div style="font-weight:600;font-size:13px">${this.S.user.name}</div><div class="badge ${r==='owner'?'badge-red':r==='manager'?'badge-yellow':r==='reseller'?'badge-green':'badge-blue'}" style="font-size:10px;margin-top:2px">${r}</div></div>
+                        </div>
+                    </div>
+                    <div class="dash-side-label">Main</div>
+                    <button class="dash-side-link" onclick="VZ.go('home')"><i class="fas fa-home"></i> Home</button>
+                    <button class="dash-side-link" onclick="VZ.go('products')"><i class="fas fa-shopping-bag"></i> Products</button>
+                    <div class="dash-side-label">Dashboard</div>
+                    ${this.dashSidebarLinks(r)}
+                    <div style="border-top:1px solid var(--border);margin-top:auto;padding-top:12px;">
+                        <button class="dash-side-link" style="color:var(--red)" onclick="VZ.logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                    </div>
+                </div>
+                <div class="dash-main" id="dash-content">
+                    ${r === 'customer' ? this.dashCustomer() : ''}
+                    ${r === 'reseller' && !this.S.resellerApproved ? this.dashPending() : ''}
+                    ${r === 'reseller' && this.S.resellerApproved ? this.dashReseller() : ''}
+                    ${r === 'staff' ? this.dashStaff() : ''}
+                    ${r === 'manager' ? this.dashManager() : ''}
+                    ${r === 'owner' ? this.dashOwner() : ''}
+                </div>
+            </div>`;
+        },
+
+        dashSidebarLinks(r) {
+            const menus = {
+                customer: [['Overview','fa-tachometer-alt'],['Orders','fa-shopping-bag'],['Reviews','fa-star']],
+                reseller: [['Overview','fa-tachometer-alt'],['Orders','fa-shopping-bag'],['Customers','fa-users'],['Profile','fa-user']],
+                staff: [['Products','fa-box'],['Resellers','fa-user-check'],['Reviews','fa-star'],['Orders','fa-shopping-bag']],
+                manager: [['Analytics','fa-chart-bar'],['Products','fa-box'],['Resellers','fa-user-check'],['Reviews','fa-star'],['Orders','fa-shopping-bag'],['Staff','fa-user-tie']],
+                owner: [['Analytics','fa-chart-bar'],['Products','fa-box'],['Resellers','fa-user-check'],['Staff','fa-user-tie'],['Settings','fa-cog']],
+            };
+            return (menus[r]||[]).map(([l,i]) => `<button class="dash-side-link" onclick="VZ.S.dashTab='${l.toLowerCase()}';document.getElementById('dash-content').innerHTML=VZ.dashSection('${l.toLowerCase()}')"><i class="fas ${i}"></i> ${l}</button>`).join('');
+        },
+
+        dashSection(tab) {
+            if (tab === 'overview') return this.S.role === 'reseller' ? this.dashReseller() : this.dashCustomer();
+            if (tab === 'products') return this.dashProductsTable();
+            if (tab === 'resellers') return this.dashResellersTable();
+            if (tab === 'settings') return this.dashOwnerSettings();
+            return `<div class="card-flat" style="padding:40px;text-align:center;"><i class="fas fa-tools" style="font-size:32px;color:var(--muted);margin-bottom:12px"></i><h3 style="margin-bottom:4px">${tab} Management</h3><p style="color:var(--fg2);font-size:14px">Full ${tab} management interface</p></div>`;
+        },
+
+        dashCustomer() {
+            return `
+            <h1 style="font-size:24px;font-weight:800;margin-bottom:24px;">Welcome, ${this.S.user?.name?.split(' ')[0]}!</h1>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px;">
+                <div class="stat-card"><div><div style="font-size:12px;color:var(--muted);margin-bottom:4px">Total Orders</div><div style="font-size:26px;font-weight:800">3</div></div><div class="stat-icon" style="background:var(--blue-glow);color:var(--blue)"><i class="fas fa-shopping-bag"></i></div></div>
+                <div class="stat-card"><div><div style="font-size:12px;color:var(--muted);margin-bottom:4px">Loyalty Points</div><div style="font-size:26px;font-weight:800">${this.S.user?.pts||0}</div></div><div class="stat-icon" style="background:var(--yellow-glow);color:var(--yellow)"><i class="fas fa-coins"></i></div></div>
+                <div class="stat-card"><div><div style="font-size:12px;color:var(--muted);margin-bottom:4px">Total Spent</div><div style="font-size:26px;font-weight:800">Rs. 15,450</div></div><div class="stat-icon" style="background:var(--green-glow);color:var(--green)"><i class="fas fa-wallet"></i></div></div>
+            </div>
+            <div class="card-flat" style="padding:24px;">
+                <h3 style="font-weight:700;margin-bottom:16px;">Your Coupons</h3>
+                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                    ${this.DB.coupons.map(c => `<div style="border:2px dashed var(--blue);border-radius:12px;padding:14px 20px;text-align:center;"><div style="font-size:18px;font-weight:800;color:var(--blue)">${c.code}</div><div style="font-size:12px;color:var(--fg2)">${c.discount}% off (Min: Rs. ${c.min.toLocaleString()})</div></div>`).join('')}
+                </div>
+            </div>`;
+        },
+
+        dashPending() {
+            return `<div style="text-align:center;padding:80px 20px;"><i class="fas fa-hourglass-half" style="font-size:48px;color:var(--yellow);margin-bottom:16px"></i><h2 style="margin-bottom:8px">Approval Pending</h2><p style="color:var(--fg2);max-width:400px;margin:0 auto 24px;">Your reseller application is being reviewed by our team.</p><button class="btn btn-primary" onclick="VZ.go('products')">Continue Shopping</button></div>`;
+        },
+
+        dashReseller() {
+            const st = this.S.user?.stats || { orders:0, delivered:0, canceled:0, returned:0, earnings:0, gift:0, rank:'-' };
+            return `
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;"><h1 style="font-size:24px;font-weight:800;">Reseller Dashboard</h1><span class="badge badge-green" style="padding:8px 16px;font-size:13px"><i class="fas fa-check-circle"></i> Approved</span></div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:14px;margin-bottom:24px;">
+                ${[{l:'Total Orders',v:st.orders,i:'fa-shopping-bag',c:'var(--blue)',b:'var(--blue-glow)'},{l:'Delivered',v:st.delivered,i:'fa-check-double',c:'var(--green)',b:'var(--green-glow)'},{l:'Canceled',v:st.canceled,i:'fa-times-circle',c:'var(--red)',b:'var(--red-glow)'},{l:'Returned',v:st.returned,i:'fa-undo',c:'var(--yellow)',b:'var(--yellow-glow)'},{l:'Total Earnings',v:'Rs. '+st.earnings.toLocaleString(),i:'fa-chart-line',c:'var(--green)',b:'var(--green-glow)'},{l:'Gift Money',v:'Rs. '+st.gift.toLocaleString(),i:'fa-gift',c:'var(--yellow)',b:'var(--yellow-glow)'},{l:'Best Rank',v:'#'+st.rank,i:'fa-trophy',c:'var(--purple)',b:'var(--purple-glow)'}].map(s => `
+                    <div class="stat-card"><div><div style="font-size:11px;color:var(--muted);margin-bottom:2px">${s.l}</div><div style="font-size:22px;font-weight:800;color:${s.c}">${s.v}</div></div><div class="stat-icon" style="background:${s.b};color:${s.c}"><i class="fas ${s.i}"></i></div></div>
+                `).join('')}
+            </div>
+            <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px;" class="grid-3">
+                <div class="card-flat" style="padding:24px;">
+                    <h3 style="font-weight:700;margin-bottom:16px;">Order History</h3>
+                    <div style="overflow-x:auto;"><table class="tbl"><thead><tr><th>Order</th><th>Items</th><th>Total</th><th>Status</th><th>Profit</th></tr></thead><tbody>
+                    ${this.DB.orders.filter(o=>o.uid==='res1').map(o => {
+                        const profit = o.items.reduce((s,it) => s + (it.price - (this.DB.products.find(p=>p.id===it.pid)?.rprice||it.price*0.75)) * 1, 0);
+                        return `<tr><td style="font-weight:600;color:var(--blue)">${o.id}</td><td>${o.items.length} item(s)</td><td>Rs. ${o.total.toLocaleString()}</td><td><span class="badge ${o.status==='delivered'?'badge-green':o.status==='canceled'?'badge-red':'badge-blue'}">${o.status}</span></td><td style="color:var(--green);font-weight:600">+Rs. ${Math.max(0,profit).toLocaleString()}</td></tr>`;
+                    }).join('')}
+                    </tbody></table></div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:16px;">
+                    <div class="card-flat" style="padding:20px;text-align:center;"><div style="font-size:48px;font-weight:900;color:var(--yellow)">#${st.rank}</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Best Reseller Rank</div></div>
+                    <div class="card-flat" style="padding:20px;">
+                        <h4 style="font-weight:600;font-size:13px;margin-bottom:10px;">Quick Tools</h4>
+                        <a href="${this.waLink([{name:'Custom Order',qty:1,price:0}],0)}" target="_blank" class="btn btn-green btn-sm" style="width:100%;text-decoration:none;justify-content:center;margin-bottom:8px;"><i class="fab fa-whatsapp"></i> WhatsApp Order</a>
+                        <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center;" onclick="VZ.go('products')"><i class="fas fa-shopping-bag"></i> Browse Products</button>
+                    </div>
+                </div>
+            </div>`;
+        },
+
+        dashStaff() {
+            return `
+            <h1 style="font-size:24px;font-weight:800;margin-bottom:24px;">Staff Dashboard</h1>
+            ${this.dashProductsTable()}`;
+        },
+
+        dashManager() {
+            return `
+            <h1 style="font-size:24px;font-weight:800;margin-bottom:24px;">Manager Dashboard</h1>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px;">
+                ${[{l:'Revenue',v:'Rs. 156,000',i:'fa-chart-line',c:'var(--green)',b:'var(--green-glow)'},{l:'Orders',v:this.DB.orders.length,i:'fa-shopping-bag',c:'var(--blue)',b:'var(--blue-glow)'},{l:'Resellers',v:this.DB.users.filter(u=>u.role==='reseller').length,i:'fa-users',c:'var(--yellow)',b:'var(--yellow-glow)'},{l:'Products',v:this.DB.products.length,i:'fa-box',c:'var(--red)',b:'var(--red-glow)'}].map(s => `
+                    <div class="stat-card"><div><div style="font-size:12px;color:var(--muted);margin-bottom:4px">${s.l}</div><div style="font-size:24px;font-weight:800;color:${s.c}">${s.v}</div></div><div class="stat-icon" style="background:${s.b};color:${s.c}"><i class="fas ${s.i}"></i></div></div>
+                `).join('')}
+            </div>
+            ${this.dashProductsTable()}`;
+        },
+
+        dashOwner() {
+            return `
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;"><h1 style="font-size:24px;font-weight:800;">Owner Dashboard</h1><span class="badge badge-red" style="padding:8px 16px;font-size:13px"><i class="fas fa-crown"></i> Full Access</span></div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px;">
+                ${[{l:'Total Revenue',v:'Rs. 245,000',i:'fa-chart-line',c:'var(--green)',b:'var(--green-glow)'},{l:'Total Orders',v:this.DB.orders.length,i:'fa-shopping-bag',c:'var(--blue)',b:'var(--blue-glow)'},{l:'Active Resellers',v:this.DB.users.filter(u=>u.role==='reseller'&&u.resApproved).length,i:'fa-users',c:'var(--yellow)',b:'var(--yellow-glow)'},{l:'Products',v:this.DB.products.length,i:'fa-box',c:'var(--red)',b:'var(--red-glow)'}].map(s => `
+                    <div class="stat-card"><div><div style="font-size:12px;color:var(--muted);margin-bottom:4px">${s.l}</div><div style="font-size:24px;font-weight:800;color:${s.c}">${s.v}</div></div><div class="stat-icon" style="background:${s.b};color:${s.c}"><i class="fas ${s.i}"></i></div></div>
+                `).join('')}
+            </div>
+            ${this.dashOwnerSettings()}`;
+        },
+
+        dashProductsTable() {
+            return `
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+                <h3 style="font-weight:700;font-size:17px;">Manage Products</h3>
+                <button class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add Product</button>
+            </div>
+            <div class="card-flat" style="overflow-x:auto;">
+                <table class="tbl"><thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Reseller</th><th>Stock</th><th>Actions</th></tr></thead><tbody>
+                ${this.DB.products.slice(0,8).map(p => `
+                    <tr><td><img src="${p.img}" style="width:44px;height:44px;object-fit:cover;border-radius:8px"></td><td style="font-weight:500;max-width:160px">${p.name}</td><td><span class="badge badge-blue">${p.cat}</span></td><td>Rs. ${p.price.toLocaleString()}</td><td style="color:var(--green)">Rs. ${p.rprice.toLocaleString()}</td><td>${p.stock>0?`<span class="badge badge-green">${p.stock}</span>`:'<span class="badge badge-red">Out</span>'}</td><td><button class="btn btn-ghost btn-sm"><i class="fas fa-edit"></i></button><button class="btn btn-ghost btn-sm" style="color:var(--red)"><i class="fas fa-trash"></i></button></td></tr>
+                `).join('')}
+                </tbody></table>
+            </div>`;
+        },
+
+        dashResellersTable() {
+            return `
+            <h3 style="font-weight:700;font-size:17px;margin-bottom:18px;">Manage Resellers</h3>
+            <div class="card-flat" style="overflow-x:auto;">
+                <table class="tbl"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+                ${this.DB.users.filter(u=>u.role==='reseller').map(r => `
+                    <tr><td style="font-weight:500">${r.name}</td><td>${r.email}</td><td>${r.phone||'-'}</td><td>${r.resApproved?'<span class="badge badge-green">Approved</span>':'<span class="badge badge-yellow">Pending</span>'}</td><td>${!r.resApproved?'<button class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Approve</button>':'<button class="btn btn-red btn-sm"><i class="fas fa-ban"></i> Block</button>'}</td></tr>
+                `).join('')}
+                </tbody></table>
+            </div>`;
+        },
+
+        dashOwnerSettings() {
+            return `
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" class="grid-2">
+                <div class="card-flat" style="padding:28px;">
+                    <h3 style="font-weight:700;margin-bottom:16px;"><i class="fas fa-lock" style="color:var(--red);margin-right:6px"></i> Website Control</h3>
+                    <p style="font-size:13px;color:var(--fg2);margin-bottom:16px;">Lock down the entire website for maintenance. Only you (Owner) can access.</p>
+                    <button class="btn btn-red" onclick="VZ.toast('Lockdown toggled!','info')"><i class="fas fa-lock"></i> Toggle Lockdown</button>
+                </div>
+                <div class="card-flat" style="padding:28px;">
+                    <h3 style="font-weight:700;margin-bottom:16px;"><i class="fas fa-cog" style="color:var(--blue);margin-right:6px"></i> Business Settings</h3>
+                    <div style="display:flex;flex-direction:column;gap:12px;">
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:4px">Delivery Fee (Rs.)</label><input class="input" value="${this.CFG.delivery}"></div>
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);display:block;margin-bottom:4px">Reseller Discount (%)</label><input class="input" value="${this.CFG.resellerDiscount}"></div>
+                        <button class="btn btn-primary btn-sm" style="align-self:flex-start" onclick="VZ.toast('Settings saved!','success')"><i class="fas fa-save"></i> Save Settings</button>
+                    </div>
+                </div>
+            </div>`;
+        },
+
+        // ── Footer ──
+        footer() {
+            return `
+            <footer class="footer">
+                <div class="footer-grid">
+                    <div>
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;"><i class="fas fa-bolt" style="color:var(--blue)"></i> Vezlo<span style="color:var(--blue)">Mart</span></div>
+                        <p style="font-size:13px;color:var(--fg2);line-height:1.7;max-width:280px;">Sri Lanka's smartest marketplace for retail and reselling.</p>
+                        <div class="footer-social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="https://wa.me/${this.CFG.whatsapp}"><i class="fab fa-whatsapp"></i></a>
+                            <a href="#"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="font-weight:700;margin-bottom:14px;font-size:14px;">Quick Links</h4>
+                        <div style="display:flex;flex-direction:column;gap:8px;">
+                            <a href="#" onclick="VZ.go('products');return false">Products</a>
+                            <a href="#" onclick="VZ.go('category');return false">Categories</a>
+                            <a href="#" onclick="VZ.go('offers');return false">Offers</a>
+                            <a href="#" onclick="VZ.go('about');return false">About Us</a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="font-weight:700;margin-bottom:14px;font-size:14px;">Policies</h4>
+                        <div style="display:flex;flex-direction:column;gap:8px;">
+                            <a href="#">Return Policy</a>
+                            <a href="#">Privacy Policy</a>
+                            <a href="#">Terms of Service</a>
+                            <a href="#">Shipping Info</a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="font-weight:700;margin-bottom:14px;font-size:14px;">Contact Us</h4>
+                        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--fg2);">
+                            <div><i class="fas fa-envelope" style="color:var(--blue);margin-right:8px"></i>${this.CFG.email}</div>
+                            <div><i class="fas fa-phone" style="color:var(--green);margin-right:8px"></i>${this.CFG.phone}</div>
+                            <div><i class="fab fa-whatsapp" style="color:var(--green);margin-right:8px"></i>${this.CFG.phone}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">&copy; 2025 Vezlo Mart. All rights reserved. Made with <i class="fas fa-heart" style="color:var(--red)"></i> in Sri Lanka.</div>
+            </footer>`;
+        },
+    };
+
+    // Initialize App
+    VZ.init();
+    </script>
 </body>
 </html>
