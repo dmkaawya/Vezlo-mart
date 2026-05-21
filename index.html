@@ -1,59 +1,1535 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VezloMart - Login / Register</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Vezlo Mart - Sri Lanka's Smartest Marketplace</title>
+    <meta name="description" content="Sri Lanka's smartest marketplace! Get the best retail deals with Cash on Delivery, or join our exclusive Reseller Network to start your own business and earn from home.">
+    <meta name="keywords" content="Reselling in Sri Lanka, Earn money online LK, Best online deals, Wholesale prices Sri Lanka, Cash on Delivery LK, Dropship LK, Tech Gadgets, Men's Clothing, Online Shopping Sri Lanka, Vezlo Mart">
+    <meta name="author" content="Vezlo Mart">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Vezlo Mart - Sri Lanka's Smartest Marketplace">
+    <meta property="og:description" content="Get the best retail deals with COD or join our Reseller Network to earn from home!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vezlomart.lk">
+    <meta property="og:image" content="https://res.cloudinary.com/vezlo/image/upload/og-banner.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://vezlomart.lk">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --bg: #06060B;
+            --bg2: #0C0C14;
+            --card: #111119;
+            --card2: #16161F;
+            --border: #1E1E2E;
+            --fg: #E8E8F0;
+            --fg2: #A0A0B8;
+            --muted: #5A5A72;
+            --blue: #2563EB;
+            --blue2: #1D4ED8;
+            --blue-glow: rgba(37,99,235,0.25);
+            --red: #DC2626;
+            --red2: #B91C1C;
+            --red-glow: rgba(220,38,38,0.2);
+            --green: #16A34A;
+            --green-glow: rgba(22,163,74,0.2);
+            --yellow: #EAB308;
+            --yellow-glow: rgba(234,179,8,0.2);
+            --sidebar-w: 260px;
+        }
+        [data-theme="light"] {
+            --bg: #F0F2F5;
+            --bg2: #E4E7EB;
+            --card: #FFFFFF;
+            --card2: #F8F9FB;
+            --border: #D1D5DB;
+            --fg: #111827;
+            --fg2: #4B5563;
+            --muted: #9CA3AF;
+            --blue: #2563EB;
+            --blue2: #1D4ED8;
+            --blue-glow: rgba(37,99,235,0.15);
+            --red: #DC2626;
+            --red2: #B91C1C;
+            --red-glow: rgba(220,38,38,0.1);
+            --green: #16A34A;
+            --green-glow: rgba(22,163,74,0.1);
+            --yellow: #EAB308;
+            --yellow-glow: rgba(234,179,8,0.1);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+        h1,h2,h3,h4,h5,h6 { font-family: 'Space Grotesk', sans-serif; }
+        ::-webkit-scrollbar { width:6px; }
+        ::-webkit-scrollbar-track { background: var(--bg2); }
+        ::-webkit-scrollbar-thumb { background: var(--blue); border-radius:3px; }
+        a { color: var(--blue); text-decoration:none; }
+        .btn {
+            display:inline-flex; align-items:center; gap:8px;
+            padding:10px 22px; border-radius:8px; font-weight:600;
+            font-size:14px; cursor:pointer; border:none;
+            transition: all 0.25s ease; font-family:'Poppins',sans-serif;
+        }
+        .btn-primary { background:var(--blue); color:#fff; }
+        .btn-primary:hover { background:var(--blue2); box-shadow:0 0 20px var(--blue-glow); transform:translateY(-1px); }
+        .btn-red { background:var(--red); color:#fff; }
+        .btn-red:hover { background:var(--red2); box-shadow:0 0 20px var(--red-glow); }
+        .btn-outline { background:transparent; color:var(--fg); border:1.5px solid var(--border); }
+        .btn-outline:hover { border-color:var(--blue); color:var(--blue); }
+        .btn-ghost { background:transparent; color:var(--fg2); }
+        .btn-ghost:hover { color:var(--blue); background:var(--blue-glow); }
+        .btn-sm { padding:6px 14px; font-size:12px; }
+        .btn-lg { padding:14px 32px; font-size:16px; }
+        .input-field {
+            width:100%; padding:12px 16px; border-radius:8px;
+            background:var(--bg2); border:1.5px solid var(--border);
+            color:var(--fg); font-size:14px; font-family:'Poppins',sans-serif;
+            transition:border-color 0.2s;
+        }
+        .input-field:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px var(--blue-glow); }
+        .input-field::placeholder { color:var(--muted); }
+        select.input-field { cursor:pointer; }
+        .card {
+            background:var(--card); border:1px solid var(--border);
+            border-radius:12px; padding:20px;
+            transition:all 0.3s ease;
+        }
+        .card:hover { border-color:rgba(37,99,235,0.3); }
+        .badge {
+            display:inline-flex; align-items:center; padding:3px 10px;
+            border-radius:20px; font-size:11px; font-weight:600;
+        }
+        .badge-blue { background:var(--blue-glow); color:var(--blue); }
+        .badge-red { background:var(--red-glow); color:var(--red); }
+        .badge-green { background:var(--green-glow); color:var(--green); }
+        .badge-yellow { background:var(--yellow-glow); color:var(--yellow); }
+        /* Navigation */
+        #main-nav {
+            position:fixed; top:0; left:0; right:0; z-index:1000;
+            background:rgba(6,6,11,0.85); backdrop-filter:blur(16px);
+            border-bottom:1px solid var(--border);
+            transition:background 0.3s;
+        }
+        [data-theme="light"] #main-nav { background:rgba(240,242,245,0.9); }
+        .nav-inner {
+            max-width:1280px; margin:0 auto; padding:0 20px;
+            display:flex; align-items:center; justify-content:space-between;
+            height:64px;
+        }
+        .nav-logo { display:flex; align-items:center; gap:10px; font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:22px; color:var(--fg); }
+        .nav-logo span { color:var(--blue); }
+        .nav-links { display:flex; align-items:center; gap:6px; }
+        .nav-link {
+            padding:8px 16px; border-radius:8px; font-size:14px;
+            font-weight:500; color:var(--fg2); cursor:pointer;
+            transition:all 0.2s; border:none; background:none;
+            font-family:'Poppins',sans-serif;
+        }
+        .nav-link:hover, .nav-link.active { color:var(--blue); background:var(--blue-glow); }
+        .mobile-menu-btn { display:none; background:none; border:none; color:var(--fg); font-size:22px; cursor:pointer; }
+        /* Toast */
+        #toast-container {
+            position:fixed; top:80px; right:20px; z-index:9999;
+            display:flex; flex-direction:column; gap:8px;
+        }
+        .toast {
+            padding:14px 20px; border-radius:10px; min-width:280px;
+            font-size:13px; font-weight:500; display:flex; align-items:center; gap:10px;
+            animation:slideInRight 0.3s ease; box-shadow:0 8px 24px rgba(0,0,0,0.3);
+        }
+        .toast-success { background:#052e16; color:#4ade80; border:1px solid #166534; }
+        .toast-error { background:#2a0a0a; color:#f87171; border:1px solid #7f1d1d; }
+        .toast-info { background:#0a1628; color:#60a5fa; border:1px solid #1e3a5f; }
+        [data-theme="light"] .toast-success { background:#dcfce7; color:#166534; border-color:#86efac; }
+        [data-theme="light"] .toast-error { background:#fee2e2; color:#991b1b; border-color:#fca5a5; }
+        [data-theme="light"] .toast-info { background:#dbeafe; color:#1e40af; border-color:#93c5fd; }
+        @keyframes slideInRight { from{transform:translateX(100%);opacity:0} to{transform:translateX(0);opacity:1} }
+        @keyframes slideOut { from{transform:translateX(0);opacity:1} to{transform:translateX(100%);opacity:0} }
+        /* Modal */
+        .modal-overlay {
+            position:fixed; inset:0; background:rgba(0,0,0,0.7);
+            backdrop-filter:blur(4px); z-index:5000;
+            display:flex; align-items:center; justify-content:center;
+            padding:20px; animation:fadeIn 0.2s;
+        }
+        .modal-box {
+            background:var(--card); border:1px solid var(--border);
+            border-radius:16px; padding:28px; max-width:520px; width:100%;
+            max-height:90vh; overflow-y:auto; animation:scaleIn 0.25s ease;
+        }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+        @keyframes scaleIn { from{transform:scale(0.9);opacity:0} to{transform:scale(1);opacity:1} }
+        /* Dashboard Layout */
+        .dash-layout { display:flex; min-height:100vh; padding-top:64px; }
+        .dash-sidebar {
+            width:var(--sidebar-w); background:var(--card);
+            border-right:1px solid var(--border); padding:20px 0;
+            position:fixed; top:64px; bottom:0; left:0;
+            overflow-y:auto; z-index:100;
+            transition:transform 0.3s;
+        }
+        .dash-sidebar.collapsed { transform:translateX(-100%); }
+        .dash-main { flex:1; margin-left:var(--sidebar-w); padding:24px; min-height:calc(100vh - 64px); }
+        .sidebar-section { padding:0 16px; margin-bottom:20px; }
+        .sidebar-label { font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; padding:8px 12px; }
+        .sidebar-link {
+            display:flex; align-items:center; gap:10px;
+            padding:10px 12px; border-radius:8px; font-size:13px;
+            font-weight:500; color:var(--fg2); cursor:pointer;
+            transition:all 0.2s; border:none; background:none;
+            width:100%; text-align:left; font-family:'Poppins',sans-serif;
+        }
+        .sidebar-link:hover { color:var(--fg); background:var(--bg2); }
+        .sidebar-link.active { color:var(--blue); background:var(--blue-glow); }
+        .sidebar-link i { width:18px; text-align:center; }
+        /* Stats Cards */
+        .stat-card {
+            background:var(--card); border:1px solid var(--border);
+            border-radius:12px; padding:20px;
+            display:flex; align-items:flex-start; justify-content:space-between;
+        }
+        .stat-icon {
+            width:44px; height:44px; border-radius:10px;
+            display:flex; align-items:center; justify-content:center;
+            font-size:18px;
+        }
+        /* Product Card */
+        .product-card {
+            background:var(--card); border:1px solid var(--border);
+            border-radius:12px; overflow:hidden;
+            transition:all 0.3s ease; cursor:pointer;
+        }
+        .product-card:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,0.3); border-color:var(--blue); }
+        .product-card img { width:100%; height:200px; object-fit:cover; }
+        .product-card .p-info { padding:14px; }
+        .product-card .p-name { font-weight:600; font-size:14px; margin-bottom:6px; color:var(--fg); }
+        .product-card .p-price { font-weight:700; font-size:18px; color:var(--blue); }
+        .product-card .p-price .p-original { font-size:13px; color:var(--muted); text-decoration:line-through; font-weight:400; margin-left:6px; }
+        .product-card .p-discount-tag {
+            position:absolute; top:10px; left:10px;
+            background:var(--red); color:#fff; padding:3px 10px;
+            border-radius:6px; font-size:11px; font-weight:700;
+        }
+        /* Table */
+        .data-table { width:100%; border-collapse:separate; border-spacing:0; }
+        .data-table th {
+            text-align:left; padding:12px 16px; font-size:11px;
+            font-weight:600; color:var(--muted); text-transform:uppercase;
+            letter-spacing:0.5px; border-bottom:1px solid var(--border);
+            background:var(--card);
+        }
+        .data-table td {
+            padding:12px 16px; font-size:13px; border-bottom:1px solid var(--border);
+            color:var(--fg2);
+        }
+        .data-table tr:hover td { background:var(--bg2); }
+        /* Hero */
+        .hero-bg {
+            position:relative; overflow:hidden;
+            background:linear-gradient(135deg, #06060B 0%, #0a0f1e 50%, #0d0a1a 100%);
+        }
+        .hero-bg::before {
+            content:''; position:absolute; top:-50%; right:-20%;
+            width:600px; height:600px; border-radius:50%;
+            background:radial-gradient(circle, var(--blue-glow) 0%, transparent 70%);
+            filter:blur(60px);
+        }
+        .hero-bg::after {
+            content:''; position:absolute; bottom:-30%; left:-10%;
+            width:400px; height:400px; border-radius:50%;
+            background:radial-gradient(circle, var(--red-glow) 0%, transparent 70%);
+            filter:blur(50px);
+        }
+        /* Tabs */
+        .tab-bar { display:flex; gap:4px; background:var(--bg2); padding:4px; border-radius:10px; margin-bottom:20px; overflow-x:auto; }
+        .tab-btn {
+            padding:8px 18px; border-radius:8px; font-size:13px;
+            font-weight:500; color:var(--fg2); cursor:pointer;
+            border:none; background:none; font-family:'Poppins',sans-serif;
+            white-space:nowrap; transition:all 0.2s;
+        }
+        .tab-btn.active { background:var(--blue); color:#fff; }
+        .tab-btn:hover:not(.active) { color:var(--fg); }
+        /* Animations */
+        .fade-in { animation:fadeIn 0.4s ease; }
+        .slide-up { animation:slideUp 0.4s ease; }
+        @keyframes slideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+        /* Lockdown overlay */
+        #lockdown-overlay {
+            position:fixed; inset:0; z-index:99999;
+            background:var(--bg); display:none;
+            align-items:center; justify-content:center;
+            flex-direction:column; gap:20px;
+        }
+        #lockdown-overlay.active { display:flex; }
+        /* Search */
+        .search-box {
+            position:relative; display:flex; align-items:center;
+        }
+        .search-box input {
+            padding:8px 14px 8px 36px; border-radius:8px;
+            background:var(--bg2); border:1px solid var(--border);
+            color:var(--fg); font-size:13px; width:220px;
+            font-family:'Poppins',sans-serif;
+        }
+        .search-box i { position:absolute; left:12px; color:var(--muted); font-size:13px; }
+        /* Responsive */
+        @media(max-width:1024px) {
+            .dash-sidebar { transform:translateX(-100%); }
+            .dash-sidebar.open { transform:translateX(0); }
+            .dash-main { margin-left:0; }
+            .mobile-menu-btn { display:block; }
+        }
+        @media(max-width:768px) {
+            .nav-links { display:none; }
+            .nav-links.open { display:flex; flex-direction:column; position:absolute; top:64px; left:0; right:0; background:var(--card); border-bottom:1px solid var(--border); padding:12px; gap:4px; }
+            .search-box input { width:140px; }
+            .hero-title { font-size:32px !important; }
+        }
+        @media(max-width:480px) {
+            .stat-card { padding:14px; }
+            .btn { padding:8px 16px; font-size:13px; }
+        }
+        /* Floating particles */
+        .particle {
+            position:absolute; border-radius:50%; pointer-events:none;
+            animation:float 8s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%,100% { transform:translateY(0) scale(1); opacity:0.3; }
+            50% { transform:translateY(-30px) scale(1.2); opacity:0.6; }
+        }
+        /* Rating stars */
+        .star { color:var(--muted); cursor:pointer; transition:color 0.15s; }
+        .star.filled { color:var(--yellow); }
+        .star:hover { color:var(--yellow); }
+        /* Progress bar */
+        .progress-bar { height:6px; background:var(--bg2); border-radius:3px; overflow:hidden; }
+        .progress-fill { height:100%; border-radius:3px; transition:width 0.6s ease; }
+        /* Skeleton */
+        .skeleton { background:linear-gradient(90deg,var(--bg2) 25%,var(--card) 50%,var(--bg2) 75%); background-size:200% 100%; animation:skeleton 1.5s infinite; border-radius:6px; }
+        @keyframes skeleton { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+        /* Chart container */
+        .chart-container { position:relative; height:280px; }
+    </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="form-wrapper">
-            <div class="tabs">
-                <button class="tab-btn active" id="login-tab" onclick="switchTab('login')">Login</button>
-                <button class="tab-btn" id="register-tab" onclick="switchTab('register')">Register</button>
-            </div>
-
-            <!-- LOGIN FORM -->
-            <form id="login-form" class="auth-form active" onsubmit="handleLogin(event)">
-                <div class="input-group">
-                    <label for="login-email">Email</label>
-                    <input type="email" id="login-email" required placeholder="you@example.com">
-                </div>
-                <div class="input-group">
-                    <label for="login-password">Password</label>
-                    <input type="password" id="login-password" required placeholder="••••••••">
-                </div>
-                <button type="submit" class="auth-btn" id="login-btn">Sign In</button>
-                <p class="message" id="login-message"></p>
-            </form>
-
-            <!-- REGISTER FORM -->
-            <form id="register-form" class="auth-form" onsubmit="handleRegister(event)">
-                <div class="input-group">
-                    <label for="reg-name">Full Name</label>
-                    <input type="text" id="reg-name" required placeholder="John Doe">
-                </div>
-                <div class="input-group">
-                    <label for="reg-email">Email</label>
-                    <input type="email" id="reg-email" required placeholder="you@example.com">
-                </div>
-                <div class="input-group">
-                    <label for="reg-password">Password</label>
-                    <input type="password" id="reg-password" required minlength="6" placeholder="Min 6 characters">
-                </div>
-                <div class="input-group checkbox-group">
-                    <input type="checkbox" id="reg-is-reseller">
-                    <label for="reg-is-reseller">Register as a Reseller</label>
-                </div>
-                <button type="submit" class="auth-btn" id="register-btn">Create Account</button>
-                <p class="message" id="register-message"></p>
-            </form>
-        </div>
+    <!-- Lockdown Overlay -->
+    <div id="lockdown-overlay">
+        <i class="fas fa-lock" style="font-size:64px;color:var(--red);"></i>
+        <h2 style="font-size:28px;font-weight:800;color:var(--fg);">Website Temporarily Closed</h2>
+        <p style="color:var(--fg2);max-width:400px;text-align:center;">Vezlo Mart is currently under maintenance. We'll be back soon. Thank you for your patience!</p>
     </div>
 
-    <!-- Supabase JS Client (Vanilla) -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="app.js"></script>
-</body>
-</html>
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Main Navigation -->
+    <nav id="main-nav">
+        <div class="nav-inner">
+            <div class="nav-logo" onclick="App.router.go('home')" style="cursor:pointer;">
+                <i class="fas fa-bolt" style="color:var(--blue);"></i>
+                Vezlo<span>Mart</span>
+            </div>
+            <div class="nav-links" id="nav-links">
+                <button class="nav-link" onclick="App.router.go('home')">Home</button>
+                <button class="nav-link" onclick="App.router.go('products')">Products</button>
+                <button class="nav-link" id="nav-dashboard-btn" style="display:none;" onclick="App.router.go('dashboard')">Dashboard</button>
+                <button class="nav-link" id="nav-cart-btn" onclick="App.router.go('cart')"><i class="fas fa-shopping-cart"></i> Cart</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+                <div class="search-box" style="display:none;" id="nav-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search products..." id="global-search" onkeyup="App.utils.handleSearch(event)">
+                </div>
+                <button onclick="App.ui.toggleTheme()" class="btn-ghost" style="padding:8px;border-radius:8px;border:none;cursor:pointer;background:none;color:var(--fg);font-size:16px;">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
+                <button class="btn btn-primary btn-sm" id="nav-login-btn" onclick="App.router.go('auth')">Login</button>
+                <div id="nav-user-menu" style="display:none;position:relative;">
+                    <button onclick="App.ui.toggleUserMenu()" style="display:flex;align-items:center;gap:8px;background:none;border:1.5px solid var(--border);border-radius:8px;padding:6px 12px;cursor:pointer;color:var(--fg);font-family:'Poppins',sans-serif;">
+                        <div style="width:28px;height:28px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;" id="nav-avatar">U</div>
+                        <span style="font-size:13px;font-weight:500;" id="nav-username">User</span>
+                        <i class="fas fa-chevron-down" style="font-size:10px;color:var(--muted);"></i>
+                    </button>
+                    <div id="user-dropdown" style="display:none;position:absolute;top:48px;right:0;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:180px;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,0.3);">
+                        <button class="sidebar-link" onclick="App.router.go('dashboard');App.ui.closeUserMenu()"><i class="fas fa-tachometer-alt"></i> Dashboard</button>
+                        <button class="sidebar-link" onclick="App.router.go('profile');App.ui.closeUserMenu()"><i class="fas fa-user"></i> Profile</button>
+                        <button class="sidebar-link" onclick="App.router.go('cart');App.ui.closeUserMenu()"><i class="fas fa-shopping-cart"></i> Cart</button>
+                        <hr style="border:none;border-top:1px solid var(--border);margin:4px 0;">
+                        <button class="sidebar-link" style="color:var(--red);" onclick="App.auth.logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                    </div>
+                </div>
+                <button class="mobile-menu-btn" onclick="App.ui.toggleMobileNav()"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main id="app-content"></main>
+
+    <!-- Modal Container -->
+    <div id="modal-container"></div>
+
+    <script>
+    /* ========================================
+       VEZLO MART - Complete SPA
+       ======================================== */
+
+    const App = {
+        // ── Configuration ──
+        config: {
+            supabaseUrl: 'YOUR_SUPABASE_URL', // Replace with your Supabase URL
+            supabaseKey: 'YOUR_SUPABASE_ANON_KEY', // Replace with your Supabase anon key
+            cloudinaryCloud: 'YOUR_CLOUDINARY_CLOUD', // Replace with Cloudinary cloud name
+            cloudinaryPreset: 'YOUR_UPLOAD_PRESET', // Replace with unsigned upload preset
+            whatsapp: '94775048455', // WhatsApp number with country code
+            email: 'chat.dmkaawya@gmail.com',
+            phone: '0775048455',
+            resellerDiscount: 25, // Default reseller discount percentage
+            pointsPerOrder: 10, // Points earned per order
+            deliveryFee: 250, // Default delivery fee LKR
+        },
+
+        // ── Application State ──
+        state: {
+            currentUser: null,
+            userRole: 'guest', // guest, customer, reseller, staff, manager, owner
+            resellerApproved: false,
+            currentView: 'home',
+            dashboardTab: 'overview',
+            products: [],
+            cart: [],
+            orders: [],
+            users: [],
+            reviews: [],
+            coupons: [],
+            lockdown: false,
+            theme: localStorage.getItem('vezlo-theme') || 'dark',
+            searchQuery: '',
+        },
+
+        supabase: null,
+
+        // ── Initialize App ──
+        async init() {
+            // Set theme
+            document.documentElement.setAttribute('data-theme', this.state.theme);
+            this.updateThemeIcon();
+
+            // Init Supabase
+            if (this.config.supabaseUrl !== 'YOUR_SUPABASE_URL') {
+                this.supabase = supabase.createClient(this.config.supabaseUrl, this.config.supabaseKey);
+                this.auth.listenAuth();
+            }
+
+            // Load demo data
+            this.loadDemoData();
+
+            // Check lockdown
+            const isLocked = localStorage.getItem('vezlo-lockdown') === 'true';
+            if (isLocked && this.state.userRole !== 'owner') {
+                document.getElementById('lockdown-overlay').classList.add('active');
+                this.state.lockdown = true;
+            }
+
+            // Router
+            this.router.init();
+
+            // Nav search
+            document.getElementById('nav-search').style.display = 'flex';
+
+            // Render
+            this.render();
+        },
+
+        // ── Demo Data ──
+        loadDemoData() {
+            this.state.products = [
+                { id:1, name:'Wireless Bluetooth Earbuds Pro', description:'Premium sound quality with active noise cancellation. 30hr battery life.', price:4990, resellerPrice:3740, category:'Tech Gadgets', image:'https://picsum.photos/seed/earbuds1/400/400', stock:45, rating:4.5, reviews:23, keywords:['earbuds','bluetooth','wireless','audio','tech'] },
+                { id:2, name:'Smart Fitness Watch X200', description:'Heart rate monitor, SpO2, GPS tracking. Water resistant IP68.', price:8990, resellerPrice:6740, category:'Tech Gadgets', image:'https://picsum.photos/seed/watch2/400/400', stock:30, rating:4.2, reviews:18, keywords:['watch','fitness','smart','health','tech'] },
+                { id:3, name:'Premium Cotton Slim Fit Shirt', description:'100% cotton, modern slim fit design. Available in multiple colors.', price:2490, resellerPrice:1870, category:"Men's Clothing", image:'https://picsum.photos/seed/shirt3/400/400', stock:100, rating:4.7, reviews:42, keywords:['shirt','cotton','slim','men','fashion'] },
+                { id:4, name:'RGB Mechanical Gaming Keyboard', description:'Cherry MX switches, per-key RGB lighting, aluminum frame.', price:7490, resellerPrice:5620, category:'Tech Gadgets', image:'https://picsum.photos/seed/keyboard4/400/400', stock:20, rating:4.8, reviews:35, keywords:['keyboard','gaming','rgb','mechanical','tech'] },
+                { id:5, name:'Designer Crossbody Bag', description:'Vegan leather, adjustable strap, multiple compartments.', price:3490, resellerPrice:2620, category:"Women's Accessories", image:'https://picsum.photos/seed/bag5/400/400', stock:55, rating:4.3, reviews:15, keywords:['bag','crossbody','women','fashion','accessories'] },
+                { id:6, name:'Portable Power Bank 20000mAh', description:'Fast charging, dual USB-C output, LED indicator.', price:3990, resellerPrice:2990, category:'Tech Gadgets', image:'https://picsum.photos/seed/power6/400/400', stock:60, rating:4.6, reviews:29, keywords:['powerbank','charging','portable','tech','battery'] },
+                { id:7, name:'Sports Running Shoes AirMax', description:'Lightweight mesh upper, cushioned sole, breathable design.', price:5990, resellerPrice:4490, category:'Footwear', image:'https://picsum.photos/seed/shoes7/400/400', stock:35, rating:4.4, reviews:20, keywords:['shoes','running','sports','footwear','fitness'] },
+                { id:8, name:'Wireless Charging Pad 15W', description:'Qi-compatible, fast wireless charging, LED indicator, slim design.', price:1990, resellerPrice:1490, category:'Tech Gadgets', image:'https://picsum.photos/seed/charger8/400/400', stock:80, rating:4.1, reviews:12, keywords:['charger','wireless','qi','tech','accessories'] },
+                { id:9, name:'Stainless Steel Water Bottle 750ml', description:'Double wall vacuum insulated, keeps cold 24hr / hot 12hr.', price:1990, resellerPrice:1490, category:'Home & Living', image:'https://picsum.photos/seed/bottle9/400/400', stock:90, rating:4.5, reviews:31, keywords:['bottle','water','steel','insulated','home'] },
+                { id:10, name:'Polarized Aviator Sunglasses', description:'UV400 protection, lightweight metal frame, premium lens.', price:2990, resellerPrice:2240, category:"Men's Accessories", image:'https://picsum.photos/seed/sunglass10/400/400', stock:40, rating:4.3, reviews:17, keywords:['sunglasses','aviator','polarized','men','fashion'] },
+                { id:11, name:'USB-C Hub 7-in-1 Adapter', description:'HDMI 4K, USB 3.0 x3, SD/TF card reader, PD 100W charging.', price:4490, resellerPrice:3370, category:'Tech Gadgets', image:'https://picsum.photos/seed/hub11/400/400', stock:25, rating:4.6, reviews:22, keywords:['usb hub','adapter','usbc','tech','accessories'] },
+                { id:12, name:'Aromatherapy Essential Oil Diffuser', description:'300ml capacity, 7 LED colors, auto shut-off, whisper quiet.', price:3490, resellerPrice:2620, category:'Home & Living', image:'https://picsum.photos/seed/diffuser12/400/400', stock:45, rating:4.4, reviews:19, keywords:['diffuser','essential oil','aromatherapy','home','wellness'] },
+            ];
+            this.state.coupons = [
+                { id:1, code:'WELCOME10', discount:10, minOrder:2000, expires:'2025-12-31' },
+                { id:2, code:'VEZLO25', discount:25, minOrder:5000, expires:'2025-09-30' },
+            ];
+            this.state.orders = [
+                { id:'VZ10001', userId:'demo', items:[{productId:1,qty:1,price:4990}], total:5240, status:'delivered', deliveryCost:250, discount:0, paymentMethod:'COD', address:'123 Main St, Colombo', createdAt:'2025-01-15', points:10 },
+                { id:'VZ10002', userId:'demo', items:[{productId:3,qty:2,price:2490}], total:4980, status:'shipped', deliveryCost:250, discount:0, paymentMethod:'Bank Transfer', address:'45 Galle Rd, Galle', createdAt:'2025-01-20', points:10 },
+                { id:'VZ10003', userId:'reseller1', items:[{productId:2,qty:1,price:6740},{productId:6,qty:1,price:2990}], total:9730, status:'processing', deliveryCost:250, discount:0, paymentMethod:'COD', address:'78 Kandy Rd, Kandy', createdAt:'2025-01-22', points:20 },
+            ];
+            this.state.users = [
+                { id:'demo', name:'Demo Customer', email:'customer@demo.com', role:'customer', phone:'0771234567', points:20, joined:'2025-01-01' },
+                { id:'reseller1', name:'Chamari Reseller', email:'reseller@demo.com', role:'reseller', resellerApproved:true, phone:'0779876543', points:50, joined:'2024-12-15', stats:{ totalOrders:15, delivered:12, canceled:1, returned:2, totalEarnings:45000, giftMoney:2000, rank:3 } },
+                { id:'staff1', name:'Admin Staff', email:'staff@vezlo.com', role:'staff', joined:'2024-06-01' },
+                { id:'manager1', name:'Manager', email:'manager@vezlo.com', role:'manager', joined:'2024-01-01' },
+                { id:'owner1', name:'Owner', email:'owner@vezlo.com', role:'owner', joined:'2023-01-01' },
+            ];
+            this.state.reviews = [
+                { id:1, productId:1, userId:'demo', userName:'Demo Customer', rating:5, comment:'Amazing earbuds! Sound quality is incredible.', date:'2025-01-16', reported:false, reply:null },
+                { id:2, productId:3, userId:'demo', userName:'Demo Customer', rating:4, comment:'Good shirt, fits well. Color slightly different from image.', date:'2025-01-18', reported:false, reply:'Thank you for your feedback! We will improve our product images.' },
+                { id:3, productId:4, userId:'reseller1', userName:'Chamari Reseller', rating:5, comment:'Best keyboard I have used. My customers love it!', date:'2025-01-20', reported:true, reply:null },
+            ];
+        },
+
+        // ── Render ──
+        render() {
+            const content = document.getElementById('app-content');
+            const view = this.state.currentView;
+            this.updateNav();
+
+            if (this.state.lockdown && this.state.userRole !== 'owner') {
+                return;
+            }
+
+            switch(view) {
+                case 'home': content.innerHTML = this.views.home(); break;
+                case 'products': content.innerHTML = this.views.products(); break;
+                case 'product-detail': content.innerHTML = this.views.productDetail(); break;
+                case 'auth': content.innerHTML = this.views.auth(); break;
+                case 'cart': content.innerHTML = this.views.cart(); break;
+                case 'checkout': content.innerHTML = this.views.checkout(); break;
+                case 'dashboard': content.innerHTML = this.views.dashboard(); break;
+                case 'profile': content.innerHTML = this.views.profile(); break;
+                default: content.innerHTML = this.views.home();
+            }
+        },
+
+        // ── Update Navigation ──
+        updateNav() {
+            const user = this.state.currentUser;
+            const role = this.state.userRole;
+            const loginBtn = document.getElementById('nav-login-btn');
+            const userMenu = document.getElementById('nav-user-menu');
+            const dashBtn = document.getElementById('nav-dashboard-btn');
+
+            if (user) {
+                loginBtn.style.display = 'none';
+                userMenu.style.display = 'block';
+                document.getElementById('nav-avatar').textContent = user.name ? user.name[0].toUpperCase() : 'U';
+                document.getElementById('nav-username').textContent = user.name ? user.name.split(' ')[0] : 'User';
+                dashBtn.style.display = 'inline-flex';
+            } else {
+                loginBtn.style.display = 'inline-flex';
+                userMenu.style.display = 'none';
+                dashBtn.style.display = 'none';
+            }
+        },
+
+        // ══════════════════════════════════
+        //  VIEWS
+        // ══════════════════════════════════
+
+        views: {
+            // ── HOME PAGE ──
+            home() {
+                const categories = [...new Set(App.state.products.map(p => p.category))];
+                const featured = App.state.products.slice(0, 8);
+                return `
+                <div class="hero-bg" style="position:relative;padding-top:64px;">
+                    <div style="position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:80px 20px 60px;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;" class="hero-grid">
+                            <div>
+                                <div class="badge badge-blue" style="margin-bottom:16px;font-size:12px;padding:6px 14px;"><i class="fas fa-bolt"></i>&nbsp; Sri Lanka's Smartest Marketplace</div>
+                                <h1 class="hero-title" style="font-size:52px;font-weight:900;line-height:1.1;margin-bottom:20px;color:var(--fg);">
+                                    Shop Smart.<br><span style="color:var(--blue);">Earn More.</span>
+                                </h1>
+                                <p style="font-size:17px;color:var(--fg2);line-height:1.7;margin-bottom:32px;max-width:480px;">
+                                    Get the best retail deals with Cash on Delivery, or join our exclusive Reseller Network to start your own business and earn from home.
+                                </p>
+                                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                                    <button class="btn btn-primary btn-lg" onclick="App.router.go('products')"><i class="fas fa-shopping-bag"></i> Shop Now</button>
+                                    <button class="btn btn-outline btn-lg" onclick="App.router.go('auth');setTimeout(()=>App.ui.switchAuthTab('register-reseller'),100)"><i class="fas fa-hand-holding-usd"></i> Become a Reseller</button>
+                                </div>
+                                <div style="display:flex;gap:32px;margin-top:40px;">
+                                    <div><div style="font-size:28px;font-weight:800;color:var(--blue);">2,500+</div><div style="font-size:12px;color:var(--muted);">Products</div></div>
+                                    <div><div style="font-size:28px;font-weight:800;color:var(--green);">1,200+</div><div style="font-size:12px;color:var(--muted);">Resellers</div></div>
+                                    <div><div style="font-size:28px;font-weight:800;color:var(--red);">COD</div><div style="font-size:12px;color:var(--muted);">Available</div></div>
+                                </div>
+                            </div>
+                            <div style="position:relative;" class="hero-visual">
+                                <div style="background:linear-gradient(135deg,var(--blue),#7c3aed);border-radius:24px;padding:30px;transform:rotate(2deg);box-shadow:0 20px 60px rgba(37,99,235,0.3);">
+                                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                                        ${featured.slice(0,4).map(p => `
+                                            <div style="background:rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;cursor:pointer;" onclick="App.state.selectedProduct=${p.id};App.router.go('product-detail')">
+                                                <img src="${p.image}" style="width:100%;height:120px;object-fit:cover;" alt="${p.name}">
+                                                <div style="padding:8px;"><div style="font-size:11px;color:rgba(255,255,255,0.8);font-weight:500;">${p.name.substring(0,25)}...</div><div style="font-size:14px;color:#fff;font-weight:700;">Rs. ${p.price.toLocaleString()}</div></div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:0 20px 60px;">
+                        <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;">
+                            <div class="card" style="flex:1;min-width:200px;text-align:center;padding:24px;"><i class="fas fa-truck" style="font-size:28px;color:var(--blue);margin-bottom:10px;"></i><div style="font-weight:600;margin-bottom:4px;">Islandwide Delivery</div><div style="font-size:12px;color:var(--fg2);">We deliver across Sri Lanka</div></div>
+                            <div class="card" style="flex:1;min-width:200px;text-align:center;padding:24px;"><i class="fas fa-money-bill-wave" style="font-size:28px;color:var(--green);margin-bottom:10px;"></i><div style="font-weight:600;margin-bottom:4px;">Cash on Delivery</div><div style="font-size:12px;color:var(--fg2);">Pay when you receive</div></div>
+                            <div class="card" style="flex:1;min-width:200px;text-align:center;padding:24px;"><i class="fas fa-shield-alt" style="font-size:28px;color:var(--yellow);margin-bottom:10px;"></i><div style="font-weight:600;margin-bottom:4px;">Trusted Quality</div><div style="font-size:12px;color:var(--fg2);">Verified products only</div></div>
+                            <div class="card" style="flex:1;min-width:200px;text-align:center;padding:24px;"><i class="fas fa-headset" style="font-size:28px;color:var(--red);margin-bottom:10px;"></i><div style="font-weight:600;margin-bottom:4px;">24/7 Support</div><div style="font-size:12px;color:var(--fg2);">WhatsApp & Call support</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <section style="max-width:1280px;margin:0 auto;padding:60px 20px;">
+                    <h2 style="font-size:32px;font-weight:800;margin-bottom:8px;">Shop by Category</h2>
+                    <p style="color:var(--fg2);margin-bottom:32px;">Find exactly what you need</p>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;">
+                        ${categories.map((cat,i) => {
+                            const icons = {'Tech Gadgets':'fa-microchip',"Men's Clothing":'fa-t-shirt',"Women's Accessories":'fa-gem','Footwear':'fa-shoe-prints','Home & Living':'fa-home',"Men's Accessories":'fa-glasses'};
+                            const colors = ['#2563EB','#DC2626','#7C3AED','#059669','#D97706','#EC4899'];
+                            return `<div class="card" style="text-align:center;cursor:pointer;padding:28px 16px;" onclick="App.state.searchQuery='${cat}';App.router.go('products')">
+                                <div style="width:56px;height:56px;border-radius:14px;background:${colors[i%colors.length]}22;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;"><i class="fas ${icons[cat]||'fa-box'}" style="font-size:22px;color:${colors[i%colors.length]};"></i></div>
+                                <div style="font-weight:600;font-size:14px;">${cat}</div>
+                                <div style="font-size:12px;color:var(--muted);margin-top:4px;">${App.state.products.filter(p=>p.category===cat).length} items</div>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </section>
+
+                <!-- Featured Products -->
+                <section style="max-width:1280px;margin:0 auto;padding:0 20px 60px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;">
+                        <div><h2 style="font-size:32px;font-weight:800;margin-bottom:4px;">Featured Products</h2><p style="color:var(--fg2);">Handpicked just for you</p></div>
+                        <button class="btn btn-outline" onclick="App.router.go('products')">View All <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;">
+                        ${featured.map(p => App.utils.productCard(p)).join('')}
+                    </div>
+                </section>
+
+                <!-- Reseller CTA -->
+                <section style="max-width:1280px;margin:0 auto;padding:0 20px 80px;">
+                    <div class="card" style="background:linear-gradient(135deg,#0a1628,#1a0a28);border:1px solid rgba(37,99,235,0.3);padding:48px;display:flex;gap:48px;align-items:center;flex-wrap:wrap;">
+                        <div style="flex:1;min-width:280px;">
+                            <div class="badge badge-green" style="margin-bottom:16px;"><i class="fas fa-chart-line"></i>&nbsp; Reseller Program</div>
+                            <h2 style="font-size:36px;font-weight:900;margin-bottom:16px;">Start Earning From <span style="color:var(--green);">Home Today</span></h2>
+                            <p style="color:var(--fg2);line-height:1.7;margin-bottom:24px;">Join 1,200+ resellers who are already earning with Vezlo Mart. Get exclusive wholesale prices, WhatsApp ordering, and full dashboard support.</p>
+                            <div style="display:flex;gap:16px;flex-wrap:wrap;">
+                                <div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-check-circle" style="color:var(--green);"></i><span style="font-size:14px;">Up to 25% discount</span></div>
+                                <div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-check-circle" style="color:var(--green);"></i><span style="font-size:14px;">WhatsApp ordering</span></div>
+                                <div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-check-circle" style="color:var(--green);"></i><span style="font-size:14px;">Gift money & rewards</span></div>
+                            </div>
+                            <button class="btn btn-primary btn-lg" style="margin-top:24px;" onclick="App.router.go('auth');setTimeout(()=>App.ui.switchAuthTab('register-reseller'),100)"><i class="fas fa-rocket"></i> Join as Reseller</button>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:260px;">
+                            <div class="card" style="text-align:center;padding:20px;"><div style="font-size:28px;font-weight:800;color:var(--green);">25%</div><div style="font-size:11px;color:var(--muted);">Max Discount</div></div>
+                            <div class="card" style="text-align:center;padding:20px;"><div style="font-size:28px;font-weight:800;color:var(--blue);">LKR 0</div><div style="font-size:11px;color:var(--muted);">Joining Fee</div></div>
+                            <div class="card" style="text-align:center;padding:20px;"><div style="font-size:28px;font-weight:800;color:var(--yellow);">24/7</div><div style="font-size:11px;color:var(--muted);">Support</div></div>
+                            <div class="card" style="text-align:center;padding:20px;"><div style="font-size:28px;font-weight:800;color:var(--red);">COD</div><div style="font-size:11px;color:var(--muted);">Available</div></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Footer -->
+                <footer style="background:var(--card);border-top:1px solid var(--border);padding:48px 20px 24px;">
+                    <div style="max-width:1280px;margin:0 auto;">
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;margin-bottom:32px;">
+                            <div>
+                                <div class="nav-logo" style="margin-bottom:12px;"><i class="fas fa-bolt" style="color:var(--blue);"></i> Vezlo<span>Mart</span></div>
+                                <p style="font-size:13px;color:var(--fg2);line-height:1.6;">Sri Lanka's smartest marketplace for retail and reselling.</p>
+                                <div style="display:flex;gap:10px;margin-top:16px;">
+                                    <a href="#" style="width:36px;height:36px;border-radius:8px;background:var(--bg2);display:flex;align-items:center;justify-content:center;color:var(--fg2);transition:all 0.2s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--fg2)'"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#" style="width:36px;height:36px;border-radius:8px;background:var(--bg2);display:flex;align-items:center;justify-content:center;color:var(--fg2);transition:all 0.2s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--fg2)'"><i class="fab fa-instagram"></i></a>
+                                    <a href="#" style="width:36px;height:36px;border-radius:8px;background:var(--bg2);display:flex;align-items:center;justify-content:center;color:var(--fg2);transition:all 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--fg2)'"><i class="fab fa-whatsapp"></i></a>
+                                    <a href="#" style="width:36px;height:36px;border-radius:8px;background:var(--bg2);display:flex;align-items:center;justify-content:center;color:var(--fg2);transition:all 0.2s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--fg2)'"><i class="fab fa-tiktok"></i></a>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 style="font-weight:700;margin-bottom:12px;font-size:14px;">Quick Links</h4>
+                                <div style="display:flex;flex-direction:column;gap:8px;">
+                                    <a href="#" onclick="App.router.go('products');return false;" style="font-size:13px;color:var(--fg2);">Products</a>
+                                    <a href="#" onclick="App.router.go('auth');return false;" style="font-size:13px;color:var(--fg2);">Login / Register</a>
+                                    <a href="#" style="font-size:13px;color:var(--fg2);">About Us</a>
+                                    <a href="#" style="font-size:13px;color:var(--fg2);">Contact</a>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 style="font-weight:700;margin-bottom:12px;font-size:14px;">Policies</h4>
+                                <div style="display:flex;flex-direction:column;gap:8px;">
+                                    <a href="#" style="font-size:13px;color:var(--fg2);">Return Policy</a>
+                                    <a href="#" style="font-size:13px;color:var(--fg2);">Privacy Policy</a>
+                                    <a href="#" style="font-size:13px;color:var(--fg2);">Terms of Service</a>
+                                    <a href="#" style="font-size:13px;color:var(--fg2);">Shipping Info</a>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 style="font-weight:700;margin-bottom:12px;font-size:14px;">Contact Us</h4>
+                                <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--fg2);">
+                                    <div><i class="fas fa-envelope" style="color:var(--blue);margin-right:8px;"></i>${App.config.email}</div>
+                                    <div><i class="fas fa-phone" style="color:var(--green);margin-right:8px;"></i>${App.config.phone}</div>
+                                    <div><i class="fab fa-whatsapp" style="color:var(--green);margin-right:8px;"></i>${App.config.phone}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="border-top:1px solid var(--border);padding-top:20px;text-align:center;font-size:12px;color:var(--muted);">
+                            &copy; 2025 Vezlo Mart. All rights reserved. Made with <i class="fas fa-heart" style="color:var(--red);"></i> in Sri Lanka.
+                        </div>
+                    </div>
+                </footer>
+                <style>
+                    @media(max-width:768px) {
+                        .hero-grid { grid-template-columns:1fr !important; gap:30px !important; }
+                        .hero-visual { display:none !important; }
+                        .hero-title { font-size:36px !important; }
+                    }
+                </style>
+                `;
+            },
+
+            // ── PRODUCTS PAGE ──
+            products() {
+                const query = App.state.searchQuery || '';
+                const allCats = ['All', ...new Set(App.state.products.map(p => p.category))];
+                let filtered = App.state.products;
+                if (query) {
+                    filtered = filtered.filter(p =>
+                        p.name.toLowerCase().includes(query.toLowerCase()) ||
+                        p.category.toLowerCase().includes(query.toLowerCase()) ||
+                        p.keywords.some(k => k.toLowerCase().includes(query.toLowerCase()))
+                    );
+                }
+                const isReseller = App.state.userRole === 'reseller' && App.state.resellerApproved;
+                return `
+                <div style="padding-top:84px;max-width:1280px;margin:0 auto;padding-left:20px;padding-right:20px;padding-bottom:60px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+                        <div>
+                            <h1 style="font-size:28px;font-weight:800;">Products</h1>
+                            <p style="color:var(--fg2);font-size:14px;">${filtered.length} items found${query ? ' for "'+query+'"' : ''}</p>
+                        </div>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="Search..." value="${query}" onkeyup="App.state.searchQuery=this.value;App.render()" style="width:200px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;">
+                        ${allCats.map(c => `<button class="btn btn-sm ${query===c||(c==='All'&&!query)?'btn-primary':'btn-outline'}" onclick="App.state.searchQuery='${c==='All'?'':c}';App.render()">${c}</button>`).join('')}
+                    </div>
+                    ${isReseller ? '<div class="card" style="background:var(--green-glow);border-color:rgba(22,163,74,0.3);margin-bottom:20px;padding:14px 20px;display:flex;align-items:center;gap:10px;"><i class="fas fa-tag" style="color:var(--green);"></i><span style="font-size:13px;color:var(--green);font-weight:500;">Reseller prices active! You\'re seeing discounted wholesale prices.</span></div>' : ''}
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;">
+                        ${filtered.length > 0 ? filtered.map(p => App.utils.productCard(p)).join('') : '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;"><i class="fas fa-search" style="font-size:48px;color:var(--muted);margin-bottom:16px;"></i><h3 style="color:var(--fg2);margin-bottom:8px;">No products found</h3><p style="color:var(--muted);">Try a different search term</p></div>'}
+                    </div>
+                </div>`;
+            },
+
+            // ── PRODUCT DETAIL ──
+            productDetail() {
+                const p = App.state.products.find(pr => pr.id === App.state.selectedProduct);
+                if (!p) return '<div style="padding-top:100px;text-align:center;"><h2>Product not found</h2></div>';
+                const isReseller = App.state.userRole === 'reseller' && App.state.resellerApproved;
+                const displayPrice = isReseller ? p.resellerPrice : p.price;
+                const savings = p.price - p.resellerPrice;
+                const prodReviews = App.state.reviews.filter(r => r.productId === p.id);
+                return `
+                <div style="padding-top:84px;max-width:1080px;margin:0 auto;padding-left:20px;padding-right:20px;padding-bottom:60px;">
+                    <button class="btn btn-ghost btn-sm" onclick="App.router.go('products')" style="margin-bottom:20px;"><i class="fas fa-arrow-left"></i> Back to Products</button>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;" class="detail-grid">
+                        <div>
+                            <div style="border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--border);">
+                                <img src="${p.image}" style="width:100%;height:400px;object-fit:cover;" alt="${p.name}">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="badge badge-blue" style="margin-bottom:12px;">${p.category}</div>
+                            <h1 style="font-size:28px;font-weight:800;margin-bottom:8px;">${p.name}</h1>
+                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+                                <div style="display:flex;gap:2px;">${App.utils.starDisplay(p.rating)}</div>
+                                <span style="font-size:13px;color:var(--fg2);">${p.rating} (${p.reviews} reviews)</span>
+                            </div>
+                            <p style="color:var(--fg2);line-height:1.7;margin-bottom:20px;">${p.description}</p>
+                            <div style="margin-bottom:20px;">
+                                ${isReseller ? `
+                                    <div style="display:flex;align-items:baseline;gap:12px;">
+                                        <span style="font-size:36px;font-weight:900;color:var(--green);">Rs. ${p.resellerPrice.toLocaleString()}</span>
+                                        <span style="font-size:18px;color:var(--muted);text-decoration:line-through;">Rs. ${p.price.toLocaleString()}</span>
+                                        <span class="badge badge-green">Save Rs. ${savings.toLocaleString()}</span>
+                                    </div>
+                                ` : `
+                                    <span style="font-size:36px;font-weight:900;color:var(--blue);">Rs. ${p.price.toLocaleString()}</span>
+                                `}
+                            </div>
+                            <div style="display:flex;gap:8px;margin-bottom:20px;">
+                                <span class="badge badge-green"><i class="fas fa-check"></i> In Stock (${p.stock})</span>
+                                <span class="badge badge-blue"><i class="fas fa-truck"></i> Delivery Rs. ${App.config.deliveryFee}</span>
+                            </div>
+                            <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+                                <button class="btn btn-primary btn-lg" onclick="App.utils.addToCart(${p.id})"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                                <button class="btn btn-outline btn-lg" onclick="App.utils.orderWhatsApp(${p.id})"><i class="fab fa-whatsapp"></i> Order via WhatsApp</button>
+                            </div>
+                            <div style="display:flex;gap:16px;padding:16px;background:var(--bg2);border-radius:10px;">
+                                <div style="text-align:center;flex:1;"><i class="fas fa-undo" style="color:var(--blue);margin-bottom:4px;"></i><div style="font-size:11px;color:var(--muted);">7 Day Returns</div></div>
+                                <div style="text-align:center;flex:1;"><i class="fas fa-shield-alt" style="color:var(--green);margin-bottom:4px;"></i><div style="font-size:11px;color:var(--muted);">Warranty</div></div>
+                                <div style="text-align:center;flex:1;"><i class="fas fa-money-bill-wave" style="color:var(--yellow);margin-bottom:4px;"></i><div style="font-size:11px;color:var(--muted);">COD Available</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Reviews Section -->
+                    <div style="margin-top:40px;">
+                        <h3 style="font-size:22px;font-weight:700;margin-bottom:20px;">Customer Reviews</h3>
+                        ${App.state.currentUser ? `
+                        <div class="card" style="margin-bottom:20px;">
+                            <h4 style="font-size:14px;font-weight:600;margin-bottom:12px;">Write a Review</h4>
+                            <div style="display:flex;gap:4px;margin-bottom:10px;" id="review-stars">
+                                ${[1,2,3,4,5].map(i => `<i class="fas fa-star star" data-rating="${i}" onclick="App.ui.setReviewRating(${i})" style="font-size:20px;cursor:pointer;"></i>`).join('')}
+                            </div>
+                            <textarea class="input-field" id="review-comment" rows="3" placeholder="Share your experience..." style="margin-bottom:10px;"></textarea>
+                            <button class="btn btn-primary btn-sm" onclick="App.utils.submitReview(${p.id})">Submit Review</button>
+                        </div>` : ''}
+                        ${prodReviews.length > 0 ? prodReviews.map(r => `
+                            <div class="card" style="margin-bottom:12px;">
+                                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                                    <div>
+                                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                                            <strong style="font-size:14px;">${r.userName}</strong>
+                                            <div style="display:flex;gap:1px;">${App.utils.starDisplay(r.rating)}</div>
+                                        </div>
+                                        <p style="font-size:13px;color:var(--fg2);">${r.comment}</p>
+                                        ${r.reply ? `<div style="margin-top:10px;padding:10px;background:var(--blue-glow);border-radius:8px;border-left:3px solid var(--blue);"><div style="font-size:11px;font-weight:600;color:var(--blue);margin-bottom:4px;">Vezlo Mart Reply:</div><div style="font-size:12px;color:var(--fg2);">${r.reply}</div></div>` : ''}
+                                    </div>
+                                    <div style="display:flex;gap:6px;align-items:center;">
+                                        <span style="font-size:11px;color:var(--muted);">${r.date}</span>
+                                        ${r.reported ? '<span class="badge badge-red"><i class="fas fa-flag"></i> Reported</span>' : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('') : '<p style="color:var(--muted);font-size:14px;">No reviews yet. Be the first to review!</p>'}
+                    </div>
+                </div>
+                <style>
+                    @media(max-width:768px) { .detail-grid { grid-template-columns:1fr !important; gap:24px !important; } }
+                </style>`;
+            },
+
+            // ── AUTH PAGE ──
+            auth() {
+                return `
+                <div style="padding-top:84px;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:84px 20px 40px;">
+                    <div style="max-width:440px;width:100%;">
+                        <div style="text-align:center;margin-bottom:32px;">
+                            <div class="nav-logo" style="justify-content:center;font-size:28px;margin-bottom:8px;"><i class="fas fa-bolt" style="color:var(--blue);"></i> Vezlo<span>Mart</span></div>
+                            <p style="color:var(--fg2);font-size:14px;">Welcome! Sign in or create an account.</p>
+                        </div>
+                        <div class="tab-bar" id="auth-tabs">
+                            <button class="tab-btn active" onclick="App.ui.switchAuthTab('login')">Login</button>
+                            <button class="tab-btn" onclick="App.ui.switchAuthTab('register')">Register</button>
+                            <button class="tab-btn" onclick="App.ui.switchAuthTab('register-reseller')">Reseller Join</button>
+                        </div>
+                        <!-- Login Form -->
+                        <div id="auth-login" class="card" style="padding:28px;">
+                            <div style="margin-bottom:16px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Email</label><input class="input-field" type="email" id="login-email" placeholder="you@example.com"></div>
+                            <div style="margin-bottom:20px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Password</label><input class="input-field" type="password" id="login-password" placeholder="Enter password"></div>
+                            <button class="btn btn-primary" style="width:100%;" onclick="App.auth.login()"><i class="fas fa-sign-in-alt"></i> Login</button>
+                            <div style="text-align:center;margin-top:16px;">
+                                <a href="#" style="font-size:13px;color:var(--blue);">Forgot password?</a>
+                            </div>
+                            <div style="margin-top:20px;padding:16px;background:var(--bg2);border-radius:8px;">
+                                <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">Quick Demo Login:</p>
+                                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                                    <button class="btn btn-outline btn-sm" onclick="App.auth.demoLogin('customer')">Customer</button>
+                                    <button class="btn btn-outline btn-sm" onclick="App.auth.demoLogin('reseller')">Reseller</button>
+                                    <button class="btn btn-outline btn-sm" onclick="App.auth.demoLogin('staff')">Staff</button>
+                                    <button class="btn btn-outline btn-sm" onclick="App.auth.demoLogin('manager')">Manager</button>
+                                    <button class="btn btn-outline btn-sm" onclick="App.auth.demoLogin('owner')">Owner</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Register Form -->
+                        <div id="auth-register" class="card" style="padding:28px;display:none;">
+                            <div style="margin-bottom:16px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Full Name</label><input class="input-field" type="text" id="reg-name" placeholder="Your full name"></div>
+                            <div style="margin-bottom:16px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Email</label><input class="input-field" type="email" id="reg-email" placeholder="you@example.com"></div>
+                            <div style="margin-bottom:16px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Phone (WhatsApp)</label><input class="input-field" type="tel" id="reg-phone" placeholder="07XXXXXXXX"></div>
+                            <div style="margin-bottom:16px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Password</label><input class="input-field" type="password" id="reg-password" placeholder="Min 6 characters"></div>
+                            <div style="margin-bottom:16px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Address</label><input class="input-field" type="text" id="reg-address" placeholder="Your delivery address"></div>
+                            <button class="btn btn-primary" style="width:100%;" onclick="App.auth.register('customer')"><i class="fas fa-user-plus"></i> Create Account</button>
+                        </div>
+                        <!-- Reseller Register Form -->
+                        <div id="auth-register-reseller" class="card" style="padding:28px;display:none;">
+                            <div style="padding:14px;background:var(--blue-glow);border-radius:8px;border-left:3px solid var(--blue);margin-bottom:20px;">
+                                <p style="font-size:13px;color:var(--blue);font-weight:500;"><i class="fas fa-info-circle"></i> Join our Reseller Network! Your account will be reviewed and approved by our team. Until then, you can shop as a regular customer.</p>
+                            </div>
+                            <div style="margin-bottom:16px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Full Name</label><input class="input-field" type="text" id="rreg-name" placeholder="Your full name"></div>
+                            <div style="margin-bottom:16px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Email</label><input class="input-field" type="email" id="rreg-email" placeholder="you@example.com"></div>
+                            <div style="margin-bottom:16px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Phone (WhatsApp)</label><input class="input-field" type="tel" id="rreg-phone" placeholder="07XXXXXXXX"></div>
+                            <div style="margin-bottom:16px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Password</label><input class="input-field" type="password" id="rreg-password" placeholder="Min 6 characters"></div>
+                            <div style="margin-bottom:16px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Business Name (Optional)</label><input class="input-field" type="text" id="rreg-business" placeholder="Your business name"></div>
+                            <div style="margin-bottom:16px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Address</label><textarea class="input-field" id="rreg-address" rows="2" placeholder="Your address"></textarea></div>
+                            <button class="btn btn-primary" style="width:100%;" onclick="App.auth.register('reseller')"><i class="fas fa-rocket"></i> Register as Reseller</button>
+                        </div>
+                    </div>
+                </div>`;
+            },
+
+            // ── CART PAGE ──
+            cart() {
+                const cart = App.state.cart;
+                const isReseller = App.state.userRole === 'reseller' && App.state.resellerApproved;
+                const subtotal = cart.reduce((sum, item) => sum + (isReseller ? item.resellerPrice : item.price) * item.qty, 0);
+                const delivery = cart.length > 0 ? App.config.deliveryFee : 0;
+                const total = subtotal + delivery;
+                return `
+                <div style="padding-top:84px;max-width:1080px;margin:0 auto;padding-left:20px;padding-right:20px;padding-bottom:60px;">
+                    <h1 style="font-size:28px;font-weight:800;margin-bottom:24px;"><i class="fas fa-shopping-cart" style="color:var(--blue);"></i> Shopping Cart</h1>
+                    ${cart.length === 0 ? `
+                        <div class="card" style="text-align:center;padding:60px 20px;">
+                            <i class="fas fa-cart-plus" style="font-size:48px;color:var(--muted);margin-bottom:16px;"></i>
+                            <h3 style="color:var(--fg2);margin-bottom:8px;">Your cart is empty</h3>
+                            <p style="color:var(--muted);margin-bottom:20px;">Start shopping to add items here</p>
+                            <button class="btn btn-primary" onclick="App.router.go('products')">Browse Products</button>
+                        </div>
+                    ` : `
+                        <div style="display:grid;grid-template-columns:1fr 360px;gap:24px;" class="cart-grid">
+                            <div>
+                                ${cart.map((item, i) => `
+                                    <div class="card" style="display:flex;gap:16px;align-items:center;margin-bottom:12px;padding:16px;">
+                                        <img src="${item.image}" style="width:80px;height:80px;object-fit:cover;border-radius:8px;" alt="${item.name}">
+                                        <div style="flex:1;">
+                                            <div style="font-weight:600;font-size:14px;margin-bottom:4px;">${item.name}</div>
+                                            <div style="font-size:16px;font-weight:700;color:var(--blue);">Rs. ${(isReseller ? item.resellerPrice : item.price).toLocaleString()}</div>
+                                        </div>
+                                        <div style="display:flex;align-items:center;gap:8px;">
+                                            <button class="btn btn-ghost btn-sm" onclick="App.utils.updateCartQty(${i},-1)">-</button>
+                                            <span style="font-weight:600;min-width:24px;text-align:center;">${item.qty}</span>
+                                            <button class="btn btn-ghost btn-sm" onclick="App.utils.updateCartQty(${i},1)">+</button>
+                                        </div>
+                                        <button class="btn btn-ghost btn-sm" style="color:var(--red);" onclick="App.utils.removeFromCart(${i})"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div>
+                                <div class="card" style="position:sticky;top:84px;">
+                                    <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Order Summary</h3>
+                                    <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;color:var(--fg2);"><span>Subtotal</span><span>Rs. ${subtotal.toLocaleString()}</span></div>
+                                    <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;color:var(--fg2);"><span>Delivery</span><span>Rs. ${delivery.toLocaleString()}</span></div>
+                                    ${isReseller ? `<div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;color:var(--green);"><span>Reseller Savings</span><span>- Rs. ${cart.reduce((s,it)=>s+(it.price-it.resellerPrice)*it.qty,0).toLocaleString()}</span></div>` : ''}
+                                    <hr style="border:none;border-top:1px solid var(--border);margin:12px 0;">
+                                    <div style="display:flex;justify-content:space-between;font-size:18px;font-weight:700;"><span>Total</span><span style="color:var(--blue);">Rs. ${total.toLocaleString()}</span></div>
+                                    <div style="margin-top:16px;">
+                                        <label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Coupon Code</label>
+                                        <div style="display:flex;gap:6px;">
+                                            <input class="input-field" id="coupon-input" placeholder="Enter code" style="flex:1;">
+                                            <button class="btn btn-outline btn-sm" onclick="App.utils.applyCoupon()">Apply</button>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" style="width:100%;margin-top:16px;" onclick="App.router.go('checkout')"><i class="fas fa-credit-card"></i> Proceed to Checkout</button>
+                                    <button class="btn btn-outline" style="width:100%;margin-top:8px;" onclick="App.utils.orderWhatsAppCart()"><i class="fab fa-whatsapp"></i> Order via WhatsApp</button>
+                                </div>
+                            </div>
+                        </div>
+                    `}
+                </div>
+                <style>@media(max-width:768px) { .cart-grid { grid-template-columns:1fr !important; } }</style>`;
+            },
+
+            // ── CHECKOUT PAGE ──
+            checkout() {
+                const cart = App.state.cart;
+                const isReseller = App.state.userRole === 'reseller' && App.state.resellerApproved;
+                const subtotal = cart.reduce((sum, item) => sum + (isReseller ? item.resellerPrice : item.price) * item.qty, 0);
+                const delivery = App.config.deliveryFee;
+                const total = subtotal + delivery;
+                return `
+                <div style="padding-top:84px;max-width:800px;margin:0 auto;padding-left:20px;padding-right:20px;padding-bottom:60px;">
+                    <h1 style="font-size:28px;font-weight:800;margin-bottom:24px;">Checkout</h1>
+                    <div class="card" style="margin-bottom:20px;">
+                        <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Delivery Details</h3>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <div><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Full Name</label><input class="input-field" id="chk-name" value="${App.state.currentUser?.name || ''}"></div>
+                            <div><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Phone</label><input class="input-field" id="chk-phone" value="${App.state.currentUser?.phone || ''}"></div>
+                        </div>
+                        <div style="margin-top:12px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Delivery Address</label><textarea class="input-field" id="chk-address" rows="2" placeholder="Full delivery address">${App.state.currentUser?.address || ''}</textarea></div>
+                    </div>
+                    <div class="card" style="margin-bottom:20px;">
+                        <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Payment Method</h3>
+                        <div style="display:flex;gap:12px;">
+                            <label style="flex:1;cursor:pointer;"><input type="radio" name="payment" value="COD" checked style="display:none;" class="payment-radio"><div class="card" style="text-align:center;padding:20px;border:2px solid var(--blue);transition:all 0.2s;" id="pay-COD"><i class="fas fa-money-bill-wave" style="font-size:24px;color:var(--green);margin-bottom:8px;"></i><div style="font-weight:600;font-size:13px;">Cash on Delivery</div></div></label>
+                            <label style="flex:1;cursor:pointer;"><input type="radio" name="payment" value="Bank Transfer" style="display:none;" class="payment-radio"><div class="card" style="text-align:center;padding:20px;transition:all 0.2s;" id="pay-Bank Transfer"><i class="fas fa-university" style="font-size:24px;color:var(--blue);margin-bottom:8px;"></i><div style="font-weight:600;font-size:13px;">Bank Transfer</div></div></label>
+                        </div>
+                    </div>
+                    <div class="card" style="margin-bottom:20px;">
+                        <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;">Order Summary</h3>
+                        ${cart.map(item => `<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:var(--fg2);"><span>${item.name} x${item.qty}</span><span>Rs. ${((isReseller?item.resellerPrice:item.price)*item.qty).toLocaleString()}</span></div>`).join('')}
+                        <hr style="border:none;border-top:1px solid var(--border);margin:8px 0;">
+                        <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--fg2);"><span>Delivery</span><span>Rs. ${delivery.toLocaleString()}</span></div>
+                        <div style="display:flex;justify-content:space-between;font-size:18px;font-weight:700;margin-top:8px;"><span>Total</span><span style="color:var(--blue);">Rs. ${total.toLocaleString()}</span></div>
+                    </div>
+                    <button class="btn btn-primary btn-lg" style="width:100%;" onclick="App.utils.placeOrder()"><i class="fas fa-check-circle"></i> Place Order</button>
+                </div>`;
+            },
+
+            // ── PROFILE PAGE ──
+            profile() {
+                const user = App.state.currentUser;
+                if (!user) { App.router.go('auth'); return ''; }
+                const role = App.state.userRole;
+                return `
+                <div style="padding-top:84px;max-width:800px;margin:0 auto;padding-left:20px;padding-right:20px;padding-bottom:60px;">
+                    <h1 style="font-size:28px;font-weight:800;margin-bottom:24px;">My Profile</h1>
+                    <div class="card" style="margin-bottom:20px;">
+                        <div style="display:flex;gap:20px;align-items:center;margin-bottom:20px;">
+                            <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#7c3aed);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff;">${user.name?user.name[0].toUpperCase():'U'}</div>
+                            <div>
+                                <h2 style="font-size:20px;font-weight:700;">${user.name || 'User'}</h2>
+                                <div class="badge ${role==='reseller'?'badge-green':role==='staff'?'badge-blue':role==='manager'?'badge-yellow':'badge-blue'}" style="margin-top:4px;">${role.charAt(0).toUpperCase()+role.slice(1)}${role==='reseller'&&!App.state.resellerApproved?' (Pending Approval)':''}</div>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <div><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Email</label><input class="input-field" value="${user.email||''}" disabled></div>
+                            <div><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Phone</label><input class="input-field" value="${user.phone||''}" id="profile-phone"></div>
+                        </div>
+                        <div style="margin-top:12px;"><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Address</label><input class="input-field" value="${user.address||''}" id="profile-address"></div>
+                        <button class="btn btn-primary btn-sm" style="margin-top:16px;" onclick="App.utils.updateProfile()"><i class="fas fa-save"></i> Save Changes</button>
+                    </div>
+                    ${role === 'customer' || role === 'reseller' ? `
+                    <div class="card">
+                        <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Loyalty Points</h3>
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <div style="width:56px;height:56px;border-radius:14px;background:var(--yellow-glow);display:flex;align-items:center;justify-content:center;"><i class="fas fa-coins" style="font-size:24px;color:var(--yellow);"></i></div>
+                            <div><div style="font-size:24px;font-weight:800;">${user.points||0}</div><div style="font-size:12px;color:var(--muted);">Available Points</div></div>
+                        </div>
+                    </div>` : ''}
+                </div>`;
+            },
+
+            // ── DASHBOARD (Role-based) ──
+            dashboard() {
+                const role = App.state.userRole;
+                if (role === 'guest') { App.router.go('auth'); return ''; }
+                if (role === 'customer') return this.customerDashboard();
+                if (role === 'reseller') return this.resellerDashboard();
+                if (role === 'staff') return this.staffDashboard();
+                if (role === 'manager') return this.managerDashboard();
+                if (role === 'owner') return this.ownerDashboard();
+                return '';
+            },
+
+            // ── Customer Dashboard ──
+            customerDashboard() {
+                const user = App.state.currentUser;
+                const myOrders = App.state.orders.filter(o => o.userId === user?.id);
+                const tab = App.state.dashboardTab || 'overview';
+                return `
+                <div class="dash-layout">
+                    ${App.utils.dashboardSidebar('customer')}
+                    <div class="dash-main">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+                            <div><h1 style="font-size:24px;font-weight:800;">Welcome, ${user?.name?.split(' ')[0] || 'Customer'}!</h1><p style="color:var(--fg2);font-size:13px;">Here's your account overview</p></div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px;">
+                            <div class="stat-card"><div><div style="font-size:12px;color:var(--muted);margin-bottom:4px;">Total Orders</div><div style="font-size:24px;font-weight:800;">${myOrders.length}</div></div><div class="stat-icon" style="background:var(--blue-glow);color:var(--blue);"><i class="fas fa-shopping-bag"></i></div></div>
+                            <div class="stat-card"><div><div style="font-size:12px;color:var(--muted);margin-bottom:4px;">Loyalty Points</div><div style="font-size:24px;font-weight:800;">${user?.points||0}</div></div><div class="stat-icon" style="background:var(--yellow-glow);color:var(--yellow);"><i class="fas fa-coins"></i></div></div>
+                            <div class="stat-card"><div><div style="font-size:12px;color:var(--muted);margin-bottom:4px;">Total Spent</div><div style="font-size:24px;font-weight:800;">Rs. ${myOrders.reduce((s,o)=>s+o.total,0).toLocaleString()}</div></div><div class="stat-icon" style="background:var(--green-glow);color:var(--green);"><i class="fas fa-wallet"></i></div></div>
+                        </div>
+                        <div class="card">
+                            <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Recent Orders</h3>
+                            ${myOrders.length > 0 ? `<table class="data-table"><thead><tr><th>Order ID</th><th>Date</th><th>Total</th><th>Status</th><th>Payment</th></tr></thead><tbody>
+                                ${myOrders.map(o => `<tr><td style="font-weight:600;color:var(--blue);">${o.id}</td><td>${o.createdAt}</td><td>Rs. ${o.total.toLocaleString()}</td><td><span class="badge ${o.status==='delivered'?'badge-green':o.status==='shipped'?'badge-blue':o.status==='canceled'?'badge-red':'badge-yellow'}">${o.status}</span></td><td>${o.paymentMethod}</td></tr>`).join('')}
+                            </tbody></table>` : '<p style="color:var(--muted);font-size:14px;">No orders yet. Start shopping!</p>'}
+                        </div>
+                        ${user?.coupons ? `<div class="card" style="margin-top:20px;"><h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Your Coupons</h3><div style="display:flex;gap:12px;flex-wrap:wrap;">${App.state.coupons.map(c=>`<div style="border:2px dashed var(--blue);border-radius:10px;padding:14px 20px;text-align:center;"><div style="font-size:18px;font-weight:800;color:var(--blue);">${c.code}</div><div style="font-size:12px;color:var(--fg2);">${c.discount}% off (Min: Rs. ${c.minOrder.toLocaleString()})</div></div>`).join('')}</div></div>` : ''}
+                    </div>
+                </div>`;
+            },
+
+            // ── Reseller Dashboard ──
+            resellerDashboard() {
+                const user = App.state.currentUser;
+                const approved = App.state.resellerApproved;
+                const stats = user?.stats || { totalOrders:0, delivered:0, canceled:0, returned:0, totalEarnings:0, giftMoney:0, rank:'-' };
+                if (!approved) {
+                    return `
+                    <div class="dash-layout">
+                        ${App.utils.dashboardSidebar('reseller')}
+                        <div class="dash-main">
+                            <div class="card" style="text-align:center;padding:60px 20px;">
+                                <i class="fas fa-hourglass-half" style="font-size:48px;color:var(--yellow);margin-bottom:16px;"></i>
+                                <h2 style="font-size:22px;font-weight:700;margin-bottom:8px;">Approval Pending</h2>
+                                <p style="color:var(--fg2);max-width:400px;margin:0 auto;">Your reseller application is being reviewed by our team. You can still shop as a customer in the meantime.</p>
+                                <button class="btn btn-primary" style="margin-top:20px;" onclick="App.router.go('products')">Continue Shopping</button>
+                            </div>
+                        </div>
+                    </div>`;
+                }
+                const tab = App.state.dashboardTab || 'overview';
+                const myOrders = App.state.orders.filter(o => o.userId === user?.id);
+                return `
+                <div class="dash-layout">
+                    ${App.utils.dashboardSidebar('reseller')}
+                    <div class="dash-main">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+                            <div><h1 style="font-size:24px;font-weight:800;">Reseller Dashboard</h1><p style="color:var(--fg2);font-size:13px;">Manage your reselling business</p></div>
+                            <div class="badge badge-green" style="padding:8px 16px;font-size:13px;"><i class="fas fa-check-circle"></i> Approved Reseller</div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:24px;">
+                            <div class="stat-card"><div><div style="font-size:11px;color:var(--muted);margin-bottom:2px;">Total Orders</div><div style="font-size:22px;font-weight:800;">${stats.totalOrders}</div></div><div class="stat-icon" style="background:var(--blue-glow);color:var(--blue);"><i class="fas fa-shopping-bag"></i></div></div>
+                            <div class="stat-card"><div><div style="font-size:11px;color:var(--muted);margin-bottom:2px;">Delivered</div><div style="font-size:22px;font-weight:800;">${stats.delivered}</div></div><div class="stat-icon" style="background:var(--green-glow);color:var(--green);"><i class="fas fa-check-double"></i></div></div>
+                            <div class="stat-card"><div><div style="font-size:11px;color:var(--muted);margin-bottom:2px;">Canceled</div><div style="font-size:22px;font-weight:800;">${stats.canceled}</div></div><div class="stat-icon" style="background:var(--red-glow);color:var(--red);"><i class="fas fa-times-circle"></i></div></div>
+                            <div class="stat-card"><div><div style="font-size:11px;color:var(--muted);margin-bottom:2px;">Returned</div><div style="font-size:22px;font-weight:800;">${stats.returned}</div></div><div class="stat-icon" style="background:var(--yellow-glow);color:var(--yellow);"><i class="fas fa-undo"></i></div></div>
+                            <div class="stat-card"><div><div style="font-size:11px;color:var(--muted);margin-bottom:2px;">Total Earnings</div><div style="font-size:22px;font-weight:800;color:var(--green);">Rs. ${stats.totalEarnings.toLocaleString()}</div></div><div class="stat-icon" style="background:var(--green-glow);color:var(--green);"><i class="fas fa-chart-line"></i></div></div>
+                            <div class="stat-card"><div><div style="font-size:11px;color:var(--muted);margin-bottom:2px;">Gift Money</div><div style="font-size:22px;font-weight:800;color:var(--yellow);">Rs. ${stats.giftMoney.toLocaleString()}</div></div><div class="stat-icon" style="background:var(--yellow-glow);color:var(--yellow);"><i class="fas fa-gift"></i></div></div>
+                            <div class="stat-card"><div><div style="font-size:11px;color:var(--muted);margin-bottom:2px;">Rank</div><div style="font-size:22px;font-weight:800;">#${stats.rank}</div></div><div class="stat-icon" style="background:var(--blue-glow);color:var(--blue);"><i class="fas fa-trophy"></i></div></div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px;" class="reseller-grid">
+                            <div class="card">
+                                <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Order History</h3>
+                                <table class="data-table"><thead><tr><th>Order ID</th><th>Items</th><th>Total</th><th>Status</th><th>Profit</th></tr></thead><tbody>
+                                ${myOrders.map(o => {
+                                    const profit = o.items.reduce((s,it) => s + (it.price - (App.state.products.find(p=>p.id===it.productId)?.resellerPrice||it.price*0.75)) * it.qty, 0);
+                                    return `<tr style="cursor:pointer;" onclick="App.ui.showOrderDetail('${o.id}')"><td style="font-weight:600;color:var(--blue);">${o.id}</td><td>${o.items.length} item(s)</td><td>Rs. ${o.total.toLocaleString()}</td><td><span class="badge ${o.status==='delivered'?'badge-green':o.status==='canceled'?'badge-red':'badge-blue'}">${o.status}</span></td><td style="color:var(--green);font-weight:600;">+Rs. ${Math.max(0,profit).toLocaleString()}</td></tr>`;
+                                }).join('')}
+                                </tbody></table>
+                            </div>
+                            <div>
+                                <div class="card" style="margin-bottom:16px;">
+                                    <h3 style="font-size:14px;font-weight:700;margin-bottom:12px;">Delivery Cost Summary</h3>
+                                    <div style="font-size:13px;color:var(--fg2);">
+                                        <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Total Delivery Paid</span><span>Rs. ${myOrders.reduce((s,o)=>s+o.deliveryCost,0).toLocaleString()}</span></div>
+                                        <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Return Expenses</span><span style="color:var(--red);">Rs. ${(stats.returned*App.config.deliveryFee).toLocaleString()}</span></div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <h3 style="font-size:14px;font-weight:700;margin-bottom:12px;">Best Reseller Rank</h3>
+                                    <div style="text-align:center;padding:16px 0;">
+                                        <div style="font-size:48px;font-weight:900;color:var(--yellow);">#${stats.rank}</div>
+                                        <div style="font-size:12px;color:var(--muted);margin-top:4px;">Keep selling to climb higher!</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <style>@media(max-width:768px) { .reseller-grid { grid-template-columns:1fr !important; } }</style>`;
+            },
+
+            // ── Staff Dashboard ──
+            staffDashboard() {
+                const tab = App.state.dashboardTab || 'products';
+                return `
+                <div class="dash-layout">
+                    ${App.utils.dashboardSidebar('staff')}
+                    <div class="dash-main">
+                        <h1 style="font-size:24px;font-weight:800;margin-bottom:24px;">Staff Dashboard</h1>
+                        <div class="tab-bar">
+                            <button class="tab-btn ${tab==='products'?'active':''}" onclick="App.state.dashboardTab='products';App.render()">Products</button>
+                            <button class="tab-btn ${tab==='resellers'?'active':''}" onclick="App.state.dashboardTab='resellers';App.render()">Resellers</button>
+                            <button class="tab-btn ${tab==='reviews'?'active':''}" onclick="App.state.dashboardTab='reviews';App.render()">Reviews</button>
+                            <button class="tab-btn ${tab==='orders'?'active':''}" onclick="App.state.dashboardTab='orders';App.render()">Orders</button>
+                        </div>
+                        ${tab === 'products' ? this.staffProductsTab() : ''}
+                        ${tab === 'resellers' ? this.staffResellersTab() : ''}
+                        ${tab === 'reviews' ? this.staffReviewsTab() : ''}
+                        ${tab === 'orders' ? this.staffOrdersTab() : ''}
+                    </div>
+                </div>`;
+            },
+
+            staffProductsTab() {
+                return `
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                    <h3 style="font-size:18px;font-weight:700;">Manage Products</h3>
+                    <button class="btn btn-primary btn-sm" onclick="App.ui.showAddProductModal()"><i class="fas fa-plus"></i> Add Product</button>
+                </div>
+                <div class="card" style="overflow-x:auto;">
+                    <table class="data-table"><thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Reseller Price</th><th>Stock</th><th>Actions</th></tr></thead><tbody>
+                    ${App.state.products.map(p => `
+                        <tr>
+                            <td><img src="${p.image}" style="width:44px;height:44px;object-fit:cover;border-radius:6px;"></td>
+                            <td style="font-weight:500;max-width:180px;">${p.name}</td>
+                            <td><span class="badge badge-blue">${p.category}</span></td>
+                            <td>Rs. ${p.price.toLocaleString()}</td>
+                            <td style="color:var(--green);">Rs. ${p.resellerPrice.toLocaleString()}</td>
+                            <td>${p.stock > 0 ? `<span class="badge badge-green">${p.stock}</span>` : '<span class="badge badge-red">Out</span>'}</td>
+                            <td><button class="btn btn-ghost btn-sm" onclick="App.ui.showEditProductModal(${p.id})"><i class="fas fa-edit"></i></button> <button class="btn btn-ghost btn-sm" style="color:var(--red);" onclick="App.utils.deleteProduct(${p.id})"><i class="fas fa-trash"></i></button></td>
+                        </tr>
+                    `).join('')}
+                    </tbody></table>
+                </div>`;
+            },
+
+            staffResellersTab() {
+                const resellers = App.state.users.filter(u => u.role === 'reseller');
+                return `
+                <h3 style="font-size:18px;font-weight:700;margin-bottom:20px;">Manage Resellers</h3>
+                <div class="card" style="overflow-x:auto;">
+                    <table class="data-table"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead><tbody>
+                    ${resellers.map(r => `
+                        <tr>
+                            <td style="font-weight:500;">${r.name}</td>
+                            <td>${r.email}</td>
+                            <td>${r.phone||'-'}</td>
+                            <td>${r.resellerApproved ? '<span class="badge badge-green">Approved</span>' : '<span class="badge badge-yellow">Pending</span>'}</td>
+                            <td>${r.joined}</td>
+                            <td>
+                                ${!r.resellerApproved ? `<button class="btn btn-primary btn-sm" onclick="App.utils.approveReseller('${r.id}')"><i class="fas fa-check"></i> Approve</button>` : `<button class="btn btn-red btn-sm" onclick="App.utils.blockReseller('${r.id}')"><i class="fas fa-ban"></i> Block</button>`}
+                            </td>
+                        </tr>
+                    `).join('')}
+                    </tbody></table>
+                </div>`;
+            },
+
+            staffReviewsTab() {
+                return `
+                <h3 style="font-size:18px;font-weight:700;margin-bottom:20px;">Review Management</h3>
+                <div class="card">
+                    ${App.state.reviews.map(r => `
+                        <div style="padding:14px 0;border-bottom:1px solid var(--border);${App.state.reviews.indexOf(r)===App.state.reviews.length-1?'border:none;':''}">
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                                <div>
+                                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><strong style="font-size:14px;">${r.userName}</strong><span style="font-size:11px;color:var(--muted);">on Product #${r.productId}</span></div>
+                                    <div style="display:flex;gap:1px;margin-bottom:6px;">${App.utils.starDisplay(r.rating)}</div>
+                                    <p style="font-size:13px;color:var(--fg2);">${r.comment}</p>
+                                    ${r.reply ? `<div style="margin-top:8px;padding:8px;background:var(--blue-glow);border-radius:6px;font-size:12px;"><strong style="color:var(--blue);">Reply:</strong> <span style="color:var(--fg2);">${r.reply}</span></div>` : ''}
+                                </div>
+                                <div style="display:flex;gap:6px;align-items:center;">
+                                    ${r.reported ? '<span class="badge badge-red"><i class="fas fa-flag"></i></span>' : ''}
+                                    ${!r.reply ? `<button class="btn btn-outline btn-sm" onclick="App.ui.showReplyModal(${r.id})"><i class="fas fa-reply"></i> Reply</button>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>`;
+            },
+
+            staffOrdersTab() {
+                return `
+                <h3 style="font-size:18px;font-weight:700;margin-bottom:20px;">All Orders</h3>
+                <div class="card" style="overflow-x:auto;">
+                    <table class="data-table"><thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Payment</th><th>Date</th><th>Actions</th></tr></thead><tbody>
+                    ${App.state.orders.map(o => {
+                        const user = App.state.users.find(u=>u.id===o.userId);
+                        return `<tr>
+                            <td style="font-weight:600;color:var(--blue);">${o.id}</td>
+                            <td>${user?.name||'Unknown'}</td>
+                            <td>${o.items.length} item(s)</td>
+                            <td>Rs. ${o.total.toLocaleString()}</td>
+                            <td><span class="badge ${o.status==='delivered'?'badge-green':o.status==='canceled'?'badge-red':o.status==='shipped'?'badge-blue':'badge-yellow'}">${o.status}</span></td>
+                            <td>${o.paymentMethod}</td>
+                            <td>${o.createdAt}</td>
+                            <td>
+                                <select class="input-field" style="width:auto;padding:4px 8px;font-size:11px;" onchange="App.utils.updateOrderStatus('${o.id}',this.value)">
+                                    <option ${o.status==='processing'?'selected':''}>processing</option>
+                                    <option ${o.status==='shipped'?'selected':''}>shipped</option>
+                                    <option ${o.status==='delivered'?'selected':''}>delivered</option>
+                                    <option ${o.status==='canceled'?'selected':''}>canceled</option>
+                                    <option ${o.status==='returned'?'selected':''}>returned</option>
+                                </select>
+                            </td>
+                        </tr>`;
+                    }).join('')}
+                    </tbody></table>
+                </div>`;
+            },
+
+            // ── Manager Dashboard ──
+            managerDashboard() {
+                const tab = App.state.dashboardTab || 'analytics';
+                return `
+                <div class="dash-layout">
+                    ${App.utils.dashboardSidebar('manager')}
+                    <div class="dash-main">
+                        <h1 style="font-size:24px;font-weight:800;margin-bottom:24px;">Manager Dashboard</h1>
+                        <div class="tab-bar">
+                            <button class="tab-btn ${tab==='analytics'?'active':''}" onclick="App.state.dashboardTab='analytics';App.render()">Analytics</button>
+                            <button class="tab-btn ${tab==='products'?'active':''}" onclick="App.state.dashboardTab='products';App.render()">Products</button>
+                            <button class="tab-btn ${tab==='resellers'?'active':''}" onclick="App.state.dashboardTab='resellers';App.render()">Resellers</button>
+                            <button class="tab-btn ${tab==='reviews'?'active':''}" onclick="App.state.dashboardTab='reviews';App.render()">Reviews</button>
+                            <button class="tab-btn ${tab==='orders'?'active':''}" onclick="App.state.dashboardTab='orders';App.render()">Orders</button>
+                            <button class="tab-btn ${tab==='staff'?'active':''}" onclick="App.state.dashboardTab='staff';App.render()">Staff</button>
+                        </div>
+                        ${tab === 'analytics' ? this.managerAnalyticsTab() : ''}
+                        ${tab === 'products' ? this.staffProductsTab() : ''}
+                        ${tab === 'resellers' ? this.staffResellersTab() : ''}
+                        ${tab === 'reviews' ? this.staffReviewsTab() : ''}
+                        ${tab === 'orders' ? this.staffOrdersTab() : ''}
+                        ${tab === 'staff' ? this.managerStaffTab() : ''}
+                    </div>
+                </div>`;
+            },
+
+            managerAnalyticsTab() {
+                const totalRevenue = App.state.orders.reduce((s,o)=>s+o.total,0);
+                const totalOrders = App.state.orders.length;
+                const resellers = App.state.users.filter(u=>u.role==='reseller');
+                return `
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px;">
+                    <div class="stat-card"><div><div style="font-size:12px;color:var(--muted);margin-bottom:4px;">Total Revenue</div><div style="font-size:24px;font-weight:800;color:var(--green);">Rs. ${totalRevenue.toLocaleString()}</div></div><div class="stat-icon" style="background:var(--green-glow);color:var(--green);"><i class="fas fa-chart-line"></i></div></div>
+                    <div class="stat-card"><div><div style="font-size:12px;color:var(--muted);margin-bottom:4px;">Total Orders</div><div style="font-size:24px;font-weight:800;">${totalOrders}</div></div><div class="stat-icon" style="background:var(--blue-glow);color:var(--blue);"><i class="fas fa-shopping-bag"></i></div></div>
+                    <div class="stat-card"><div><div style="font-size:12px;color:var(--muted);margin-bottom:4px;">Active Resellers</div><div style="font-size:24px;font-weight:800;">${resellers.filter(r=>r.resellerApproved).length}</div></div><div class="stat-icon" style="background:var(--yellow-glow);color:var(--yellow);"><i class="fas fa-users"></i></div></div>
+                    <div class="stat-card"><div><div style="font-size:12px;color:var(--muted);margin-bottom:4px;">Products</div><div style="font-size:24px;font-weight:800;">${App.state.products.length}</div></div><div class="stat-icon" style="background:var(--red-glow);color:var(--red);"><i class="fas fa-box"></i></div></div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" class="chart-grid">
+                    <div class="card"><h3 style="font-size:14px;font-weight:700;margin-bottom:16px;">Monthly Revenue</h3><div class="chart-container"><canvas id="revenue-chart"></canvas></div></div>
+                    <div class="card"><h3 style="font-size:14px;font-weight:700;margin-bottom:16px;">Top 5 Resellers</h3><div class="chart-container"><canvas id="resellers-chart"></canvas></div></div>
+                </div>`;
+            },
+
+            managerStaffTab() {
+                const staff = App.state.users.filter(u => u.role === 'staff' || u.role === 'manager');
+                return `
+                <h3 style="font-size:18px;font-weight:700;margin-bottom:20px;">Staff Management</h3>
+                <div class="card" style="overflow-x:auto;">
+                    <table class="data-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th></tr></thead><tbody>
+                    ${staff.map(s => `<tr><td style="font-weight:500;">${s.name}</td><td>${s.email}</td><td><span class="badge ${s.role==='manager'?'badge-yellow':'badge-blue'}">${s.role}</span></td><td>${s.joined}</td></tr>`).join('')}
+                    </tbody></table>
+                </div>`;
+            },
+
+            // ── Owner Dashboard ──
+            ownerDashboard() {
+                const tab = App.state.dashboardTab || 'analytics';
+                const isLocked = App.state.lockdown;
+                return `
+                <div class="dash-layout">
+                    ${App.utils.dashboardSidebar('owner')}
+                    <div class="dash-main">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+                            <h1 style="font-size:24px;font-weight:800;">Owner Dashboard</h1>
+                            <button class="btn ${isLocked?'btn-primary':'btn-red'} btn-sm" onclick="App.utils.toggleLockdown()">
+                                <i class="fas fa-${isLocked?'unlock':'lock'}"></i> ${isLocked?'Unlock Website':'Lock Website'}
+                            </button>
+                        </div>
+                        <div class="tab-bar">
+                            <button class="tab-btn ${tab==='analytics'?'active':''}" onclick="App.state.dashboardTab='analytics';App.render()">Analytics</button>
+                            <button class="tab-btn ${tab==='products'?'active':''}" onclick="App.state.dashboardTab='products';App.render()">Products</button>
+                            <button class="tab-btn ${tab==='resellers'?'active':''}" onclick="App.state.dashboardTab='resellers';App.render()">Resellers</button>
+                            <button class="tab-btn ${tab==='reviews'?'active':''}" onclick="App.state.dashboardTab='reviews';App.render()">Reviews</button>
+                            <button class="tab-btn ${tab==='orders'?'active':''}" onclick="App.state.dashboardTab='orders';App.render()">Orders</button>
+                            <button class="tab-btn ${tab==='staff'?'active':''}" onclick="App.state.dashboardTab='staff';App.render()">Staff</button>
+                            <button class="tab-btn ${tab==='settings'?'active':''}" onclick="App.state.dashboardTab='settings';App.render()">Settings</button>
+                        </div>
+                        ${tab === 'analytics' ? this.managerAnalyticsTab() : ''}
+                        ${tab === 'products' ? this.staffProductsTab() : ''}
+                        ${tab === 'resellers' ? this.staffResellersTab() : ''}
+                        ${tab === 'reviews' ? this.staffReviewsTab() : ''}
+                        ${tab === 'orders' ? this.staffOrdersTab() : ''}
+                        ${tab === 'staff' ? this.ownerStaffTab() : ''}
+                        ${tab === 'settings' ? this.ownerSettingsTab() : ''}
+                    </div>
+                </div>`;
+            },
+
+            ownerStaffTab() {
+                const staff = App.state.users.filter(u => u.role === 'staff' || u.role === 'manager');
+                return `
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                    <h3 style="font-size:18px;font-weight:700;">Staff Management</h3>
+                    <button class="btn btn-primary btn-sm" onclick="App.ui.showAddStaffModal()"><i class="fas fa-plus"></i> Add Staff</button>
+                </div>
+                <div class="card" style="overflow-x:auto;">
+                    <table class="data-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Salary</th><th>Access Level</th><th>Joined</th><th>Actions</th></tr></thead><tbody>
+                    ${staff.map(s => `<tr><td style="font-weight:500;">${s.name}</td><td>${s.email}</td><td><span class="badge ${s.role==='manager'?'badge-yellow':'badge-blue'}">${s.role}</span></td><td>Rs. ${(s.salary||0).toLocaleString()}</td><td>${s.accessLevel||'Standard'}</td><td>${s.joined}</td><td><button class="btn btn-ghost btn-sm" onclick="App.ui.showEditStaffModal('${s.id}')"><i class="fas fa-edit"></i></button></td></tr>`).join('')}
+                    </tbody></table>
+                </div>`;
+            },
+
+            ownerSettingsTab() {
+                return `
+                <h3 style="font-size:18px;font-weight:700;margin-bottom:20px;">System Settings</h3>
+                <div class="card" style="margin-bottom:16px;">
+                    <h4 style="font-size:14px;font-weight:600;margin-bottom:16px;">Website Control</h4>
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                        <button class="btn ${App.state.lockdown?'btn-primary':'btn-red'}" onclick="App.utils.toggleLockdown()">
+                            <i class="fas fa-${App.state.lockdown?'unlock':'lock'}"></i> ${App.state.lockdown?'Unlock Website':'Lockdown Website'}
+                        </button>
+                    </div>
+                    ${App.state.lockdown ? '<div style="margin-top:12px;padding:12px;background:var(--red-glow);border-radius:8px;border-left:3px solid var(--red);"><span style="color:var(--red);font-size:13px;font-weight:500;"><i class="fas fa-exclamation-triangle"></i> Website is currently LOCKED. Only you (Owner) can access it.</span></div>' : ''}
+                </div>
+                <div class="card" style="margin-bottom:16px;">
+                    <h4 style="font-size:14px;font-weight:600;margin-bottom:16px;">Business Settings</h4>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Default Delivery Fee (Rs.)</label><input class="input-field" value="${App.config.deliveryFee}" id="setting-delivery"></div>
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Reseller Discount (%)</label><input class="input-field" value="${App.config.resellerDiscount}" id="setting-discount"></div>
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">Points per Order</label><input class="input-field" value="${App.config.pointsPerOrder}" id="setting-points"></div>
+                        <div><label style="font-size:12px;font-weight:600;color:var(--fg2);margin-bottom:6px;display:block;">WhatsApp Number</label><input class="input-field" value="${App.config.whatsapp}" id="setting-whatsapp"></div>
+                    </div>
+                    <button class="btn btn-primary btn-sm" style="margin-top:16px;" onclick="App.utils.saveSettings()"><i class="fas fa-save"></i> Save Settings</button>
+                </div>
+                <div class="card">
+                    <h4 style="font-size:14px;font-weight:600;margin-bottom:16px;">Database Info</h4>
+                    <div style="font-size:13px;color:var(--fg2);line-height:1.8;">
+                        <div><strong>Products:</strong> ${App.state.products.length}</div>
+                        <div><strong>Orders:</strong> ${App.state.orders.length}</div>
+                        <div><strong>Users:</strong> ${App.state.users.length}</div>
+                        <div><strong>Reviews:</strong> ${App.state.reviews.length}</div>
+                        <div><strong>Coupons:</strong> ${App.state.coupons.length}</div>
+                    </div>
+                </div>`;
+            },
+        },
+
+        // ══════════════════════════════════
+        //  UTILITIES
+        // ══════════════════════════════════
+
+        utils: {
+            productCard(p) {
+                const isReseller = App.state.userRole === 'reseller' && App.state.resellerApproved;
+                const displayPrice = isReseller ? p.resellerPrice : p.price;
+                const discount = Math.round(((p.price - p.resellerPrice) / p.price) * 100);
+                return `
+                <div class="product-card" style="position:relative;" onclick="App.state.selectedProduct=${p.id};App.router.go('product-detail')">
+                    ${isReseller && discount > 0 ? `<div class="p-discount-tag">${discount}% OFF</div>` : ''}
+                    <img src="${p.image}" alt="${p.name}" loading="lazy">
+                    <div class="p-info">
+                        <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">${p.category}</div>
+                        <div class="p-name">${p.name}</div>
+                        <div style="display:flex;align-items:center;gap:4px;margin-bottom:6px;">
+                            <div style="display:flex;gap:1px;">${App.utils.starDisplay(p.rating)}</div>
+                            <span style="font-size:11px;color:var(--muted);">(${p.reviews})</span>
+                        </div>
+                        <div class="p-price">Rs. ${displayPrice.toLocaleString()}${isReseller ? `<span class="p-original">Rs. ${p.price.toLocaleString()}</span>` : ''}</div>
+                    </div>
+                </div>`;
+            },
+
+            starDisplay(rating) {
+                let stars = '';
+                for (let i = 1; i <= 5; i++) {
+                    if (i <= Math.floor(rating)) stars += '<i class="fas fa-star" style="color:var(--yellow);font-size:11px;"></i>';
+                    else if (i - 0.5 <= rating) stars += '<i class="fas fa-star-half-alt" style="color:var(--yellow);font-size:11px;"></i>';
+                    else stars += '<i class="far fa-star" style="color:var(--muted);font-size:11px;"></i>';
+                }
+                return stars;
+            },
+
+            dashboardSidebar(role) {
+                const user = App.state.currentUser;
+                const menus = {
+                    customer: [
+                        { label:'Overview', icon:'fa-tachometer-alt', view:'overview' },
+                        { label:'My Orders', icon:'fa-shopping-bag', view:'orders' },
+                        { label:'My Reviews', icon:'fa-star', view:'reviews' },
+                    ],
+                    reseller: [
+                        { label:'Dashboard', icon:'fa-tachometer-alt', view:'overview' },
+                        { label:'Products', icon:'fa-box', action:()=>App.router.go('products') },
+                        { label:'My Orders', icon:'fa-shopping-bag', view:'orders' },
+                        { label:'My Customers', icon:'fa-users', view:'customers' },
+                        { label:'Profile', icon:'fa-user', action:()=>App.router.go('profile') },
+                    ],
+                    staff: [
+                        { label:'Products', icon:'fa-box', view:'products' },
+                        { label:'Resellers', icon:'fa-users', view:'resellers' },
+                        { label:'Reviews', icon:'fa-star', view:'reviews' },
+                        { label:'Orders', icon:'fa-shopping-bag', view:'orders' },
+                    ],
+                    manager: [
+                        { label:'Analytics', icon:'fa-chart-bar', view:'analytics' },
+                        { label:'Products', icon:'fa-box', view:'products' },
+                        { label:'Resellers', icon:'fa-users', view:'resellers' },
+                        { label:'Reviews', icon:'fa-star', view:'reviews' },
+                        { label:'Orders', icon:'fa-shopping-bag', view:'orders' },
+                        { label:'Staff', icon:'fa-user-tie', view:'staff' },
+                    ],
+                    owner: [
+                        { label:'Analytics', icon:'fa-chart-bar', view:'analytics' },
+                        { label:'Products', icon:'fa-box', view:'products' },
+                        { label:'Resellers', icon:'fa-users', view:'resellers' },
+                        { label:'Reviews', icon:'fa-star', view:'reviews' },
+                        { label:'Orders', icon:'fa-shopping-bag', view:'orders' },
+                        { label:'Staff', icon:'fa-user-tie', view:'staff' },
+                        { label:'Settings', icon:'fa-cog', view:'settings' },
+                    ],
+                };
+                const items = menus[role] || [];
+                return `
+                <div class="dash-sidebar" id="dash-sidebar">
+                    <div style="padding:16px;margin-bottom:12px;border-bottom:1px solid var(--border);">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--blue),#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;">${user?.name?user.name[0].toUpperCase():'U'}</div>
+                            <div><div style="font-weight:600;font-size:13px;">${user?.name||'User'}</div><div class="badge ${role==='owner'?'badge-red':role==='manager'?'badge-yellow':role==='reseller'?'badge-green':'badge-blue'}" style="font-size:10px;">${role}</div></div>
+                        </div>
+                    </div>
+                    <div class="sidebar-section">
+                        <div class="sidebar-label">Navigation</div>
+                        <button class="sidebar-link" onclick="App.router.go('home')"><i class="fas fa-home"></i> Home</button>
+                        <button class="sidebar-link" onclick="App.router.go('products')"><i class="fas fa-shopping-bag"></i> Products</button>
+                    </div>
+                    <div class="sidebar-section">
+                        <div class="sidebar-label">Dashboard</div>
+                        ${items.map(m => `<button class="sidebar-link ${App.state.dashboardTab===m.view?'active':''}" onclick="${m.action?`(${m.action.toString()})()`:`App.state.dashboardTab='${m.view}';App.render()`}"><i class="fas ${m.icon}"></i> ${m.label}</button>`).join('')}
+                    </div>
+                    <div class="sidebar-section" style="margin-top:auto;border-top:1px solid var(--border);padding-top:12px;">
+                        <button class="sidebar-link" onclick="App.router.go('profile')"><i class="fas fa-user"></i> Profile</button>
+                        <button class="sidebar-link" style="color:var(--red);" onclick="App.auth.logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                    </div>
+                </div>`;
+            },
+
+            addToCart(productId) {
+                const product = App.state.products.find(p => p.id === productId);
+                if (!product) return;
+                const existing = App.state.cart.find(item => item.id === productId);
+                if (existing) {
+                    existing.qty++;
+                } else {
+                    App.state.cart.push({ ...product, qty: 1 });
+                }
+                App.ui.toast('Added to cart!', 'success');
+                App.render();
+            },
+
+            updateCartQty(index, delta) {
+                App.state.cart[index].qty += delta;
+                if (App.state.cart[index].qty <= 0) App.state.cart.splice(index, 1);
+                App.render();
+            },
+
+            removeFromCart(index) {
+                App.state.cart.splice(index, 1);
+                App.render();
+            },
+
+            applyCoupon() {
+                const code = document.getElementById('coupon-input')?.value?.trim().toUpperCase();
+                const coupon = App.state.coupons.find(c => c.code === code);
+                if (coupon) {
+                    App.ui.toast(`Coupon applied! ${coupon.discount}% discount`, 'success');
+                } else {
+                    App.ui.toast('Invalid coupon code', 'error');
+                }
+            },
+
+            orderWhatsApp(productId) {
+                const p = App.state.products.find(pr => pr.id === productId);
+                if (!p) return;
+                const isReseller = App.state.userRole === 'reseller' && App.state.resellerApproved;
+                const price = isReseller ? p.resellerPrice : p.price;
+                const user = App.state.currentUser;
+                let msg = `Hi Vezlo Mart! I'd like to order:\n\n`;
+                msg += `*${p.name}*\n`;
+                msg += `Price: Rs. ${price.toLocaleString()}\n`;
+                msg += `Delivery: Rs. ${App.config.deliveryFee}\n`;
+                msg += `Total: Rs. ${(price + App.config.deliveryFee).toLocaleString()}\n\n`;
+                if (user) {
+                    msg += `Name: ${user.name}\n`;
+                    msg += `Phone: ${user.phone || 'N/A'}\n`;
+                    msg += `Address: ${user.address || 'N/A'}`;
+                } else {
+                    msg += `Please provide your name, phone, and delivery address.`;
