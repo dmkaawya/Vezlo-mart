@@ -1,1979 +1,628 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <!-- =========================================================
-       VEZLO MART — HOME PAGE
-       Easy-to-edit single-page frontend
-
-       File structure:
-       /vezlo-mart-home
-         index.html
-         /assets
-           vezlo-logo.png
-
-       Later:
-       - Store page
-       - Supabase
-       - Cloudinary
-       - Customer auth
-       - Reseller dashboard
-       - Cart / checkout
-       ========================================================= -->
-
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#050505">
-  <meta name="description" content="Vezlo Mart — Everyday. For a Better You.">
-  <title>Vezlo Mart | Everyday. For a Better You.</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101410">
+  <meta name="description" content="Vezlo Mart — your everyday finds, all in one place. Explore our online store and get in touch, 24/7.">
+  <title>Vezlo Mart — Everyday finds. More possibilities.</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23c9f578'/%3E%3Cpath d='M15 18h10l8 25 8-25h10L38 49H28z' fill='%23101410'/%3E%3C/svg%3E">
   <style>
-    /* =========================================================
-       1. EASY SETTINGS
-       Change the main colours here.
-       ========================================================= */
-    :root {
-      --black: #050505;
-      --black-soft: #0b0b0b;
-      --gold: #ffb51b;
-      --gold-light: #ffd45c;
-      --white: #ffffff;
-      --text-soft: #b0b0b0;
-
-      --border: rgba(255,255,255,0.12);
-      --glass: rgba(255,255,255,0.07);
-
-      --container: 1240px;
-      --radius: 22px;
-    }
-
-    /* =========================================================
-       2. RESET / GLOBAL
-       ========================================================= */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      min-width: 320px;
-      overflow-x: hidden;
-      background:
-        radial-gradient(circle at 82% 8%, rgba(255,181,27,0.12), transparent 28rem),
-        radial-gradient(circle at 10% 45%, rgba(255,181,27,0.05), transparent 24rem),
-        var(--black);
-      color: var(--white);
-      font-family: Inter, Arial, Helvetica, sans-serif;
-      line-height: 1.5;
-      transition: background .25s ease, color .25s ease;
-    }
-
-    body.light-mode {
-      --black: #f5f5f3;
-      --black-soft: #ffffff;
-      --white: #111111;
-      --text-soft: #606060;
-      --border: rgba(0,0,0,0.12);
-      --glass: rgba(255,255,255,0.72);
-
-      background:
-        radial-gradient(circle at 82% 8%, rgba(255,181,27,0.16), transparent 28rem),
-        #f5f5f3;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    .container {
-      width: min(calc(100% - 32px), var(--container));
-      margin-inline: auto;
-    }
-
-    /* =========================================================
-       3. REUSABLE BUTTONS
-       ========================================================= */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      min-height: 44px;
-      padding: 10px 17px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.04);
-      color: var(--white);
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 800;
-      transition: .2s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255,181,27,0.55);
-    }
-
-    .btn-gold {
-      color: #111;
-      border-color: transparent;
-      background: linear-gradient(135deg, var(--gold-light), var(--gold));
-      box-shadow: 0 12px 30px rgba(255,181,27,0.15);
-    }
-
-    /* =========================================================
-       4. HEADER
-       Logo click = Home
-       ========================================================= */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      padding: 9px 0;
-      background: rgba(5,5,5,0.68);
-      backdrop-filter: blur(20px) saturate(140%);
-      -webkit-backdrop-filter: blur(20px) saturate(140%);
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-    }
-
-    body.light-mode .site-header {
-      background: rgba(255,255,255,0.75);
-    }
-
-    .header-inner {
-      min-height: 66px;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand-logo {
-      width: 54px;
-      height: 54px;
-      object-fit: contain;
-      border-radius: 50%;
-    }
-
-    .brand-name {
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: .4px;
-    }
-
-    .brand-tagline {
-      display: block;
-      margin-top: -2px;
-      color: var(--gold);
-      font-size: 8px;
-      letter-spacing: 2.4px;
-    }
-
-    .main-nav {
-      justify-self: center;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .main-nav a {
-      padding: 9px 14px;
-      border-radius: 999px;
-      color: #d7d7d7;
-      font-size: 12px;
-      transition: .2s ease;
-    }
-
-    body.light-mode .main-nav a {
-      color: #444;
-    }
-
-    .main-nav a:hover,
-    .main-nav a.active {
-      background: linear-gradient(135deg, var(--gold-light), var(--gold));
-      color: #111;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .theme-toggle,
-    .menu-toggle {
-      width: 42px;
-      height: 42px;
-      padding: 0;
-      display: grid;
-      place-items: center;
-    }
-
-    .menu-toggle {
-      display: none;
-    }
-
-    /* =========================================================
-       5. HERO
-       ========================================================= */
-    .hero {
-      min-height: calc(100svh - 85px);
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(350px, .9fr);
-      align-items: center;
-      gap: clamp(30px, 5vw, 80px);
-      padding: clamp(45px, 7vw, 90px) 0;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      color: var(--gold-light);
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 14px var(--gold);
-    }
-
-    .hero-title {
-      max-width: 800px;
-      margin: 18px 0;
-      font-size: clamp(42px, 6.4vw, 82px);
-      line-height: .98;
-      letter-spacing: clamp(-3px, -.3vw, -1px);
-    }
-
-    .hero-title span {
-      color: var(--gold);
-    }
-
-    .hero-description {
-      max-width: 610px;
-      color: var(--text-soft);
-      font-size: clamp(14px, 1.4vw, 17px);
-      line-height: 1.7;
-    }
-
-    /* Glass search bar — deliberately in the hero, NOT the header */
-    .hero-search {
-      width: min(720px, 100%);
-      margin-top: 30px;
-      padding: 7px;
-      display: flex;
-      gap: 8px;
-      border: 1px solid rgba(255,255,255,.22);
-      border-radius: 999px;
-      background: var(--glass);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 20px 60px rgba(0,0,0,.28);
-    }
-
-    .hero-search input {
-      min-width: 0;
-      flex: 1;
-      padding: 0 14px;
-      border: 0;
-      outline: 0;
-      background: transparent;
-      color: var(--white);
-      font-size: 13px;
-    }
-
-    .hero-search input::placeholder {
-      color: #999;
-    }
-
-    .search-button {
-      width: 48px;
-      height: 48px;
-      flex: 0 0 48px;
-      border: 0;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold-light), var(--gold));
-      color: #111;
-      cursor: pointer;
-      font-weight: 900;
-    }
-
-    .hero-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .hero-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 22px;
-      margin-top: 32px;
-    }
-
-    .stat {
-      padding-right: 22px;
-      border-right: 1px solid var(--border);
-    }
-
-    .stat:last-child {
-      border-right: 0;
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 17px;
-    }
-
-    .stat small {
-      color: #888;
-      font-size: 10px;
-    }
-
-    .hero-visual {
-      min-height: 480px;
-      display: grid;
-      place-items: center;
-      position: relative;
-      isolation: isolate;
-    }
-
-    .hero-visual::before {
-      content: "";
-      position: absolute;
-      width: min(560px, 95%);
-      aspect-ratio: 1;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle, rgba(255,181,27,.22), transparent 62%);
-      filter: blur(12px);
-      z-index: -2;
-    }
-
-    /* Premium abstract shopping scene — no repeated logo in the body */
-    .shopping-scene {
-      position: relative;
-      width: min(520px, 96%);
-      aspect-ratio: 1 / .88;
-    }
-
-    .scene-ring {
-      position: absolute;
-      inset: 8%;
-      border: 1px solid rgba(255,181,27,.22);
-      border-radius: 50%;
-      box-shadow:
-        0 0 70px rgba(255,181,27,.08),
-        inset 0 0 60px rgba(255,181,27,.04);
-    }
-
-    .scene-ring::before,
-    .scene-ring::after {
-      content: "";
-      position: absolute;
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 50%;
-    }
-
-    .scene-ring::before {
-      inset: 12%;
-    }
-
-    .scene-ring::after {
-      inset: 25%;
-      border-color: rgba(255,181,27,.12);
-    }
-
-    .floating-card {
-      position: absolute;
-      border: 1px solid rgba(255,255,255,.13);
-      background: linear-gradient(145deg, rgba(255,255,255,.13), rgba(255,255,255,.035));
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      box-shadow: 0 24px 55px rgba(0,0,0,.35);
-    }
-
-    .deal-card {
-      top: 8%;
-      left: 5%;
-      width: 165px;
-      padding: 17px;
-      border-radius: 20px;
-      transform: rotate(-7deg);
-    }
-
-    .deal-card small {
-      color: #999;
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-    }
-
-    .deal-card strong {
-      display: block;
-      margin-top: 5px;
-      color: var(--gold-light);
-      font-size: 25px;
-    }
-
-    .deal-card span {
-      color: #bbb;
-      font-size: 9px;
-    }
-
-    .mini-product {
-      position: absolute;
-      right: 5%;
-      top: 13%;
-      width: 125px;
-      height: 150px;
-      border-radius: 22px;
-      transform: rotate(9deg);
-      display: grid;
-      place-items: center;
-      background:
-        linear-gradient(145deg, rgba(255,181,27,.22), rgba(255,255,255,.035));
-    }
-
-    .mini-product::before {
-      content: "NEW";
-      position: absolute;
-      top: 11px;
-      left: 11px;
-      padding: 4px 7px;
-      border-radius: 7px;
-      background: var(--gold);
-      color: #111;
-      font-size: 8px;
-      font-weight: 900;
-    }
-
-    .mini-product-icon {
-      width: 54px;
-      height: 72px;
-      border-radius: 13px;
-      background: linear-gradient(145deg, #3b3b3b, #0c0c0c);
-      border: 1px solid rgba(255,255,255,.14);
-      box-shadow: inset 0 0 25px rgba(255,181,27,.12);
-    }
-
-    .shopping-bag {
-      position: absolute;
-      left: 50%;
-      top: 48%;
-      width: 205px;
-      height: 190px;
-      transform: translate(-50%, -42%);
-      border-radius: 16px 16px 28px 28px;
-      background:
-        linear-gradient(145deg, #202020, #090909);
-      border: 1px solid rgba(255,181,27,.5);
-      box-shadow:
-        0 35px 70px rgba(0,0,0,.5),
-        0 0 45px rgba(255,181,27,.09);
-    }
-
-    .shopping-bag::before,
-    .shopping-bag::after {
-      content: "";
-      position: absolute;
-      top: -52px;
-      width: 66px;
-      height: 72px;
-      border: 7px solid var(--gold);
-      border-bottom: 0;
-      border-radius: 40px 40px 0 0;
-    }
-
-    .shopping-bag::before {
-      left: 29px;
-      transform: rotate(-10deg);
-    }
-
-    .shopping-bag::after {
-      right: 29px;
-      transform: rotate(10deg);
-    }
-
-    .bag-mark {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      color: var(--gold-light);
-      font-size: 42px;
-      font-weight: 950;
-      letter-spacing: -4px;
-    }
-
-    .bag-mark small {
-      position: absolute;
-      bottom: 48px;
-      color: #999;
-      font-size: 8px;
-      letter-spacing: 2.5px;
-      font-weight: 800;
-    }
-
-    .floating-pill {
-      position: absolute;
-      bottom: 12%;
-      left: 3%;
-      padding: 12px 15px;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(10,10,10,.68);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      box-shadow: 0 20px 45px rgba(0,0,0,.3);
-      color: #ddd;
-      font-size: 10px;
-    }
-
-    .floating-pill b {
-      width: 25px;
-      height: 25px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: rgba(255,181,27,.15);
-      color: var(--gold);
-      font-size: 12px;
-    }
-
-    .floating-tag {
-      position: absolute;
-      right: 1%;
-      bottom: 10%;
-      padding: 13px 16px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,181,27,.28);
-      background: rgba(255,181,27,.08);
-      color: var(--gold-light);
-      font-size: 11px;
-      font-weight: 900;
-      transform: rotate(4deg);
-    }
-
-    body.light-mode .floating-card,
-    body.light-mode .floating-pill {
-      background: rgba(255,255,255,.72);
-    }
-
-    body.light-mode .shopping-bag {
-      background: linear-gradient(145deg, #fff, #ddd);
-    }
-
-    @media (max-width: 700px) {
-      .shopping-scene {
-        width: min(390px, 100%);
-      }
-
-      .deal-card {
-        width: 130px;
-        padding: 13px;
-      }
-
-      .deal-card strong {
-        font-size: 20px;
-      }
-
-      .mini-product {
-        width: 98px;
-        height: 120px;
-      }
-
-      .shopping-bag {
-        width: 160px;
-        height: 150px;
-      }
-
-      .shopping-bag::before,
-      .shopping-bag::after {
-        width: 52px;
-        height: 58px;
-      }
-
-      .shopping-bag::before { left: 20px; }
-      .shopping-bag::after { right: 20px; }
-
-      .bag-mark {
-        font-size: 33px;
-      }
-
-      .bag-mark small {
-        bottom: 35px;
-        font-size: 6px;
-      }
-
-      .floating-pill {
-        left: 0;
-        bottom: 4%;
-      }
-
-      .floating-tag {
-        right: 0;
-        bottom: 4%;
-      }
-    }
-
-    /* =========================================================
-       6. INFO STRIP
-       ========================================================= */
-    .info-strip {
-      border-block: 1px solid var(--border);
-      background: rgba(255,255,255,.025);
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .info-item {
-      min-height: 90px;
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      padding: 18px;
-      border-right: 1px solid var(--border);
-    }
-
-    .info-item:last-child {
-      border-right: 0;
-    }
-
-    .info-icon {
-      width: 44px;
-      height: 44px;
-      flex: 0 0 44px;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(255,181,27,.35);
-      border-radius: 50%;
-      color: var(--gold);
-    }
-
-    .info-item strong {
-      font-size: 13px;
-    }
-
-    .info-item small {
-      display: block;
-      margin-top: 3px;
-      color: #888;
-      font-size: 10px;
-    }
-
-    /* =========================================================
-       7. GENERAL SECTIONS
-       ========================================================= */
-    .section {
-      padding: clamp(65px, 8vw, 100px) 0;
-    }
-
-    .section-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .section-title {
-      margin-top: 7px;
-      font-size: clamp(28px, 4vw, 46px);
-      line-height: 1.05;
-      letter-spacing: -1.8px;
-    }
-
-    .section-text {
-      max-width: 510px;
-      color: #888;
-      font-size: 13px;
-      line-height: 1.65;
-    }
-
-    .section-link {
-      color: var(--gold-light);
-      font-size: 12px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    /* =========================================================
-       8. CATEGORIES
-       ========================================================= */
-    .categories {
-      display: grid;
-      grid-template-columns: repeat(8, minmax(105px, 1fr));
-      gap: 12px;
-      overflow-x: auto;
-      padding-bottom: 7px;
-    }
-
-    .category-card {
-      min-height: 160px;
-      padding: 12px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: linear-gradient(145deg, rgba(255,255,255,.06), rgba(255,255,255,.018));
-      transition: .2s ease;
-    }
-
-    .category-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(255,181,27,.4);
-    }
-
-    .category-icon {
-      width: 100%;
-      aspect-ratio: 1;
-      display: grid;
-      place-items: center;
-      border-radius: 13px;
-      background: linear-gradient(145deg, #191919, #080808);
-      color: var(--gold);
-      font-size: 27px;
-    }
-
-    .category-name {
-      display: block;
-      margin-top: 9px;
-      text-align: center;
-      color: #ddd;
-      font-size: 10px;
-    }
-
-    /* =========================================================
-       9. FEATURED PRODUCTS
-       These are only visual placeholders for now.
-       Real products will come from Supabase later.
-       ========================================================= */
-    .products {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .product-card {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      background: rgba(255,255,255,.035);
-      transition: .2s ease;
-    }
-
-    .product-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(255,181,27,.38);
-    }
-
-    .product-image {
-      aspect-ratio: 1 / 1;
-      display: grid;
-      place-items: center;
-      background: radial-gradient(circle at 50% 30%, #242424, #080808 68%);
-      color: #666;
-      font-size: 12px;
-    }
-
-    .discount-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      z-index: 2;
-      padding: 5px 8px;
-      border-radius: 8px;
-      background: var(--gold);
-      color: #111;
-      font-size: 9px;
-      font-weight: 900;
-    }
-
-    .product-body {
-      padding: 16px;
-    }
-
-    .product-name {
-      margin-bottom: 7px;
-      font-size: 14px;
-    }
-
-    .product-price {
-      color: var(--gold-light);
-      font-size: 17px;
-      font-weight: 900;
-    }
-
-    .old-price {
-      margin-left: 5px;
-      color: #666;
-      font-size: 10px;
-      text-decoration: line-through;
-    }
-
-    .product-rating {
-      margin-top: 7px;
-      color: #f6bd2d;
-      font-size: 11px;
-    }
-
-    /* =========================================================
-       10. RESELLER
-       ========================================================= */
-    .reseller-banner {
-      position: relative;
-      overflow: hidden;
-      padding: clamp(28px, 5vw, 55px);
-      border: 1px solid rgba(255,181,27,.3);
-      border-radius: 28px;
-      background:
-        radial-gradient(circle at 85% 20%, rgba(255,181,27,.18), transparent 28%),
-        linear-gradient(120deg, rgba(255,181,27,.08), rgba(255,255,255,.035));
-    }
-
-    .reseller-title {
-      max-width: 650px;
-      margin: 12px 0;
-      font-size: clamp(30px, 5vw, 54px);
-      line-height: 1.03;
-      letter-spacing: -2px;
-    }
-
-    .reseller-title span {
-      color: var(--gold);
-    }
-
-    .reseller-text {
-      max-width: 600px;
-      color: #aaa;
-      font-size: 14px;
-      line-height: 1.7;
-    }
-
-    /* =========================================================
-       11. WHY VEZLO
-       ========================================================= */
-    .benefits {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
-    .benefit-card {
-      padding: 22px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(255,255,255,.03);
-    }
-
-    .benefit-icon {
-      color: var(--gold);
-      font-size: 22px;
-    }
-
-    .benefit-card h3 {
-      margin: 11px 0 5px;
-      font-size: 14px;
-    }
-
-    .benefit-card p {
-      color: #858585;
-      font-size: 11px;
-    }
-
-    /* =========================================================
-       12. NEWSLETTER
-       ========================================================= */
-    .newsletter {
-      border-block: 1px solid var(--border);
-      background: rgba(255,255,255,.025);
-    }
-
-    .newsletter-inner {
-      min-height: 125px;
-      display: grid;
-      grid-template-columns: 1fr minmax(280px, 500px) auto;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .newsletter h3 {
-      font-size: 18px;
-    }
-
-    .newsletter p {
-      margin-top: 5px;
-      color: #888;
-      font-size: 11px;
-    }
-
-    .email-form {
-      display: flex;
-      padding: 5px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: rgba(255,255,255,.06);
-    }
-
-    .email-form input {
-      min-width: 0;
-      flex: 1;
-      padding: 0 12px;
-      border: 0;
-      outline: 0;
-      background: transparent;
-      color: var(--white);
-      font-size: 12px;
-    }
-
-    .email-form button {
-      border: 0;
-      border-radius: 999px;
-      padding: 10px 17px;
-      background: var(--gold);
-      color: #111;
-      cursor: pointer;
-      font-weight: 900;
-    }
-
-    .socials {
-      display: flex;
-      justify-content: flex-end;
-      gap: 7px;
-    }
-
-    .socials a {
-      width: 36px;
-      height: 36px;
-      display: grid;
-      place-items: center;
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      color: #ccc;
-      font-size: 10px;
-    }
-
-    /* =========================================================
-       13. FOOTER
-       ========================================================= */
-    footer {
-      padding: 55px 0 25px;
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.5fr repeat(3, 1fr);
-      gap: 40px;
-    }
-
-    .footer-logo {
-      width: 80px;
-      height: 80px;
-      object-fit: contain;
-      border-radius: 50%;
-      margin-bottom: 10px;
-    }
-
-    .footer-about {
-      max-width: 290px;
-      color: #8e8e8e;
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .footer-heading {
-      margin-bottom: 14px;
-      font-size: 12px;
-    }
-
-    .footer-links {
-      display: grid;
-      gap: 9px;
-    }
-
-    .footer-links a,
-    .contact-line {
-      color: #888;
-      font-size: 11px;
-    }
-
-    .footer-links a:hover {
-      color: var(--gold);
-    }
-
-    .contact-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .contact-line {
-      display: flex;
-      gap: 9px;
-    }
-
-    .contact-line b {
-      color: var(--gold);
-    }
-
-    .footer-bottom {
-      margin-top: 35px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-      color: #666;
-      font-size: 10px;
-    }
-
-    .footer-bottom a {
-      color: var(--white);
-      font-weight: 800;
-    }
-
-    /* =========================================================
-       14. RESPONSIVE
-       The layout automatically adapts to screen size.
-       ========================================================= */
-
-    /* Tablets / smaller laptops */
-    @media (max-width: 1050px) {
-      .header-inner {
-        grid-template-columns: auto auto;
-        justify-content: space-between;
-      }
-
-      .main-nav {
-        display: none;
-      }
-
-      .menu-toggle {
-        display: grid;
-      }
-
-      .header-actions .auth {
-        display: none;
-      }
-
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-visual {
-        order: -1;
-        min-height: 380px;
-      }
-
-      .products {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .categories {
-        grid-template-columns: repeat(8, 145px);
-      }
-
-      .footer-grid {
-        grid-template-columns: 1.5fr 1fr 1fr;
-      }
-
-      .newsletter-inner {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .socials {
-        justify-content: flex-start;
-      }
-    }
-
-    /* Phones */
-    @media (max-width: 700px) {
-      .container {
-        width: min(calc(100% - 22px), var(--container));
-      }
-
-      .site-header {
-        padding: 6px 0;
-      }
-
-      .header-inner {
-        min-height: 58px;
-        gap: 8px;
-      }
-
-      .brand-logo {
-        width: 43px;
-        height: 43px;
-      }
-
-      .brand-name,
-      .brand-tagline {
-        display: none;
-      }
-
-      .theme-toggle {
-        width: 38px;
-        height: 38px;
-      }
-
-      .hero {
-        padding-top: 35px;
-      }
-
-      .hero-visual {
-        min-height: 300px;
-      }
-
-      .logo-orb {
-        width: min(320px, 78vw);
-      }
-
-      .hero-title {
-        font-size: clamp(40px, 12vw, 58px);
-      }
-
-      .hero-stats {
-        gap: 12px;
-      }
-
-      .stat {
-        padding-right: 12px;
-      }
-
-      .info-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .info-item {
-        border-right: 0;
-        border-bottom: 1px solid var(--border);
-        min-height: 75px;
-      }
-
-      .info-item:last-child {
-        border-bottom: 0;
-      }
-
-      .section-heading {
-        display: block;
-      }
-
-      .section-link {
-        display: inline-block;
-        margin-top: 12px;
-      }
-
-      .products {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-      }
-
-      .product-body {
-        padding: 12px;
-      }
-
-      .product-name {
-        font-size: 12px;
-      }
-
-      .product-price {
-        font-size: 14px;
-      }
-
-      .benefits {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .newsletter-inner {
-        grid-template-columns: 1fr;
-        padding: 25px 0;
-      }
-
-      .socials {
-        justify-content: flex-start;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 30px 18px;
-      }
-
-      .footer-grid > :first-child {
-        grid-column: 1 / -1;
-      }
-
-      .footer-bottom {
-        flex-direction: column;
-      }
-    }
-
-    /* Small phones */
-    @media (max-width: 430px) {
-      .hero-buttons .btn {
-        flex: 1;
-      }
-
-      .hero-stats {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .categories {
-        grid-template-columns: repeat(8, 125px);
-      }
-
-      .benefits {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-grid > :first-child {
-        grid-column: auto;
-      }
-    }
-
-    /* Large desktop / TV */
-    @media (min-width: 1800px) {
-      :root {
-        --container: 1500px;
-      }
-
-      .hero-title {
-        font-size: clamp(70px, 4.2vw, 100px);
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        scroll-behavior: auto !important;
-        transition: none !important;
-      }
-    }
+    /* EDIT THEME COLOURS HERE. No external fonts, libraries or images needed. */
+    :root{color-scheme:dark;--bg:#101410;--surface:#181e18;--surface2:#202820;--ink:#f2f5ed;--muted:#a5afa1;--line:#30392e;--accent:#c9f578;--accent-ink:#203011;--soft:#25311e;--footer:#0b100c;--shadow:0 25px 80px #0004;--radius:22px}
+    [data-theme=light]{color-scheme:light;--bg:#f7f8f2;--surface:#fff;--surface2:#edf1e7;--ink:#192317;--muted:#64705e;--line:#dbe2d3;--accent:#c9f578;--accent-ink:#203011;--soft:#e9f1da;--footer:#edf1e5;--shadow:0 25px 80px #34482212}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:125px}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Segoe UI","Noto Sans Sinhala",Arial,sans-serif;font-size:15px;line-height:1.6}button,input,select{font:inherit}button,a,input,select{-webkit-tap-highlight-color:transparent}button,a{touch-action:manipulation}button{cursor:pointer}a{color:inherit;text-decoration:none}button{color:inherit}button:disabled{opacity:.4;cursor:not-allowed}img,svg{vertical-align:middle}h1,h2,h3,p{margin:0}h1,h2,h3{letter-spacing:-.045em;line-height:1.15}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #96c957;outline-offset:5px}section[id],footer[id]{scroll-margin-top:115px}.wrap{width:min(1240px,calc(100% - 64px));margin-inline:auto}.icon{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}.skip{position:fixed;top:-70px;left:20px;z-index:100;background:var(--accent);color:var(--accent-ink);padding:12px 20px;border-radius:10px}.skip:focus{top:8px}.announcement{background:var(--accent);color:var(--accent-ink);font-size:12px;font-weight:600}.announcement .wrap{display:flex;justify-content:space-between;gap:15px;padding-block:9px}.announcement a{border-bottom:1px solid #50682c}.announcement .online{display:flex;align-items:center;gap:7px}.dot{width:6px;height:6px;background:currentColor;border-radius:50%;display:inline-block}.header{position:sticky;top:0;background:var(--bg);z-index:30;border-bottom:1px solid var(--line)}.header-row{min-height:88px;display:flex;align-items:center;gap:34px}.brand{display:inline-flex;gap:10px;align-items:center;white-space:nowrap}.brand-mark{width:40px;height:40px;border-radius:12px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-size:26px;font-weight:900;letter-spacing:-4px;padding-right:4px;transform:rotate(-4deg)}.brand-name{font-size:22px;font-weight:800;letter-spacing:-1px}.brand-name span{font-weight:400;color:var(--muted)}.nav{display:flex;gap:27px;margin-left:auto;align-items:center}.nav a{font-size:13px;color:var(--muted);position:relative}.nav a:hover,.nav a.active{color:var(--ink)}.nav a.active:after{content:'';width:4px;height:4px;background:var(--accent);border-radius:50%;position:absolute;bottom:-11px;left:50%}.header-actions{display:flex;align-items:center;gap:9px}.icon-btn{border:1px solid var(--line);background:transparent;border-radius:50%;height:41px;min-width:41px;display:inline-flex;align-items:center;justify-content:center;position:relative}.icon-btn:hover{background:var(--surface2)}.language-btn{font-size:12px;padding:0 11px;border-radius:10px}.counter{position:absolute;top:-5px;right:-5px;min-width:17px;height:17px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-size:10px;display:grid;place-items:center;font-weight:800}.menu-toggle{display:none}.mobile-nav{display:none}.btn{min-height:46px;display:inline-flex;align-items:center;justify-content:center;gap:13px;border-radius:11px;padding:12px 22px;border:1px solid var(--line);background:var(--surface);font-weight:650;font-size:13px}.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}.btn.primary:hover{background:#d8ff93}.btn.ghost{background:transparent}.btn.small{min-height:38px;padding:8px 14px;font-size:12px}.btn.text{border:0;background:transparent;padding:0;min-height:40px}.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:10px;font-weight:700;color:var(--muted)}.eyebrow:before{content:'';width:20px;height:1px;background:var(--muted)}
+    .hero{padding:58px 0 44px;display:grid;grid-template-columns:1.05fr 1fr;gap:50px;align-items:center}.hero-copy{padding:8px 0}.hero .pill{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid var(--line);border-radius:40px;font-size:11px;color:var(--muted);margin-bottom:25px}.hero .pill .dot{background:var(--accent)}h1{font-size:clamp(42px,5.1vw,68px);font-weight:650;line-height:1.08;max-width:590px}.accent-text{color:var(--accent)}[data-theme=light] .accent-text{color:#4c6c27}.hero-description{margin-top:23px;max-width:405px;color:var(--muted);font-size:14px;line-height:1.9}.hero-buttons{display:flex;gap:13px;flex-wrap:wrap;margin-top:28px}.hero-note{display:flex;gap:24px;flex-wrap:wrap;margin-top:29px;font-size:11px;color:var(--muted)}.hero-note span{display:flex;align-items:center;gap:7px}.hero-note .icon{width:15px;height:15px}.hero-visual{min-height:444px;position:relative;border-radius:28px;background:#dfe9d0;isolation:isolate;overflow:hidden;color:#26331e}.hero-visual:before{content:'';position:absolute;inset:65px 40px;border:1px solid #b9c9a7;border-radius:50%;transform:rotate(-24deg)}.hero-visual:after{content:'';position:absolute;inset:27px 60px;border:1px solid #c8d4b9;border-radius:50%;transform:rotate(22deg);z-index:-1}.visual-top{position:absolute;left:25px;right:25px;top:22px;display:flex;align-items:center;justify-content:space-between;font-size:10px;letter-spacing:.15em;font-weight:650}.visual-top .round{border:1px solid #95a47f;border-radius:50%;width:33px;height:33px;display:grid;place-items:center;font-size:19px}.hero-art{position:absolute;width:84%;height:86%;left:9%;top:8%;filter:drop-shadow(0 28px 20px #4a563d38);transform:rotate(-12deg)}.feature-label{position:absolute;right:20px;bottom:75px;background:#fbfff6e8;border:1px solid #fff;border-radius:14px;padding:13px 17px;box-shadow:0 6px 20px #26331e0a;font-size:11px;backdrop-filter:blur(8px)}.feature-label strong{display:block;font-size:16px;letter-spacing:-.04em}.feature-label .little{display:flex;align-items:center;gap:8px;color:#647055;margin-bottom:3px}.visual-bottom{position:absolute;left:26px;right:26px;bottom:22px;display:flex;align-items:end;justify-content:space-between}.visual-bottom strong{font-size:24px;letter-spacing:-.05em;line-height:1.1;max-width:170px}.visual-bottom span{font-size:9px;text-transform:uppercase;letter-spacing:.12em;max-width:90px;text-align:right;color:#657259}.floating-star{position:absolute;left:30px;top:110px;font-size:48px;line-height:1;color:#6e825c}.benefits{display:grid;grid-template-columns:repeat(4,1fr);padding:22px 0 27px;border-bottom:1px solid var(--line);gap:16px}.benefit{display:flex;align-items:center;justify-content:center;gap:13px;border-right:1px solid var(--line)}.benefit:last-child{border:0}.benefit>.icon{width:25px;height:25px;color:var(--muted)}.benefit strong{font-size:12px;font-weight:650;display:block}.benefit small{font-size:10px;color:var(--muted)}
+    .section{padding-top:62px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:24px}.section-head h2{font-size:30px;font-weight:650;margin-top:10px}.section-head p{font-size:12px;color:var(--muted);margin-top:9px}.categories{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.category{border:1px solid var(--line);border-radius:17px;background:var(--surface);color:var(--ink);padding:20px 10px 17px;display:flex;flex-direction:column;gap:15px;align-items:center}.category:hover,.category.selected{border-color:var(--accent);background:var(--soft)}.category-icon{width:56px;height:56px;border-radius:18px;background:var(--surface2);display:grid;place-items:center}.category-icon .icon{width:28px;height:28px;color:var(--muted)}.category span:last-child{font-size:12px;font-weight:600}.catalogue-head{margin-bottom:22px}.filter-row{display:flex;gap:16px;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap}.filter-tabs{display:flex;gap:7px;flex-wrap:wrap}.filter{padding:8px 15px;border-radius:30px;background:transparent;color:var(--muted);border:1px solid var(--line);font-size:11px;white-space:nowrap}.filter.active{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:650}.catalogue-tools{display:flex;gap:9px;align-items:center}.search{display:flex;align-items:center;border:1px solid var(--line);border-radius:9px;gap:8px;background:var(--surface);padding:9px 12px}.search .icon{width:15px;height:15px;color:var(--muted)}.search input{border:0;outline:0;color:var(--ink);background:transparent;width:150px;font-size:11px}.sort{background:var(--surface);color:var(--muted);border:1px solid var(--line);padding:10px 9px;border-radius:9px;font-size:11px;max-width:148px}.demo-note{font-size:11px;color:var(--muted);padding:11px 13px;border:1px dashed var(--line);border-radius:9px;margin-bottom:20px;display:flex;align-items:center;gap:8px}.demo-note .icon{width:16px;height:16px;flex-shrink:0}.product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.product{position:relative;min-width:0}.product-image{position:relative;background:#e8e5dc;aspect-ratio:1/1.03;border-radius:17px;overflow:hidden}.product-image>.product-name{display:block;width:100%;height:100%;cursor:pointer}.product-image>.product-name>.product-art{display:block}.product-art{height:100%;width:100%;transition:transform .35s}.product-image:hover .product-art{transform:scale(1.055)}.product-tag{position:absolute;top:13px;left:13px;background:#ffffffe8;color:#293325;border-radius:6px;font-size:9px;font-weight:700;padding:5px 8px;z-index:1}.product-tag.discount{background:var(--accent)}.wish{position:absolute;right:12px;top:12px;background:#ffffffd9;border:0;color:#52614b;border-radius:50%;width:30px;height:30px;display:grid;place-items:center;z-index:2}.wish .icon{width:16px;height:16px}.wish.saved{background:#fff0f0;color:#b24c54}.wish.saved .icon{fill:#b24c5430}.product-info{padding:15px 1px 5px}.product-category{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}.product h3{font-size:14px;font-weight:600;letter-spacing:-.02em;margin-top:6px;line-height:1.5}.product-name{border:0;padding:0;background:transparent;text-align:left}.product-desc{font-size:11px;color:var(--muted);margin-top:3px}.product-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:7px}.price{font-size:15px;font-weight:650;letter-spacing:-.035em}.old-price{font-size:10px;color:var(--muted);margin-left:6px}.add{border-radius:9px;background:var(--surface2);border:1px solid var(--line);width:33px;height:33px;display:grid;place-items:center}.add:hover{background:var(--accent);color:var(--accent-ink)}.add .icon{width:16px;height:16px}.catalogue-foot{display:flex;justify-content:center;margin-top:29px}.empty{grid-column:1/-1;text-align:center;padding:60px 20px;background:var(--surface);border-radius:18px;color:var(--muted)}.empty h3{color:var(--ink);font-size:21px;margin-bottom:10px}.empty .btn{margin-top:18px}
+    .editorial{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding-top:58px}.editorial-card{position:relative;overflow:hidden;min-height:255px;padding:32px;border-radius:21px;isolation:isolate;color:#243021;background:#d6dfcd}.editorial-card:nth-child(2){background:#e8dbcc;color:#3d3028}.editorial-card .eyebrow{color:inherit;font-size:9px}.editorial-card .eyebrow:before{background:currentColor}.editorial-card h2{font-size:29px;max-width:220px;font-weight:650;margin:19px 0 17px}.editorial-card .btn.text{position:relative;z-index:2;font-size:12px}.editorial-art{position:absolute;height:250px;width:250px;right:-20px;bottom:-32px;transform:rotate(-8deg);z-index:-1}.editorial-card:nth-child(2) .editorial-art{right:-10px;bottom:-55px;transform:rotate(12deg)}.resell{margin-top:60px;background:var(--surface);border:1px solid var(--line);border-radius:23px;display:grid;grid-template-columns:1fr 1.25fr;overflow:hidden}.resell-visual{background:#292d3e;min-height:340px;display:grid;place-items:center;position:relative;isolation:isolate}.resell-visual:before{content:'';position:absolute;border:1px solid #454957;width:260px;height:260px;border-radius:50%;z-index:-1}.resell-stamp{position:absolute;left:24px;top:22px;font-size:9px;letter-spacing:.15em;color:#c8c9d9}.parcel-art{width:280px;height:250px;transform:rotate(-7deg)}.resell-content{padding:44px 43px}.resell-content h2{font-size:33px;font-weight:650;margin:15px 0}.resell-content p{font-size:13px;color:var(--muted);max-width:400px;line-height:1.9}.resell-steps{display:flex;gap:19px;margin:21px 0 27px;font-size:10px;color:var(--muted);flex-wrap:wrap}.resell-steps span{display:flex;gap:6px;align-items:center}.resell-steps b{width:20px;height:20px;border-radius:50%;background:var(--surface2);display:grid;place-items:center;font-size:9px;color:var(--ink)}.faq{display:grid;grid-template-columns:1fr 1.4fr;gap:70px;padding-block:65px}.faq h2{font-size:30px;font-weight:650;margin:15px 0}.faq p{font-size:12px;color:var(--muted)}details{border-bottom:1px solid var(--line);padding:17px 0}summary{cursor:pointer;font-size:13px;list-style:none;display:flex;justify-content:space-between;gap:15px;align-items:center}summary::-webkit-details-marker{display:none}summary:after{content:'+';font-size:22px;color:var(--muted);line-height:1}details[open] summary:after{content:'−'}details p{padding:12px 25px 2px 0;line-height:1.9}.contact-strip{display:flex;justify-content:space-between;align-items:center;gap:25px;padding:26px 30px;border:1px solid var(--line);border-radius:18px;margin-bottom:60px}.contact-strip h3{font-size:22px;font-weight:600}.contact-strip p{font-size:12px;color:var(--muted);margin-top:7px}.contact-strip .actions{display:flex;gap:10px;flex-wrap:wrap}footer{background:var(--footer);border-top:1px solid var(--line);padding-top:46px}.footer-grid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1.25fr;gap:42px;padding-bottom:40px}.footer-about p{font-size:12px;line-height:1.9;max-width:265px;color:var(--muted);margin-top:17px}.footer-grid h3{font-size:11px;letter-spacing:.01em;margin:10px 0 17px;font-weight:650}.footer-links{display:flex;flex-direction:column;gap:10px;font-size:11px;color:var(--muted)}.footer-links a:hover{color:var(--ink)}.footer-links button{border:0;background:transparent;color:inherit;text-align:left;padding:0;font:inherit}.footer-links a{overflow-wrap:anywhere}.footer-bottom{border-top:1px solid var(--line);padding:19px 0;display:flex;justify-content:space-between;gap:15px;font-size:10px;color:var(--muted);flex-wrap:wrap}.footer-bottom a{color:var(--ink)}.footer-contact-label{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+    dialog{border:1px solid var(--line);border-radius:22px;color:var(--ink);background:var(--bg);max-height:90dvh;overflow:auto;box-shadow:var(--shadow);padding:26px;width:min(740px,calc(100% - 30px))}dialog::backdrop{background:#050905b8;backdrop-filter:blur(5px)}.dialog-header{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}.dialog-header h2{font-size:24px}.dialog-content{font-size:13px;color:var(--muted)}.product-detail{display:grid;grid-template-columns:1fr 1fr;gap:25px;align-items:center}.product-detail .product-art{border-radius:14px}.product-detail h3{font-size:26px;line-height:1.3;margin:12px 0}.product-detail .price{font-size:24px;margin-block:13px}.detail-description{color:var(--muted);font-size:13px;line-height:1.8;margin-bottom:18px}.dialog-note{font-size:11px;color:var(--muted);margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}#cart-dialog{margin-right:18px;width:min(440px,calc(100% - 30px));max-height:calc(100dvh - 36px);min-height:300px}.cart-line{display:grid;grid-template-columns:64px 1fr auto;gap:13px;align-items:center;padding:17px 0;border-bottom:1px solid var(--line)}.cart-line>svg{width:64px;height:64px;border-radius:10px}.cart-line h3{font-size:12px;letter-spacing:0;line-height:1.5}.cart-line small{font-size:11px;color:var(--muted)}.qty-control{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:12px}.qty-control button{width:24px;height:24px;background:var(--surface2);border:1px solid var(--line);border-radius:6px;line-height:1}.remove{border:0;background:transparent;color:var(--muted);padding:5px}.remove .icon{width:16px;height:16px}.cart-total{display:flex;justify-content:space-between;padding:20px 0;font-size:16px;font-weight:650}.cart-foot p{font-size:11px;color:var(--muted);line-height:1.9;margin:13px 0}.toast{position:fixed;bottom:25px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--accent);color:var(--accent-ink);box-shadow:var(--shadow);padding:12px 20px;border-radius:12px;font-size:12px;font-weight:600;max-width:calc(100% - 32px);width:max-content;z-index:100;transition:opacity .2s,transform .2s}.toast.show{opacity:1;transform:translate(-50%,0)}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.noscript{padding:20px;background:#f8e3b5;color:#392b10}.body-lock{overflow:hidden}
+    @media(min-width:1600px){.hero{padding-top:70px;padding-bottom:55px}}
+    @media(max-width:1100px){.header-row{gap:20px}.nav{gap:18px}.wrap{width:calc(100% - 44px)}.hero{gap:30px}.hero-visual{min-height:405px}.hero-art{width:95%;left:3%}.product-grid{gap:14px}.price{font-size:13px}.old-price{display:block;margin:2px 0 0}.editorial-art{right:-60px}.footer-grid{gap:24px}.catalogue-tools{margin-left:auto}.hero-note{gap:15px}}
+    @media(max-width:850px){.nav{display:none}.header-actions{margin-left:auto}.menu-toggle{display:inline-flex}.mobile-nav.open{display:flex;flex-direction:column;border-top:1px solid var(--line);padding:13px 24px;gap:4px}.mobile-nav a{padding:9px 0;font-size:13px;color:var(--muted)}.header-row{min-height:74px}.hero{gap:25px}.hero-visual{min-height:360px}h1{font-size:43px}.hero-description{font-size:12px}.hero-buttons .btn{padding:11px 15px;font-size:11px}.hero-note{font-size:9px}.hero-note .icon{width:13px}.hero .pill{font-size:9px}.feature-label{right:13px;bottom:64px;padding:10px 13px;font-size:9px}.feature-label strong{font-size:14px}.visual-bottom strong{font-size:21px}.benefits{grid-template-columns:repeat(2,1fr);row-gap:23px}.benefit:nth-child(2){border:0}.benefit{justify-content:flex-start;padding-left:15px}.categories{grid-template-columns:repeat(3,1fr)}.category{flex-direction:row;padding:13px;gap:12px}.category-icon{width:40px;height:40px;border-radius:12px}.category-icon .icon{width:23px;height:23px}.product-grid{grid-template-columns:repeat(3,1fr)}.editorial-card{padding:25px;min-height:245px}.editorial-card h2{font-size:25px;max-width:160px}.editorial-art{right:-83px;width:240px;opacity:.85}.editorial-card:nth-child(2) .editorial-art{right:-55px}.resell-content{padding:32px 28px}.resell-content h2{font-size:28px}.resell-visual{min-height:330px}.parcel-art{width:220px}.faq{gap:35px;grid-template-columns:.8fr 1fr}.footer-grid{grid-template-columns:1.5fr 1fr;gap:30px}.section-head h2{font-size:27px}}
+    @media(max-width:620px){.wrap{width:calc(100% - 36px)}.announcement .online{display:none}.announcement .wrap{justify-content:center;font-size:10px}.brand-name{font-size:19px}.brand-mark{width:34px;height:34px;border-radius:10px;font-size:23px}.header-row{gap:8px;min-height:70px}.header-actions{gap:6px}.icon-btn{min-width:35px;height:35px}.icon-btn .icon{width:18px;height:18px}.language-btn{font-size:10px;padding:0 8px}.header-wishlist{display:none}.hero{padding:28px 0 25px;grid-template-columns:1fr;gap:29px}.hero .pill{margin-bottom:20px;font-size:10px}h1{font-size:47px;max-width:400px}.hero-description{font-size:13px;max-width:340px;margin-top:18px}.hero-buttons{margin-top:23px;gap:10px}.hero-buttons .btn{font-size:12px;padding:12px 19px}.hero-note{font-size:10px;margin-top:22px;gap:20px}.hero-visual{min-height:340px}.hero-art{width:77%;height:94%;left:14%;top:0}.visual-bottom strong{font-size:23px}.feature-label{right:20px;bottom:70px;font-size:10px}.feature-label strong{font-size:15px}.hero-visual:before{inset:45px 75px}.hero-visual:after{inset:20px 80px}.benefits{padding:20px 0 25px;gap:19px 8px}.benefit{padding-left:0;gap:9px}.benefit>.icon{width:20px;height:20px}.benefit strong{font-size:10px}.benefit small{font-size:9px}.section{padding-top:42px}.section-head{gap:12px;align-items:end;margin-bottom:19px}.section-head h2{font-size:26px}.eyebrow{font-size:9px}.section-head .btn{font-size:10px;gap:5px}.section-head .btn .icon{width:15px}.categories{gap:9px}.category{flex-direction:column;padding:14px 6px;gap:10px}.category span:last-child{font-size:10px}.category-icon{width:43px;height:43px}.filter-row{gap:15px}.filter{font-size:10px;padding:7px 12px}.catalogue-tools{width:100%;margin:0;justify-content:space-between}.search{flex:1;min-width:0}.search input{width:100%;min-width:0}.sort{max-width:136px}.demo-note{font-size:10px}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:13px;row-gap:22px}.product-image{border-radius:13px}.product-tag{top:9px;left:9px;font-size:8px;padding:4px 6px}.wish{right:9px;top:9px;width:27px;height:27px}.product-info{padding-top:12px}.product h3{font-size:12px}.product-desc{font-size:10px}.product-category{font-size:8px}.price{font-size:12px}.old-price{font-size:9px}.product-bottom{margin-top:10px}.add{height:30px;width:30px}.editorial{grid-template-columns:1fr;padding-top:42px;gap:14px}.editorial-card{min-height:225px;padding:28px}.editorial-card h2{font-size:28px;max-width:200px}.editorial-art{right:-20px;height:240px;width:240px;opacity:1}.editorial-card:nth-child(2) .editorial-art{right:0}.resell{grid-template-columns:1fr;margin-top:42px}.resell-visual{min-height:225px}.resell-visual:before{height:190px;width:190px}.parcel-art{height:205px;width:230px}.resell-content{padding:29px 25px}.resell-content h2{font-size:30px}.resell-content p{font-size:12px}.resell-steps{gap:11px}.faq{grid-template-columns:1fr;gap:15px;padding-block:43px}.faq h2{font-size:28px}.contact-strip{padding:23px;align-items:flex-start;flex-direction:column;margin-bottom:42px;gap:18px}.contact-strip h3{font-size:23px}.contact-strip p{font-size:11px}.contact-strip .btn{font-size:11px;padding:11px 14px}.footer-grid{gap:26px 20px;grid-template-columns:1fr 1fr}.footer-about{grid-column:1/-1}.footer-about p{max-width:330px}.footer-contact{grid-column:1/-1}.footer-bottom{padding:20px 0;font-size:9px;gap:8px;flex-direction:column}.product-detail{grid-template-columns:1fr}.product-detail>.product-art{max-height:260px}dialog{padding:21px}.dialog-header h2{font-size:21px}#cart-dialog{margin:auto}.dialog-note{font-size:10px}}
+    @media(max-width:365px){.wrap{width:calc(100% - 26px)}.header-row{gap:5px}.brand{gap:7px}.brand-name{font-size:17px}.brand-mark{width:30px;height:30px}.header-actions{gap:4px}.icon-btn{min-width:32px;height:32px}.language-btn{padding:0 6px}h1{font-size:42px}.product h3{font-size:11px}.editorial-art{right:-60px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
   </style>
 </head>
-
 <body>
-
-  <!-- =======================================================
-       HEADER
-       ======================================================= -->
-  <header class="site-header">
-    <div class="container header-inner">
-
-      <!-- LOGO: clicking this always returns Home -->
-      <a class="brand" href="#home" aria-label="Vezlo Mart Home">
-        <img class="brand-logo" src="assets/vezlo-logo.png" alt="Vezlo Mart logo">
-
-        <div>
-          <div class="brand-name">VEZLO MART</div>
-          <span class="brand-tagline">EVERYDAY. FOR A BETTER YOU.</span>
-        </div>
-      </a>
-
-      <!-- Desktop navigation -->
-      <nav class="main-nav" aria-label="Main navigation">
-        <a class="active" href="#home">Home</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-
-      <!-- Header actions -->
-      <div class="header-actions">
-        <a class="btn auth" href="signin.html">Sign In</a>
-        <a class="btn btn-gold auth" href="signup.html">Sign Up</a>
-
-        <!-- Dark mode is the default -->
-        <button
-          class="btn theme-toggle"
-          id="themeToggle"
-          type="button"
-          aria-label="Toggle light and dark mode"
-        >☾</button>
-
-        <button
-          class="btn menu-toggle"
-          id="menuToggle"
-          type="button"
-          aria-label="Open menu"
-        >☰</button>
-      </div>
-
+  <!-- Icons and original product illustrations are inline SVG: the page works offline. -->
+  <svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden"><defs>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 7h14l1 14H4L5 7Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 13A9 9 0 0 1 11 3a9 9 0 1 0 10 10Z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M1 4h13v13H1zM14 9h4l4 5v3h-8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 2 9 4v6c0 6-9 10-9 10S3 18 3 12V6l9-4Z"/><path d="m8 12 3 3 5-6"/></symbol>
+    <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M3 14v-3a9 9 0 0 1 18 0v3M3 13H2v7h5v-7H3Zm18 0h1v7h-5v-7h4Z"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="m3 3 9 0 10 10-9 9L3 12Z"/><circle cx="8" cy="8" r="1"/></symbol>
+    <symbol id="i-shirt" viewBox="0 0 24 24"><path d="m8 3-6 4 3 5 3-2v12h8V10l3 2 3-5-6-4a4 4 0 0 1-8 0Z"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m2 11 10-9 10 9M5 9v13h14V9M9 22v-8h6v8"/></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3 2.8 6.2L21 12l-6.2 2.8L12 21l-2.8-6.2L3 12l6.2-2.8L12 3ZM20 2v4m-2-2h4M3 19v4m-2-2h4"/></symbol>
+    <symbol id="i-watch" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="3"/><path d="M9 6V1h6v5M9 18v5h6v-5m-3-8v3h3"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="m7 3 3 5-3 3a16 16 0 0 0 6 6l3-3 5 3-1 4C10 23 1 14 3 4l4-1Z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a9 9 0 0 1-13.5 7.8L3 21l1.7-4.5A9 9 0 1 1 21 11.5Z"/><path d="M8 10h8M8 14h5"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 11v6M12 7v.2"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M9 6V3h6v3M5 6l1 16h12l1-16M10 10v8m4-8v8"/></symbol>
+    <linearGradient id="headband" x1="0" y1="0" x2="1" y2=".7"><stop stop-color="#677957"/><stop offset=".42" stop-color="#34442c"/><stop offset="1" stop-color="#899977"/></linearGradient>
+    <linearGradient id="ear" x1="0" y1="0" x2="1" y2=".8"><stop stop-color="#849273"/><stop offset=".5" stop-color="#506242"/><stop offset="1" stop-color="#2c3b26"/></linearGradient>
+    <linearGradient id="watchBody" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c8ccc5"/><stop offset=".25" stop-color="#f2f2e9"/><stop offset=".6" stop-color="#8e9890"/><stop offset="1" stop-color="#d1d6c9"/></linearGradient>
+    <linearGradient id="bottleBody" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#566f68"/><stop offset=".35" stop-color="#8ba79c"/><stop offset=".7" stop-color="#6e8b80"/><stop offset="1" stop-color="#455e55"/></linearGradient>
+    <linearGradient id="bagBody" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c8a781"/><stop offset=".5" stop-color="#ad8962"/><stop offset="1" stop-color="#8f6e4d"/></linearGradient>
+    <linearGradient id="shoeBody" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#faf9f1"/><stop offset="1" stop-color="#c9c9bc"/></linearGradient>
+    <symbol id="art-headphones" viewBox="0 0 400 400"><ellipse cx="206" cy="337" rx="105" ry="15" fill="#26351c" opacity=".12"/><path d="M97 244v-55C97 59 303 59 303 189v55" fill="none" stroke="#283722" stroke-width="34"/><path d="M97 219v-40C97 59 303 59 303 179v40" fill="none" stroke="url(#headband)" stroke-width="29"/><path d="M109 152C131 84 268 79 292 153" fill="none" stroke="#a6b398" stroke-width="5" opacity=".55"/><path d="M93 200v68M307 200v68" stroke="#7b896d" stroke-width="13" stroke-linecap="round"/><g transform="rotate(9 109 266)"><rect x="76" y="214" width="73" height="116" rx="33" fill="#26321f"/><rect x="80" y="207" width="60" height="119" rx="29" fill="url(#ear)"/><rect x="130" y="221" width="18" height="91" rx="9" fill="#222d1d"/><path d="M94 224v65" stroke="#acb99a" opacity=".3" stroke-width="3" stroke-linecap="round"/></g><g transform="rotate(-9 291 266)"><rect x="251" y="214" width="73" height="116" rx="33" fill="#26321f"/><rect x="263" y="207" width="60" height="119" rx="29" fill="url(#ear)"/><rect x="252" y="221" width="18" height="91" rx="9" fill="#222d1d"/><path d="M290 255v14l9-14" stroke="#b8c6a4" fill="none" stroke-width="2"/><path d="M311 229v48" stroke="#acb99a" opacity=".3" stroke-width="3" stroke-linecap="round"/></g></symbol>
+    <symbol id="art-watch" viewBox="0 0 400 400"><ellipse cx="205" cy="333" rx="72" ry="12" fill="#23251e" opacity=".1"/><g transform="rotate(13 200 200)"><rect x="158" y="37" width="84" height="326" rx="35" fill="#b6bea8"/><path d="M166 72h68m-68 17h68m-68 220h68m-68 16h68" stroke="#9ea891" stroke-width="2"/><rect x="131" y="113" width="139" height="180" rx="42" fill="url(#watchBody)"/><rect x="140" y="122" width="120" height="160" rx="33" fill="#18251e"/><rect x="145" y="128" width="110" height="147" rx="29" fill="#202e24"/><rect x="270" y="165" width="8" height="27" rx="3" fill="#8b9486"/><circle cx="200" cy="201" r="40" fill="none" stroke="#3e5340" stroke-width="10"/><path d="M200 161a40 40 0 1 1-37 55" stroke="#c9f578" stroke-width="10" fill="none" stroke-linecap="round"/><path d="m200 175 0 27 19 10" stroke="#eff8e7" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="200" cy="202" r="4" fill="#fff"/><path d="M178 254h45" stroke="#8f9d87" stroke-width="3" stroke-linecap="round"/></g></symbol>
+    <symbol id="art-bag" viewBox="0 0 400 400"><ellipse cx="207" cy="331" rx="104" ry="13" fill="#514231" opacity=".13"/><path d="M158 164V93c0-45 87-45 87 0v71" fill="none" stroke="#8c6a48" stroke-width="14"/><path d="M154 162V92c0-45 86-45 86 0v70" fill="none" stroke="#c3a17b" stroke-width="10"/><path d="m106 137 188-5 16 182q-102 26-214 0Z" fill="url(#bagBody)"/><path d="M116 151 106 303q106 26 194-1l-13-157" fill="none" stroke="#d4b693" stroke-width="2" opacity=".55"/><path d="M114 145q83 20 172-3" fill="none" stroke="#856345" stroke-width="6"/><rect x="167" y="225" width="73" height="38" rx="2" fill="#e4d3bb"/><path d="m190 235 10 20 10-20" stroke="#755b41" stroke-width="3" fill="none"/><path d="M122 166 116 291m165-125 9 127" stroke="#997650" stroke-width="2" stroke-dasharray="3 4"/></symbol>
+    <symbol id="art-bottle" viewBox="0 0 400 400"><ellipse cx="202" cy="337" rx="69" ry="11" fill="#3d574e" opacity=".15"/><g transform="rotate(-9 200 200)"><rect x="158" y="51" width="84" height="45" rx="12" fill="#344a41"/><path d="M235 61h16a18 18 0 0 1 0 36h-10" fill="none" stroke="#344a41" stroke-width="12"/><rect x="158" y="79" width="84" height="27" rx="8" fill="#496156"/><path d="M156 104q-14 12-14 35v166q0 29 29 29h58q29 0 29-29V139q0-23-14-35Z" fill="url(#bottleBody)"/><path d="M157 130v169" stroke="#b4c8bb" opacity=".4" stroke-width="5" stroke-linecap="round"/><path d="m184 216 16 31 16-31" fill="none" stroke="#d6e4d6" stroke-width="5"/><path d="M144 305q57 17 112 0" fill="none" stroke="#344f43" stroke-width="3"/></g></symbol>
+    <symbol id="art-lamp" viewBox="0 0 400 400"><ellipse cx="208" cy="339" rx="88" ry="12" fill="#44352e" opacity=".11"/><ellipse cx="205" cy="324" rx="70" ry="14" fill="#b6977c"/><path d="M201 315V178" fill="none" stroke="#a18368" stroke-width="11"/><path d="M205 315V178" fill="none" stroke="#d7bda0" stroke-width="4"/><path d="M121 176q1-98 84-98t84 98Z" fill="#c0a083"/><path d="M129 173q4-86 77-89" fill="none" stroke="#e5cdb4" stroke-width="4"/><ellipse cx="205" cy="177" rx="85" ry="15" fill="#94765b"/><ellipse cx="205" cy="178" rx="69" ry="10" fill="#ead2a1"/><path d="M252 186v56" stroke="#755d46" stroke-width="2"/><circle cx="252" cy="244" r="4" fill="#87684a"/><ellipse cx="205" cy="321" rx="58" ry="7" fill="#d1b393"/></symbol>
+    <symbol id="art-shoe" viewBox="0 0 400 400"><ellipse cx="206" cy="295" rx="140" ry="15" fill="#423f37" opacity=".13"/><g transform="rotate(-12 200 220)"><path d="M64 215 84 151l41 21 43-16 51 40 80 27q38 5 41 36l-12 18H79q-25-8-15-62Z" fill="url(#shoeBody)"/><path d="m85 155 39 24 44-18 28 23-49 30-65-18Z" fill="#b1bba0"/><path d="M130 213 177 183l46 32-64 30Z" fill="#e5e5d9"/><path d="M78 239q42 24 78 12l76-10 99 1 10 20q1 24-33 24H89q-29-5-29-27l6-17Z" fill="#faf9ef"/><path d="M63 265h267" stroke="#b4b6a9" stroke-width="3"/><path d="m143 195 40 6m-30 6 40 6m-29 6 37 5" stroke="#fff" stroke-width="6" stroke-linecap="round"/><path d="m210 216 22 11 38-9-41 24-28-14" fill="#6c8056"/><path d="M78 210 95 217m4 3 12 4" stroke="#9a9f8c" stroke-width="2"/></g></symbol>
+    <symbol id="art-serum" viewBox="0 0 400 400"><ellipse cx="201" cy="330" rx="71" ry="12" fill="#774e40" opacity=".11"/><rect x="160" y="67" width="82" height="82" rx="8" fill="#d8cbbb"/><path d="M170 74v66m10-66v66m10-66v66m10-66v66m10-66v66m10-66v66m10-66v66" stroke="#b4a594" stroke-width="2"/><rect x="172" y="143" width="57" height="17" rx="4" fill="#946946"/><rect x="137" y="157" width="130" height="169" rx="24" fill="#a87850"/><rect x="145" y="163" width="18" height="148" rx="9" fill="#c9996c"/><rect x="137" y="209" width="130" height="78" fill="#f1e4d1"/><path d="m184 226 17 26 17-26" fill="none" stroke="#80563e" stroke-width="3"/><path d="M179 269h45" stroke="#a8876e" stroke-width="2"/></symbol>
+    <symbol id="art-speaker" viewBox="0 0 400 400"><ellipse cx="201" cy="324" rx="99" ry="13" fill="#453f50" opacity=".13"/><rect x="104" y="86" width="192" height="230" rx="38" fill="#6c6b7e"/><rect x="114" y="97" width="172" height="209" rx="29" fill="#9290a0"/><path d="M126 115v166m12-166v175m12-177v177m12-177v177m12-177v177m12-177v177m12-177v177m12-177v177m12-177v177m12-177v177m12-177v177m12-177v177m12-175v169" stroke="#656275" stroke-width="3" opacity=".5"/><rect x="167" y="177" width="67" height="47" rx="7" fill="#d0ccd7"/><path d="m186 191 13 20 13-20" stroke="#625e72" fill="none" stroke-width="3"/><circle cx="201" cy="92" r="4" fill="#cac6d3"/></symbol>
+    <symbol id="art-parcel" viewBox="0 0 400 350"><ellipse cx="210" cy="309" rx="130" ry="16" fill="#101325" opacity=".22"/><path d="m89 141 118-51 115 51-112 58Z" fill="#d2c0ec"/><path d="m89 141 121 58v111L89 251Z" fill="#a18ac1"/><path d="m210 199 112-58v111l-112 58Z" fill="#ba9edb"/><path d="m167 108 119 51-31 16-117-54Z" fill="#e9daff"/><path d="m254 175 32-16v58l-14-4-18 18Z" fill="#d5bdf4"/><path d="m118 215 66 33v31l-66-33Z" fill="#eee5fa"/><path d="m137 233 12 20 17-9" stroke="#7d649e" fill="none" stroke-width="3"/><circle cx="291" cy="92" r="30" fill="#c9f578"/><path d="m278 92 9 9 17-19" stroke="#465c29" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M89 82V64m-9 9h18M316 278v-14m-7 7h14" stroke="#aba3bf" stroke-width="2"/></symbol>
+  </defs></svg>
+  <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+  <div class="announcement"><div class="wrap"><span data-i18n="announcement">Your everyday finds, all in one place.</span>
+    <span class="online"><span class="dot"></span><span data-i18n="online">Online store · Open 24/7</span></span><a href="#contact" data-i18n="helpTop">Need a hand? Let’s talk ↗</a></div></div>
+  <header class="header"><div class="wrap header-row">
+    <a href="#" class="brand" aria-label="Vezlo Mart home">
+      <span class="brand-mark" aria-hidden="true">V</span>
+      <span class="brand-name">vezlo<span>mart.</span></span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#" class="active" data-i18n="home">Home</a>
+      <a href="stores.html" data-i18n="shop">Shop</a>
+      <a href="stores.html" data-i18n="categories">Categories</a>
+      <a href="resell.html" data-i18n="resell">Become a reseller</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn language-btn" id="language" aria-label="Switch to Sinhala">සිංහල</button>
+      <button class="icon-btn" id="theme" aria-label="Switch to light mode">
+        <svg class="icon">
+          <use href="#i-sun"/></svg></button>
+      <button class="icon-btn header-wishlist" id="wishlist" aria-label="View saved products">
+        <svg class="icon">
+          <use href="#i-heart"/></svg></button>
+      <button class="icon-btn" id="cart-button" aria-label="Open sample cart">
+        <svg class="icon">
+          <use href="#i-bag"/></svg>
+        <span class="counter" id="cart-count">0</span></button>
+      <button class="icon-btn menu-toggle" id="menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav">
+        <svg class="icon">
+          <use href="#i-menu"/>
+        </svg>
+      </button>
     </div>
+  </div>
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation">
+      <a href="#" data-i18n="home">Home</a>
+      <a href="stores.html" data-i18n="shop">Shop</a>
+      <a href="stores.html" data-i18n="categories">Categories</a>
+      <a href="resell.html" data-i18n="resell">Become a reseller</a>
+      <a href="contact.html" data-i18n="contact">Contact</a>
+    </nav>
   </header>
-
-
-  <main id="home">
-
-    <!-- =====================================================
-         HERO
-         ===================================================== -->
-    <section class="container hero">
-
-      <div>
-        <div class="eyebrow">Welcome to Vezlo Mart</div>
-
-        <h1 class="hero-title">
-          EVERYDAY.<br>
-          FOR A <span>BETTER YOU.</span>
+  <main id="main" class="wrap">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="pill">
+          <span class="dot">
+          </span>
+          <span data-i18n="heroPill">A little of everything. Pick your favourite.</span></div>
+        <h1 id="hero-title">
+          <span data-i18n="hero1">Everyday finds.</span>
+          <br>
+          <span class="accent-text" data-i18n="hero2">More possibilities.</span>
         </h1>
-
-        <!-- HERO SEARCH — directly under the main slogan -->
-        <form class="hero-search" id="searchForm">
-          <input
-            id="searchInput"
-            type="search"
-            placeholder="Search for products..."
-            aria-label="Search products"
-          >
-          <button class="search-button" type="submit" aria-label="Search">→</button>
-        </form>
-
+        <p class="hero-description" data-i18n="heroDescription">From little upgrades to your next big favourite. Discover tech, style and everyday essentials at Vezlo Mart.</p>
         <div class="hero-buttons">
-          <a class="btn btn-gold" href="stores.html">🛍 Store →</a>
-          <a class="btn" href="reseller.html">♧ Join as Reseller</a>
+          <a class="btn primary" href="#shop">
+            <span data-i18n="explore">Explore the collection</span>
+            <svg class="icon">
+              <use href="#i-arrow"/>
+            </svg>
+          </a>
+          <a class="btn ghost" href="#categories" data-i18n="browse">Browse categories</a>
         </div>
-
-        <div class="hero-stats">
-          <div class="stat">
-            <strong>500+</strong>
-            <small>Products</small>
-          </div>
-
-          <div class="stat">
-            <strong>1K+</strong>
-            <small>Happy Customers</small>
-          </div>
-
-          <div class="stat">
-            <strong>Fast</strong>
-            <small>Islandwide Delivery</small>
-          </div>
-
-          <div class="stat">
-            <strong>Secure</strong>
-            <small>Shopping</small>
-          </div>
+        <div class="hero-note">
+          <span>
+            <svg class="icon">
+              <use href="#i-truck"/>
+            </svg>
+            <span data-i18n="deliveryNote">Delivery options available</span>
+          </span>
+          <span>
+            <svg class="icon">
+              <use href="#i-chat"/>
+            </svg>
+            <span data-i18n="helpNote">A message away</span>
+          </span>
         </div>
       </div>
-
-
-      <!-- Premium shopping visual -->
-      <div class="hero-visual" aria-hidden="true">
-        <div class="shopping-scene">
-
-          <div class="scene-ring"></div>
-
-          <div class="floating-card deal-card">
-            <small>Today's deal</small>
-            <strong>UP TO 30%</strong>
-            <span>Selected products</span>
-          </div>
-
-          <div class="floating-card mini-product">
-            <div class="mini-product-icon"></div>
-          </div>
-
-          <div class="shopping-bag">
-            <div class="bag-mark">
-              V
-              <small>VEZLO MART</small>
-            </div>
-          </div>
-
-          <div class="floating-pill">
-            <b>✓</b>
-            <span>Smart shopping<br>made simple</span>
-          </div>
-
-          <div class="floating-tag">
-            SHOP SMART<br>
-            LIVE BETTER
-          </div>
-
+      <div class="hero-visual" role="img" aria-label="Illustration of sage green over-ear headphones">
+        <div class="visual-top">
+          <span data-i18n="heroVisualTop">THE EVERYDAY EDIT</span>
+          <span class="round">↗</span>
         </div>
-      </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         INFO STRIP
-         ===================================================== -->
-    <section class="info-strip" aria-label="Store benefits">
-      <div class="container info-grid">
-
-        <div class="info-item">
-          <div class="info-icon">🚚</div>
-          <div>
-            <strong>Fast Delivery</strong>
-            <small>Islandwide service</small>
-          </div>
+        <span class="floating-star" aria-hidden="true">✳</span>
+        <svg class="hero-art" viewBox="0 0 400 400" aria-hidden="true">
+          <use href="#art-headphones"/></svg>
+        <div class="feature-label">
+          <span class="little">
+            <span class="dot">
+            </span>
+            <span data-i18n="heroFeatureSmall">Find your own rhythm</span>
+          </span>
+          <strong data-i18n="heroFeature">Good sound. Good days.</strong>
         </div>
-
-        <div class="info-item">
-          <div class="info-icon">◇</div>
-          <div>
-            <strong>Secure Payments</strong>
-            <small>Safe & trusted</small>
-          </div>
-        </div>
-
-        <div class="info-item">
-          <div class="info-icon">◉</div>
-          <div>
-            <strong>24/7 Support</strong>
-            <small>We're here for you</small>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- =====================================================
-         CATEGORIES
-         ===================================================== -->
-    <section class="section" id="store">
-      <div class="container">
-
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">Explore</div>
-            <h2 class="section-title">Shop by Category</h2>
-          </div>
-
-          <a class="section-link" href="stores.html">Explore More →</a>
-        </div>
-
-        <div class="categories">
-
-          <a class="category-card" href="stores.html">
-            <div class="category-icon">📱</div>
-            <span class="category-name">Mobile & Accessories</span>
-          </a>
-
-          <a class="category-card" href="stores.html">
-            <div class="category-icon">🎧</div>
-            <span class="category-name">Electronics</span>
-          </a>
-
-          <a class="category-card" href="stores.html">
-            <div class="category-icon">🌿</div>
-            <span class="category-name">Home & Living</span>
-          </a>
-
-          <a class="category-card" href="stores.html">
-            <div class="category-icon">👕</div>
-            <span class="category-name">Fashion</span>
-          </a>
-
-          <a class="category-card" href="stores.html">
-            <div class="category-icon">✨</div>
-            <span class="category-name">Beauty & Personal Care</span>
-          </a>
-
-          <a class="category-card" href="stores.html">
-            <div class="category-icon">🏋️</div>
-            <span class="category-name">Sports & Fitness</span>
-          </a>
-
-          <a class="category-card" href="stores.html">
-            <div class="category-icon">📚</div>
-            <span class="category-name">Stationery & Books</span>
-          </a>
-
-          <a class="category-card" href="stores.html">
-            <div class="category-icon">•••</div>
-            <span class="category-name">Others</span>
-          </a>
-
+        <div class="visual-bottom">
+          <strong data-i18n="heroVisualBottom">Little upgrades.<br>Big difference.</strong>
+          <span data-i18n="illustration">Product illustration</span>
         </div>
       </div>
     </section>
-
-
-    <!-- =====================================================
-         FEATURED PRODUCTS
-         NOTE: Placeholder only.
-         Later these cards will be generated from Supabase.
-         ===================================================== -->
-    <section class="section" id="featured">
-      <div class="container">
-
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">Trending Now</div>
-            <h2 class="section-title">Featured Products</h2>
-          </div>
-
-          <a class="section-link" href="stores.html">View All →</a>
-        </div>
-
-        <div class="products">
-
-          <article class="product-card">
-            <div class="product-image">
-              <span class="discount-badge">20% OFF</span>
-              Product Image
-            </div>
-
-            <div class="product-body">
-              <h3 class="product-name">Wireless Earbuds Pro</h3>
-              <div class="product-price">
-                Rs. 4,990
-                <span class="old-price">Rs. 6,500</span>
-              </div>
-              <div class="product-rating">★ 4.8 (120)</div>
-            </div>
-          </article>
-
-
-          <article class="product-card">
-            <div class="product-image">
-              <span class="discount-badge">28% OFF</span>
-              Product Image
-            </div>
-
-            <div class="product-body">
-              <h3 class="product-name">Smart Watch Series 9</h3>
-              <div class="product-price">
-                Rs. 8,990
-                <span class="old-price">Rs. 12,500</span>
-              </div>
-              <div class="product-rating">★ 4.7 (98)</div>
-            </div>
-          </article>
-
-
-          <article class="product-card">
-            <div class="product-image">
-              <span class="discount-badge">25% OFF</span>
-              Product Image
-            </div>
-
-            <div class="product-body">
-              <h3 class="product-name">Travel Backpack</h3>
-              <div class="product-price">
-                Rs. 5,990
-                <span class="old-price">Rs. 7,990</span>
-              </div>
-              <div class="product-rating">★ 4.6 (76)</div>
-            </div>
-          </article>
-
-
-          <article class="product-card">
-            <div class="product-image">
-              <span class="discount-badge">30% OFF</span>
-              Product Image
-            </div>
-
-            <div class="product-body">
-              <h3 class="product-name">LED Desk Lamp</h3>
-              <div class="product-price">
-                Rs. 3,490
-                <span class="old-price">Rs. 4,990</span>
-              </div>
-              <div class="product-rating">★ 4.9 (54)</div>
-            </div>
-          </article>
-
-        </div>
+  <div class="benefits">
+    <div class="benefit">
+      <svg class="icon">
+        <use href="#i-truck"/></svg>
+      <div>
+        <strong data-i18n="benefit1">Delivery your way</strong>
+        <small data-i18n="benefit1s">Options vary by product</small>
       </div>
-    </section>
-
-
-    <!-- =====================================================
-         RESELLER
-         ===================================================== -->
-    <section class="section" id="reseller">
-      <div class="container">
-
-        <div class="reseller-banner">
-          <div class="eyebrow">For Business</div>
-
-          <h2 class="reseller-title">
-            Become a <span>Vezlo Reseller.</span>
-          </h2>
-
-          <p class="reseller-text">
-            Get special reseller prices, product tools, exclusive offers
-            and a dedicated account area built to help you grow.
-          </p>
-
-          <a class="btn btn-gold" href="signup.html">
-            Join as a Reseller →
-          </a>
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- =====================================================
-         ABOUT / WHY VEZLO
-         ===================================================== -->
-    <section class="section" id="about">
-      <div class="container">
-
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">Why Vezlo</div>
-            <h2 class="section-title">Made for everyday shopping.</h2>
-          </div>
-
-          <p class="section-text">
-            A simple customer experience now, with a scalable reseller
-            and commerce system ready for the future.
-          </p>
-        </div>
-
-        <div class="benefits">
-
-          <div class="benefit-card">
-            <div class="benefit-icon">▣</div>
-            <h3>Wide Product Range</h3>
-            <p>Useful products across multiple categories.</p>
-          </div>
-
-          <div class="benefit-card">
-            <div class="benefit-icon">◇</div>
-            <h3>Better Prices</h3>
-            <p>Competitive customer and reseller pricing.</p>
-          </div>
-
-          <div class="benefit-card">
-            <div class="benefit-icon">↩</div>
-            <h3>Easy Returns</h3>
-            <p>A clear and simple return experience.</p>
-          </div>
-
-          <div class="benefit-card">
-            <div class="benefit-icon">♙</div>
-            <h3>Customer Support</h3>
-            <p>Help when you need it.</p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-
-    <!-- =====================================================
-         NEWSLETTER / CONTACT
-         ===================================================== -->
-    <section class="newsletter" id="contact">
-      <div class="container newsletter-inner">
-
-        <div>
-          <h3>Stay Updated</h3>
-          <p>Get new arrivals, offers and Vezlo Mart updates.</p>
-        </div>
-
-        <form class="email-form" id="newsletterForm">
-          <input
-            type="email"
-            id="newsletterEmail"
-            placeholder="Enter your email"
-            required
-          >
-          <button type="submit">Subscribe →</button>
-        </form>
-
-        <div class="socials">
-          <!-- Replace # with real social links later -->
-          <a href="#" aria-label="Facebook">f</a>
-          <a href="#" aria-label="Instagram">ig</a>
-          <a href="#" aria-label="TikTok">♪</a>
-          <a href="#" aria-label="YouTube">▶</a>
-          <a href="#" aria-label="WhatsApp">wa</a>
-        </div>
-
-      </div>
-    </section>
-
-  </main>
-
-
-  <!-- =======================================================
-       FOOTER
-       ======================================================= -->
-  <footer>
-
-    <div class="container">
-
-      <div class="footer-grid">
-
-        <!-- Brand -->
-        <div>
-          <img
-            class="footer-logo"
-            src="assets/vezlo-logo.png"
-            alt="Vezlo Mart logo"
-          >
-
-          <p class="footer-about">
-            Quality products. Great prices. A smarter way to shop online —
-            Everyday. For a better you.
-          </p>
-        </div>
-
-
-        <!-- Quick Links -->
-        <div>
-          <h4 class="footer-heading">Quick Links</h4>
-
-          <div class="footer-links">
-            <a href="#home">Home</a>
-            <a href="stores.html">Store</a>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
-            <a href="career.html">Career</a>
-            <a href="reseller.html">Reseller</a>
-          </div>
-        </div>
-
-
-        <!-- Help -->
-        <div>
-          <h4 class="footer-heading">Help & Info</h4>
-
-          <div class="footer-links">
-            <a href="terms.html">Terms & Services</a>
-            <a href="privacy.html">Privacy Policy</a>
-            <a href="returns.html">Return & Refund</a>
-            <a href="delivery.html">Delivery Information</a>
-            <a href="faq.html">FAQ</a>
-            <a href="links.html">Important Links</a>
-          </div>
-        </div>
-
-
-        <!-- Contact -->
-        <div>
-          <h4 class="footer-heading">Contact Us</h4>
-
-          <div class="contact-list">
-            <div class="contact-line">
-              <b>✉</b>
-              <span>mail.vezlogroup@gmail.com</span>
-            </div>
-
-            <div class="contact-line">
-              <b>☎</b>
-              <span>0775048455</span>
-            </div>
-
-            <div class="contact-line">
-              <b>⌖</b>
-              <span>Sri Lanka</span>
-            </div>
-
-            <div class="contact-line">
-              <b>◷</b>
-              <span>Mon - Sun · 8:00 AM - 10:00 PM</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-
-      <!-- Copyright + design credit -->
-      <div class="footer-bottom">
-
-        <span>
-          © <span id="currentYear"></span>
-          Vezlo Mart. All rights reserved.
-        </span>
-
-        <span>
-          Design by
-          <a
-            href="https://vezlo-web.vercel.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vezlo Web Dev ↗
-          </a>
-        </span>
-
-      </div>
-
     </div>
-
+    <div class="benefit">
+      <svg class="icon">
+        <use href="#i-bag"/></svg>
+      <div>
+        <strong data-i18n="benefit2">Flexible payment</strong>
+        <small data-i18n="benefit2s">Ask about COD & bank transfer</small>
+      </div>
+    </div>
+    <div class="benefit">
+      <svg class="icon">
+      <use href="#i-chat"/>
+      </svg>
+      <div>
+        <strong data-i18n="benefit3">Here to help</strong>
+        <small data-i18n="benefit3s">Chat with us on WhatsApp</small>
+      </div>
+    </div>
+    <div class="benefit">
+      <svg class="icon">
+        <use href="#i-grid"/>
+      </svg>
+      <div>
+        <strong data-i18n="benefit4">One store. More choice.</strong>
+        <small data-i18n="benefit4s">Tech, style & everyday essentials</small>
+      </div>
+    </div>
+  </div>
+  <section class="section" id="categories" aria-labelledby="category-heading">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow" data-i18n="categoryEye">FIND YOUR KIND OF THING</div>
+        <h2 id="category-heading" data-i18n="categoryTitle">What are you looking for?</h2>
+      </div>
+      <a href="#shop" class="btn text" id="all-categories">
+        <span data-i18n="viewAll">View all</span>
+        <svg class="icon">
+          <use href="#i-arrow"/>
+        </svg>
+      </a>
+    </div>
+    <div class="categories" id="category-list">
+    </div>
+  </section>
+  <section class="section" id="shop" aria-labelledby="shop-heading">
+    <div class="section-head catalogue-head">
+      <div>
+        <div class="eyebrow" data-i18n="shopEye">GOOD FINDS START HERE</div>
+        <h2 id="shop-heading" data-i18n="shopTitle">Made for your everyday.</h2>
+        <p data-i18n="shopSubtitle">A few favourites from across the store.</p>
+      </div>
+      <span class="eyebrow" id="result-count" aria-live="polite"></span>
+    </div>
+    <div class="filter-row">
+      <div class="filter-tabs" id="filter-tabs" aria-label="Product filters">
+      </div>
+      <div class="catalogue-tools">
+        <label class="search">
+          <svg class="icon">
+            <use href="#i-search"/>
+          </svg>
+          <span class="sr-only" data-i18n="searchLabel">Search products</span>
+          <input type="search" id="search" placeholder="Find something good…" maxlength="100" autocomplete="off">
+        </label>
+        <label>
+          <span class="sr-only" data-i18n="sortLabel">Sort products</span>
+          <select class="sort" id="sort">
+            <option value="featured" data-i18n="sortFeatured">Featured</option>
+            <option value="low" data-i18n="sortLow">Price: low to high</option>
+            <option value="high" data-i18n="sortHigh">Price: high to low</option>
+            <option value="discount" data-i18n="sortDiscount">Biggest saving</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div class="demo-note">
+      <svg class="icon">
+        <use href="#i-info"/>
+      </svg>
+      <span data-i18n="demoNotice">Sample collection — products and prices are for this homepage preview. Contact us for actual availability.</span>
+    </div>
+    <div class="product-grid" id="product-grid">
+    </div>
+    <div class="catalogue-foot">
+      <button class="btn ghost" id="reset-products">
+        <span data-i18n="resetProducts">Explore all products</span>
+        <svg class="icon">
+          <use href="#i-arrow"/>
+        </svg>
+      </button>
+    </div>
+  </section>
+  <section class="editorial" aria-label="Explore collections">
+    <article class="editorial-card">
+      <div class="eyebrow" data-i18n="edit1eye">SMALL UPGRADES, BIG ENERGY</div>
+      <h2 data-i18n="edit1title">Your space.<br>Your kind of calm.</h2>
+      <button class="btn text" data-category="home">
+        <span data-i18n="edit1button">Explore home & living</span>
+        <svg class="icon">
+          <use href="#i-arrow"/>
+        </svg>
+      </button>
+      <svg class="editorial-art" viewBox="0 0 400 400" aria-hidden="true">
+        <use href="#art-lamp"/>
+      </svg>
+    </article>
+    <article class="editorial-card">
+      <div class="eyebrow" data-i18n="edit2eye">GO-TO EVERYDAY ESSENTIALS</div>
+      <h2 data-i18n="edit2title">Take a little<br>style with you.</h2>
+      <button class="btn text" data-category="fashion">
+        <span data-i18n="edit2button">Find your next favourite</span>
+        <svg class="icon"><use href="#i-arrow"/>
+        </svg>
+      </button>
+      <svg class="editorial-art" viewBox="0 0 400 400" aria-hidden="true">
+        <use href="#art-bag"/>
+      </svg>
+    </article>
+  </section>
+  <section id="resell" class="resell" aria-labelledby="resell-heading">
+    <div class="resell-visual">
+      <span class="resell-stamp">VEZLO PARTNER PROGRAMME</span>
+      <svg class="parcel-art" viewBox="0 0 400 350" role="img" aria-label="Illustrated parcel with a check mark">
+        <use href="#art-parcel"/>
+      </svg>
+    </div>
+    <div class="resell-content">
+      <div class="eyebrow" data-i18n="resellEye">LET’S GROW TOGETHER</div>
+      <h2 id="resell-heading" data-i18n="resellTitle">Your ambition.<br>Our next chapter.</h2>
+      <p data-i18n="resellDescription">Want to start reselling with Vezlo Mart? Tell us about your business and ask about product pricing, delivery and how to get started.</p>
+      <div class="resell-steps">
+        <span><b>1</b><span data-i18n="resellStep1">Get in touch</span>
+        </span>
+        <span><b>2</b><span data-i18n="resellStep2">Discuss the details</span>
+        </span>
+        <span><b>3</b><span data-i18n="resellStep3">Get approved</span>
+        </span>
+      </div>
+      <a class="btn primary" id="reseller-link" href="https://wa.me/94775048455?text=Hello%20Vezlo%20Mart%2C%20I%27d%20like%20to%20learn%20about%20becoming%20a%20reseller." target="_blank" rel="noopener noreferrer">
+        <span data-i18n="resellButton">Let’s talk reselling</span>
+        <svg class="icon">
+          <use href="#i-arrow"/></svg>
+      </a>
+    </div>
+  </section>
+  <section class="faq" aria-labelledby="faq-heading">
+    <div>
+      <div class="eyebrow" data-i18n="faqEye">A LITTLE HELP BEFORE YOU SHOP</div>
+      <h2 id="faq-heading" data-i18n="faqTitle">Good questions.<br>Simple answers.</h2>
+      <p data-i18n="faqDescription">Something else on your mind? We’re a message away.</p>
+    </div>
+    <div>
+      <details>
+        <summary data-i18n="faq1q">How can I place an order?</summary>
+        <p data-i18n="faq1a">This is a homepage preview. Message Vezlo Mart on WhatsApp with the products you’re interested in. We’ll confirm the real product, availability and total before you decide to buy.</p>
+      </details>
+      <details>
+        <summary data-i18n="faq2q">Which payment methods are available?</summary>
+        <p data-i18n="faq2a">Ask us about cash on delivery and bank transfer. Availability depends on the product and delivery option. Always confirm payment details directly with the store.</p>
+      </details>
+      <details>
+        <summary data-i18n="faq3q">How much does delivery cost?</summary>
+        <p data-i18n="faq3a">Delivery fees and estimated arrival times depend on your location, the courier, and the product’s weight. Contact us for a quote for your items.</p>
+      </details><details><summary data-i18n="faq4q">Can I become a reseller?</summary><p data-i18n="faq4a">Yes, you can enquire about our reseller programme through WhatsApp. Reseller access and pricing require review and approval.</p>
+      </details>
+    </div>
+  </section>
+  <section class="contact-strip">
+    <div>
+      <h3 data-i18n="contactTitle">Found something you love?</h3>
+      <p data-i18n="contactDescription">Let’s help you find the details. Real people, one message away.</p>
+    </div>
+    <div class="actions">
+      <a class="btn primary" href="https://wa.me/94775048455" target="_blank" rel="noopener noreferrer">
+        <svg class="icon">
+          <use href="#i-chat"/>
+        </svg>
+        <span data-i18n="whatsappButton">Chat on WhatsApp</span>
+      </a>
+      <a class="btn ghost" href="tel:+94787313103">
+        <svg class="icon">
+          <use href="#i-phone"/>
+        </svg>
+        <span data-i18n="callButton">Call us</span>
+      </a>
+    </div>
+  </section>
+  </main>
+  <footer id="contact">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-about"><a href="#" class="brand">
+          <span class="brand-mark" aria-hidden="true">V</span>
+          <span class="brand-name">vezlo<span>mart.</span>
+          </span>
+        </a><p data-i18n="footerDescription">A little of everything for the way you live. Discover your everyday favourites, all in one place.</p>
+        </div>
+        <div>
+          <h3 data-i18n="footerExplore">Explore</h3>
+          <div class="footer-links"><a href="#shop" data-i18n="shop">Shop</a>
+            <a href="#categories" data-i18n="categories">Categories</a>
+            <a href="#resell" data-i18n="resell">Become a reseller</a>
+            <button data-info="about" data-i18n="about">About Vezlo Mart</button>
+          </div>
+        </div>
+        <div>
+          <h3 data-i18n="footerHelp">Here to help</h3>
+          <div class="footer-links">
+            <a href="#faq-heading" data-i18n="faqLink">Common questions</a>
+            <button data-info="delivery" data-i18n="deliveryLink">Delivery & payment</button>
+            <button data-info="privacy" data-i18n="privacy">Privacy</button>
+            <button data-info="terms" data-i18n="terms">Terms & conditions</button>
+          </div>
+        </div>
+        <div class="footer-contact">
+          <h3 data-i18n="contact">Contact</h3>
+          <div class="footer-links">
+            <a href="mailto:mail.vezlogroup@gmail.com">mail.vezlogroup@gmail.com</a>
+            <a href="https://wa.me/94775048455" target="_blank" rel="noopener noreferrer">WhatsApp · 077 504 8455</a>
+            <a href="tel:+94787313103">
+              <span data-i18n="call">Call</span> · 078 731 3103</a>
+            <span data-i18n="online">Online store · Open 24/7</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year">2026</span> Vezlo Mart. <span data-i18n="rights">All rights reserved.</span>
+        </span>
+        <span><span data-i18n="owner">Owner</span> · <a href="https://dmkaawya.vercel.app/" target="_blank" rel="noopener noreferrer">Kaawya Chandrasekara</a>
+        </span>
+        <span>Design by <a href="https://vezlo-web.vercel.app/" target="_blank" rel="noopener noreferrer">Vezlo Web Dev ↗</a>
+        </span>
+      </div>
+    </div>
   </footer>
-
-
-  <!-- =======================================================
-       JAVASCRIPT
-       Keep future Supabase / cart logic here.
-       ======================================================= -->
+  <dialog id="product-dialog" aria-labelledby="product-dialog-title">
+    <div class="dialog-header">
+      <h2 id="product-dialog-title" data-i18n="productDetails">Product details</h2>
+      <button class="icon-btn" data-close aria-label="Close">
+        <svg class="icon">
+          <use href="#i-close"/></svg>
+      </button>
+    </div>
+    <div id="product-detail-body"></div>
+  </dialog>
+  <dialog id="cart-dialog" aria-labelledby="cart-title">
+    <div class="dialog-header">
+      <h2 id="cart-title" data-i18n="cartTitle">Your sample bag</h2>
+      <button class="icon-btn" data-close aria-label="Close">
+        <svg class="icon">
+          <use href="#i-close"/>
+        </svg>
+      </button>
+    </div>
+    <div id="cart-body">
+    </div>
+  </dialog>
+  <dialog id="info-dialog" aria-labelledby="info-title">
+    <div class="dialog-header">
+      <h2 id="info-title">
+      </h2>
+      <button class="icon-btn" data-close aria-label="Close">
+        <svg class="icon">
+          <use href="#i-close"/>
+        </svg>
+      </button>
+    </div>
+    <div class="dialog-content" id="info-body">
+    </div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <noscript>
+    <div class="noscript">JavaScript is needed for the sample catalogue, theme, language and cart controls. Contact Vezlo Mart at mail.vezlogroup@gmail.com or 0787313103.</div>
+  </noscript>
   <script>
-
-    /* -------------------------------------------------------
-       DARK / LIGHT MODE
-       Default = DARK
-       Preference is saved in localStorage.
-       ------------------------------------------------------- */
-
-    const themeToggle = document.getElementById("themeToggle");
-
-    const savedTheme = localStorage.getItem("vezlo-theme");
-
-    if (savedTheme === "light") {
-      document.body.classList.add("light-mode");
-      themeToggle.textContent = "☀";
-    }
-
-    themeToggle.addEventListener("click", () => {
-
-      const isLight =
-        document.body.classList.toggle("light-mode");
-
-      localStorage.setItem(
-        "vezlo-theme",
-        isLight ? "light" : "dark"
-      );
-
-      themeToggle.textContent =
-        isLight ? "☀" : "☾";
-    });
-
-
-    /* -------------------------------------------------------
-       MOBILE MENU
-       ------------------------------------------------------- */
-
-    const menuToggle = document.getElementById("menuToggle");
-    const mainNav = document.querySelector(".main-nav");
-
-    menuToggle.addEventListener("click", () => {
-
-      const isOpen =
-        mainNav.classList.toggle("mobile-open");
-
-      if (isOpen) {
-        mainNav.style.display = "flex";
-        mainNav.style.position = "absolute";
-        mainNav.style.top = "72px";
-        mainNav.style.left = "11px";
-        mainNav.style.right = "11px";
-        mainNav.style.padding = "10px";
-        mainNav.style.flexDirection = "column";
-        mainNav.style.background = "rgba(8,8,8,.96)";
-        mainNav.style.border = "1px solid rgba(255,255,255,.12)";
-        mainNav.style.borderRadius = "18px";
-        mainNav.style.boxShadow = "0 25px 70px rgba(0,0,0,.5)";
-      } else {
-        mainNav.removeAttribute("style");
-      }
-
-    });
-
-
-    /* -------------------------------------------------------
-       HERO SEARCH
-       Real product search will be connected to Supabase later.
-       ------------------------------------------------------- */
-
-    document.getElementById("searchForm")
-      .addEventListener("submit", (event) => {
-
-        event.preventDefault();
-
-        const search =
-          document.getElementById("searchInput")
-            .value
-            .trim();
-
-        if (!search) {
-          document
-            .getElementById("featured")
-            .scrollIntoView({ behavior: "smooth" });
-
-          return;
-        }
-
-        // Temporary frontend behaviour.
-        // Later:
-        // search Supabase products and open Store page.
-        console.log("Product search:", search);
-
-        document
-          .getElementById("featured")
-          .scrollIntoView({ behavior: "smooth" });
-      });
-
-
-    /* -------------------------------------------------------
-       NEWSLETTER
-       Backend connection will be added later.
-       ------------------------------------------------------- */
-
-    document.getElementById("newsletterForm")
-      .addEventListener("submit", (event) => {
-
-        event.preventDefault();
-
-        const email =
-          document.getElementById("newsletterEmail").value;
-
-        alert(
-          "Thanks! Newsletter connection will be added later."
-        );
-
-        console.log("Newsletter email:", email);
-      });
-
-
-    /* -------------------------------------------------------
-       COPYRIGHT YEAR
-       ------------------------------------------------------- */
-
-    document.getElementById("currentYear").textContent =
-      new Date().getFullYear();
-
+  'use strict';
+  /* ================================================================
+     VEZLO MART — EDITING GUIDE
+     1. PRODUCTS below: illustrative catalogue data, prices in LKR.
+        Keep the sample notices until these are replaced by real data.
+     2. COPY below: all homepage text in English and Sinhala.
+     3. CSS variables above: dark/light colours.
+     This standalone homepage makes NO orders, payments, sign-ins or
+     database calls. Cart and saved items stay on this device only.
+     For production, prices, stock and access must be checked server-side.
+     No external fonts, trackers, images or JS dependencies are loaded.
+     ================================================================ */
+  const PRODUCTS = [
+    {id:'headphones',category:'tech',name:['Everyday Wireless Headphones','Everyday රැහැන් රහිත හෙඩ්ෆෝන්'],description:['Your everyday listening companion.','දිනපතා සංගීතය රසවිඳින්න.'],price:5990,market:7990,art:'headphones',color:'#dfe7d3',tag:'discount'},
+    {id:'watch',category:'accessories',name:['Everyday Smart Watch','Everyday ස්මාර්ට් ඔරලෝසුව'],description:['A little more in sync with your day.','ඔබේ දවසට ගැළපෙන තේරීමක්.'],price:7490,market:8990,art:'watch',color:'#e4e4db',tag:'pick'},
+    {id:'bag',category:'fashion',name:['The Everyday Tote','Everyday ටෝට් බෑගය'],description:['Carry the things that make your day.','ඔබට අවශ්‍ය දේ පහසුවෙන් ගෙනයන්න.'],price:2490,market:2990,art:'bag',color:'#e9dfd2',tag:'pick'},
+    {id:'bottle',category:'home',name:['Daily Hydration Bottle','දෛනික භාවිතයට ජල බෝතලය'],description:['A fresh start, wherever you go.','ඔබ යන ඕනෑම තැනකට.'],price:1890,market:2490,art:'bottle',color:'#dbe5df',tag:'discount'},
+    {id:'sneakers',category:'fashion',name:['Weekend Essential Sneakers','Weekend සැහැල්ලු සපත්තු'],description:['Take the scenic route.','ඔබේ දවසට පහසු තේරීමක්.'],price:4990,market:5990,art:'shoe',color:'#e8e6dc',tag:'pick'},
+    {id:'lamp',category:'home',name:['Calm Corner Table Lamp','Calm Corner මේස ලාම්පුව'],description:['A warmer corner of your world.','ඔබේ කාමරයට සුන්දර ආලෝකයක්.'],price:3490,market:4290,art:'lamp',color:'#e8dfd3',tag:'discount'},
+    {id:'serum',category:'beauty',name:['Everyday Care Serum','Everyday Care සීරම්'],description:['A moment in your daily routine.','ඔබේ දෛනික සත්කාරයට.'],price:2190,market:2690,art:'serum',color:'#eadbd0',tag:'pick'},
+    {id:'speaker',category:'tech',name:['Mini Bluetooth Speaker','කුඩා බ්ලූටූත් ස්පීකරය'],description:['Set the mood for the moment.','ඔබේ ප්‍රියතම සංගීතය සමඟ.'],price:3290,market:3990,art:'speaker',color:'#e1dfe9',tag:'pick'}
+  ];
+  const CATEGORIES=[{id:'tech',icon:'headphones',label:['Electronics','ඉලෙක්ට්‍රොනික']},{id:'fashion',icon:'shirt',label:['Fashion','විලාසිතා']},{id:'home',icon:'home',label:['Home & living','නිවසට']},{id:'beauty',icon:'sparkles',label:['Beauty & care','රූපලාවණ්‍ය']},{id:'accessories',icon:'watch',label:['Accessories','අමතර උපාංග']},{id:'all',icon:'grid',label:['Explore all','සියල්ල බලන්න']}];
+  const COPY={
+    skip:['Skip to content','අන්තර්ගතයට යන්න'],announcement:['Your everyday finds, all in one place.','ඔබේ දවසට අවශ්‍ය දේ, එකම තැනකින්.'],
+    online:['Online store · Open 24/7','අන්තර්ජාල වෙළඳසැල · පැය 24ම විවෘතයි'],
+    helpTop:['Need a hand? Let’s talk ↗','උදව්වක් අවශ්‍යද? අමතන්න ↗'],
+    home:['Home','මුල් පිටුව'],
+    shop:['Shop','භාණ්ඩ'],
+    categories:['Categories','වර්ග'],
+    resell:['Become a reseller','Reseller කෙනෙක් වෙන්න'],
+    contact:['Contact','අමතන්න'],
+    heroPill:['A little of everything. Pick your favourite.','විවිධ තේරීම් අතරින් ඔබේ ප්‍රියතම දේ.'],
+    hero1:['Everyday finds.','දවසට අවශ්‍ය දේ.'],
+    hero2:['More possibilities.','තවත් තේරීම් රැසක්.'],
+    heroDescription:['From little upgrades to your next big favourite. Discover tech, style and everyday essentials at Vezlo Mart.','අලුත් උපාංග, විලාසිතා සහ දිනපතා අවශ්‍ය භාණ්ඩ. ඔබේ ඊළඟ ප්‍රියතම තේරීම Vezlo Mart වෙතින් සොයාගන්න.'],
+    explore:['Explore the collection','භාණ්ඩ බලන්න'],
+    browse:['Browse categories','වර්ග බලන්න'],
+    deliveryNote:['Delivery options available','බෙදාහැරීමේ විකල්ප'],
+    helpNote:['A message away','පණිවිඩයකින් අප අමතන්න'],
+    heroVisualTop:['THE EVERYDAY EDIT','ඔබේ දවසට'],
+    heroFeatureSmall:['Find your own rhythm','ඔබේ රිද්මය සොයාගන්න'],
+    heroFeature:['Good sound. Good days.','සංගීතය සමඟ සුන්දර දවසක්.'],
+    heroVisualBottom:['Little upgrades.\nBig difference.','පුංචි වෙනසක්.\nලොකු වෙනසකට.'],
+    illustration:['Product illustration','භාණ්ඩ නිදර්ශනයක්'],
+    benefit1:['Delivery your way','බෙදාහැරීම් විකල්ප'],
+    benefit1s:['Options vary by product','භාණ්ඩය අනුව වෙනස් වේ'],benefit2:['Flexible payment','ගෙවීම් විකල්ප'],
+    benefit2s:['Ask about COD & bank transfer','COD සහ බැංකු ගෙවීම් ගැන අසන්න'],
+    benefit3:['Here to help','උදව්වට අපි ඉන්නවා'],
+    benefit3s:['Chat with us on WhatsApp','WhatsApp මගින් අමතන්න'],
+    benefit4:['One store. More choice.','එකම තැනකින් තේරීම් රැසක්.'],
+    benefit4s:['Tech, style & everyday essentials','උපාංග, විලාසිතා සහ තවත් දේ'],
+    categoryEye:['FIND YOUR KIND OF THING','ඔබට ගැළපෙන තේරීම'],
+    categoryTitle:['What are you looking for?','ඔබ සොයන්නේ මොනවාද?'],
+    viewAll:['View all','සියල්ල'],
+    shopEye:['GOOD FINDS START HERE','ඔබේ ඊළඟ තේරීම මෙතැනින්'],
+    shopTitle:['Made for your everyday.','ඔබේ දවසට ගැළපෙන දේ.'],
+    shopSubtitle:['A few favourites from across the store.','විවිධ භාණ්ඩ අතරින් තේරීම් කිහිපයක්.'],
+    searchLabel:['Search products','භාණ්ඩ සොයන්න'],
+    sortLabel:['Sort products','භාණ්ඩ පෙළගස්වන්න'],
+    sortFeatured:['Featured','විශේෂ තේරීම්'],
+    sortLow:['Price: low to high','අඩු මිල සිට'],sortHigh:['Price: high to low','වැඩි මිල සිට'],
+    sortDiscount:['Biggest saving','වැඩිම ඉතිරිය'],
+    demoNotice:['Sample collection — products and prices are for this homepage preview. Contact us for actual availability.','ආදර්ශ භාණ්ඩ ලැයිස්තුවකි. මෙහි භාණ්ඩ සහ මිල ගණන් නිදර්ශන පමණි. සැබෑ තොග සහ මිල සඳහා අප අමතන්න.'],
+    resetProducts:['Explore all products','සියලු භාණ්ඩ බලන්න'],edit1eye:['SMALL UPGRADES, BIG ENERGY','නිවසට පුංචි වෙනසක්'],
+    edit1title:['Your space.\nYour kind of calm.','ඔබේ ඉඩට.\nඔබට ගැළපෙන සුවයක්.'],
+    edit1button:['Explore home & living','නිවසට අවශ්‍ය දේ බලන්න'],
+    edit2eye:['GO-TO EVERYDAY ESSENTIALS','ඔබේ දවසේ තේරීම්'],
+    edit2title:['Take a little\nstyle with you.','විලාසිතාවත්\nඔබ සමඟම.'],
+    edit2button:['Find your next favourite','ඔබේ ඊළඟ තේරීම'],
+    resellEye:['LET’S GROW TOGETHER','එක්ව ඉදිරියට යමු'],
+    resellTitle:['Your ambition.\nOur next chapter.','ඔබේ අරමුණ.\nඅප සමඟ නව ඇරඹුමක්.'],
+    resellDescription:['Want to start reselling with Vezlo Mart? Tell us about your business and ask about product pricing, delivery and how to get started.','Vezlo Mart සමඟ නැවත විකිණීම ආරම්භ කිරීමට කැමතිද? ඔබේ ව්‍යාපාරය ගැන අපට කියන්න. භාණ්ඩ මිල, බෙදාහැරීම් සහ ආරම්භ කරන ආකාරය ගැන විමසන්න.'],
+    resellStep1:['Get in touch','අප අමතන්න'],resellStep2:['Discuss the details','විස්තර කතා කරමු'],
+    resellStep3:['Get approved','අනුමැතිය ලබාගන්න'],
+    resellButton:['Let’s talk reselling','Reseller ගැන විමසන්න'],
+    faqEye:['A LITTLE HELP BEFORE YOU SHOP','මිලදී ගැනීමට පෙර'],faqTitle:['Good questions.\nSimple answers.','ඔබේ ප්‍රශ්නවලට\nසරල පිළිතුරු.'],
+    faqDescription:['Something else on your mind? We’re a message away.','තවත් යමක් දැනගන්න අවශ්‍යද? අපට පණිවිඩයක් එවන්න.'],
+    faq1q:['How can I place an order?','ඇණවුමක් දමන්නේ කොහොමද?'],
+    faq1a:['This is a homepage preview. Message Vezlo Mart on WhatsApp with the products you’re interested in. We’ll confirm the real product, availability and total before you decide to buy.','මෙය මුල් පිටුවේ ආදර්ශයකි. ඔබ කැමති භාණ්ඩ ගැන WhatsApp මගින් විමසන්න. මිලදී ගැනීමට පෙර සැබෑ භාණ්ඩය, තොග සහ මුළු මුදල තහවුරු කරගන්න.'],
+    faq2q:['Which payment methods are available?','ගෙවීම් ක්‍රම මොනවාද?'],
+    faq2a:['Ask us about cash on delivery and bank transfer. Availability depends on the product and delivery option. Always confirm payment details directly with the store.','COD සහ බැංකු ගෙවීම් ගැන අපෙන් විමසන්න. භාණ්ඩය සහ බෙදාහැරීම අනුව ක්‍රම වෙනස් වේ. ගෙවීම් විස්තර වෙළඳසැලෙන්ම තහවුරු කරගන්න.'],
+    faq3q:['How much does delivery cost?','බෙදාහැරීමේ ගාස්තුව කීයද?'],
+    faq3a:['Delivery fees and estimated arrival times depend on your location, the courier, and the product’s weight. Contact us for a quote for your items.','ස්ථානය, courier සේවාව සහ භාණ්ඩයේ බර අනුව ගාස්තු සහ කාලය වෙනස් වේ. ඔබේ භාණ්ඩ සඳහා ගාස්තු විමසන්න.'],
+    faq4q:['Can I become a reseller?','මට Reseller කෙනෙක් වෙන්න පුළුවන්ද?'],
+    faq4a:['Yes, you can enquire about our reseller programme through WhatsApp. Reseller access and pricing require review and approval.','WhatsApp මගින් අපගේ reseller වැඩසටහන ගැන විමසන්න. Reseller ප්‍රවේශය සහ මිල සඳහා පරීක්ෂාව සහ අනුමැතිය අවශ්‍යයි.'],
+    contactTitle:['Found something you love?','ඔබ කැමති දෙයක් හමු වුණාද?'],
+    contactDescription:['Let’s help you find the details. Real people, one message away.','වැඩි විස්තර දැනගන්න. අපට පණිවිඩයක් එවන්න.'],
+    whatsappButton:['Chat on WhatsApp','WhatsApp මගින් අමතන්න'],callButton:['Call us','දුරකථනයෙන් අමතන්න'],
+    footerDescription:['A little of everything for the way you live. Discover your everyday favourites, all in one place.','ඔබේ දවසට ගැළපෙන විවිධ භාණ්ඩ. ඔබේ ප්‍රියතම තේරීම් එකම තැනකින් සොයාගන්න.'],
+    footerExplore:['Explore','තවත් බලන්න'],footerHelp:['Here to help','ඔබේ උදව්වට'],about:['About Vezlo Mart','Vezlo Mart ගැන'],
+    faqLink:['Common questions','නිතර අසන ප්‍රශ්න'],deliveryLink:['Delivery & payment','බෙදාහැරීම් සහ ගෙවීම්'],privacy:['Privacy','පෞද්ගලිකත්වය'],
+    terms:['Terms & conditions','නියම සහ කොන්දේසි'],call:['Call','අමතන්න'],rights:['All rights reserved.','සියලු හිමිකම් ඇවිරිණි.'],
+    owner:['Owner','හිමිකරු'],productDetails:['Product details','භාණ්ඩ විස්තර'],cartTitle:['Your sample bag','ඔබේ ආදර්ශ Cart එක'],
+    all:['All finds','සියල්ල'],tech:['Electronics','ඉලෙක්ට්‍රොනික'],fashion:['Fashion','විලාසිතා'],homeCategory:['Home & living','නිවසට'],
+    saved:['Saved','සුරැකි'],pick:['THE EVERYDAY EDIT','විශේෂ තේරීම'],off:['OFF','අඩුයි'],items:['finds','භාණ්ඩ'],
+    emptyTitle:['Nothing here just yet.','දැනට මෙහි භාණ්ඩ නැත.'],
+    emptyDescription:['Try another search or explore all products.','වෙනත් වචනයක් සොයන්න හෝ සියලු භාණ්ඩ බලන්න.'],
+    add:['Add to sample bag','ආදර්ශ Cart එකට එක් කරන්න'],added:['Added to your sample bag.','ආදර්ශ Cart එකට එක් කළා.'],
+    removed:['Removed from your sample bag.','ආදර්ශ Cart එකෙන් ඉවත් කළා.'],
+    savedToast:['Saved to your favourites.','ප්‍රියතම ලැයිස්තුවට සුරැකීය.'],unsavedToast:['Removed from favourites.','ප්‍රියතම ලැයිස්තුවෙන් ඉවත් කළා.'],
+    emptyCart:['Your sample bag is empty.','ඔබේ ආදර්ශ Cart එක හිස්.'],
+    cartSubtitle:['Find a little something for your everyday.','ඔබේ දවසට ගැළපෙන දෙයක් සොයාගන්න.'],
+    sampleTotal:['Sample subtotal','ආදර්ශ එකතුව'],
+    cartNote:['This sample bag does not place an order or take payment. Prices, stock and delivery must be confirmed with Vezlo Mart.','මෙම ආදර්ශ Cart එකෙන් ඇණවුම් හෝ ගෙවීම් සිදු නොවේ. මිල, තොග සහ බෙදාහැරීම් Vezlo Mart වෙතින් තහවුරු කරගන්න.'],
+    enquire:['Ask about these items','මෙම භාණ්ඩ ගැන විමසන්න'],samplePrice:['Sample price','ආදර්ශ මිල'],
+    sampleMarket:['Sample market price','ආදර්ශ වෙළඳපොළ මිල'],
+    detailNote:['Illustration and sample pricing only. No technical specifications, stock or delivery promises are implied. Ask the store about the actual product.','මෙය නිදර්ශනයක් සහ ආදර්ශ මිලක් පමණි. සැබෑ භාණ්ඩයේ විශේෂාංග, තොග සහ බෙදාහැරීම පිළිබඳව වෙළඳසැලෙන් විමසන්න.'],
+    askProduct:['Ask about this product','මේ භාණ්ඩය ගැන අසන්න'],
+    close:['Close','වසන්න'],searchPlaceholder:['Find something good…','භාණ්ඩ සොයන්න…'],
+    themeLight:['Switch to light mode','ආලෝක තේමාවට මාරු වන්න'],
+    themeDark:['Switch to dark mode','අඳුරු තේමාවට මාරු වන්න'],
+    savedLabel:['View saved products','සුරැකි භාණ්ඩ බලන්න'],
+    cartLabel:['Open sample cart','ආදර්ශ Cart එක බලන්න'],menuLabel:['Open navigation','මෙනුව විවෘත කරන්න'],
+    menuClose:['Close navigation','මෙනුව වසන්න'],maxQuantity:['Maximum sample quantity is 99.','ආදර්ශ ප්‍රමාණයේ උපරිමය 99 යි.']
+  };
+  const INFO={about:['Vezlo Mart is an online store owned by Kaawya Chandrasekara. We’re available online, 24/7. Contact mail.vezlogroup@gmail.com, WhatsApp 0775048455 or call 0787313103. This standalone homepage is a design preview with an illustrative catalogue.','Kaawya Chandrasekara හිමිකාරීත්වයෙන් පවත්වාගෙන යන Vezlo Mart අන්තර්ජාල වෙළඳසැල පැය 24ම විවෘතයි. mail.vezlogroup@gmail.com, WhatsApp 0775048455 හෝ 0787313103 මගින් අප අමතන්න. මෙය ආදර්ශ භාණ්ඩ සහිත මුල් පිටුවකි.'],
+              delivery:['Ask about cash on delivery and bank transfer. Courier availability, fees and delivery estimates depend on the actual product and your location. Confirm the full amount with the store before paying. This preview does not process payments or reserve stock.','COD සහ බැංකු ගෙවීම් ගැන විමසන්න. සැබෑ භාණ්ඩය සහ ඔබේ ස්ථානය අනුව courier සේවා, ගාස්තු සහ කාලය වෙනස් වේ. ගෙවීමට පෙර මුළු මුදල වෙළඳසැලෙන් තහවුරු කරගන්න. මෙම ආදර්ශයෙන් ගෙවීම් හෝ තොග වෙන් කිරීම සිදු නොවේ.'],
+              privacy:['This page stores your chosen theme, language, saved product IDs and sample-cart quantities in this browser when local storage is available. It does not read browsing history, other websites’ cookies, Wi-Fi names or SIM information. No analytics or third-party assets load automatically. Contact links open WhatsApp, your email app or your phone app, where their own privacy terms apply. Clear your browser’s site data to remove this page’s saved preferences.',
+                       'මෙම පිටුව ඔබේ තේමාව, භාෂාව, සුරැකි භාණ්ඩ අංක සහ ආදර්ශ Cart ප්‍රමාණ මෙම browser එකේ සුරකියි. වෙනත් වෙබ් අඩවිවල cookies, browsing history, Wi-Fi නම් හෝ SIM තොරතුරු කියවන්නේ නැත. Analytics හෝ බාහිර assets ස්වයංක්‍රීයව ලබාගන්නේ නැත. සම්බන්ධතා links මගින් විවෘත වන WhatsApp, email හෝ phone සේවාවලට ඒවායේ නියම අදාළ වේ. සුරැකි තොරතුරු ඉවත් කිරීමට browser site data මකන්න.'],
+              terms:['All catalogue entries and prices on this homepage are samples for a design preview, not offers for sale. Adding items to the sample bag does not create an order. Contact Vezlo Mart to confirm the actual item, price, availability, delivery and applicable purchase terms before buying. WhatsApp links prepare an enquiry; you decide whether to send it.',
+                     'මෙහි සියලු භාණ්ඩ සහ මිල ගණන් පිටුවේ නිදර්ශන සඳහා වූ ආදර්ශ වන අතර විකිණීමේ යෝජනා නොවේ. ආදර්ශ Cart එකට එක් කිරීමෙන් ඇණවුමක් සාදන්නේ නැත. මිලදී ගැනීමට පෙර සැබෑ භාණ්ඩය, මිල, තොග, බෙදාහැරීම සහ අදාළ නියම Vezlo Mart වෙතින් තහවුරු කරගන්න. WhatsApp links පණිවිඩයක් සකස් කරයි; එය යැවීම ඔබ තීරණය කරයි.']};
+  const storage={get(key,fallback){try{return JSON.parse(localStorage.getItem('vezlo-home-'+key))??fallback;}catch{return fallback;}},set(key,value){try{localStorage.setItem('vezlo-home-'+key,JSON.stringify(value));}catch{}}};
+  let language=storage.get('language','en')==='si'?'si':'en',theme=storage.get('theme','dark')==='light'?'light':'dark';
+  let selectedCategory='all',savedOnly=false,activeProduct=null,activeInfo=null,toastTimer;
+  const validId=id=>PRODUCTS.some(p=>p.id===id);
+  const rawSaved=storage.get('saved',[]),rawCart=storage.get('cart',{});
+  let saved=new Set(Array.isArray(rawSaved)?rawSaved.filter(validId):[]);
+  let cart=Object.create(null);
+  if(rawCart&&typeof rawCart==='object'&&!Array.isArray(rawCart))for(const [id,qty]of Object.entries(rawCart))if(validId(id)&&Number.isInteger(qty)&&qty>0&&qty<=99)cart[id]=qty;
+  const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),langIndex=()=>language==='si'?1:0;
+  const tr=key=>COPY[key]?.[langIndex()]??key;
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const icon=name=>`<svg class="icon" aria-hidden="true"><use href="#i-${name}"/></svg>`;
+  const art=p=>`<svg class="product-art" viewBox="0 0 400 400" role="img" aria-label="${esc(p.name[langIndex()])}"><rect width="400" height="400" fill="${p.color}"/><use href="#art-${p.art}"/></svg>`;
+  const money=value=>new Intl.NumberFormat(language==='si'?'si-LK':'en-LK',{style:'currency',currency:'LKR',maximumFractionDigits:0}).format(value);
+  const categoryName=id=>CATEGORIES.find(c=>c.id===id)?.label[langIndex()]??id;
+  function toast(text){$('#toast').textContent=text;$('#toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('show'),2400);}
+  function setTheme(){document.documentElement.dataset.theme=theme;$('#theme').innerHTML=icon(theme==='dark'?'sun':'moon');$('#theme').setAttribute('aria-label',tr(theme==='dark'?'themeLight':'themeDark'));document.querySelector('meta[name=theme-color]').content=theme==='dark'?'#101410':'#f7f8f2';storage.set('theme',theme);}
+  function applyLanguage(){document.documentElement.lang=language;$$('[data-i18n]').forEach(el=>{el.replaceChildren();tr(el.dataset.i18n).split('\n').forEach((line,i)=>{if(i)el.append(document.createElement('br'));el.append(document.createTextNode(line));});});$('#language').textContent=language==='en'?'සිංහල':'English';$('#language').setAttribute('aria-label',
+                                                                                                                                                                                                                                                                                                                                                             language==='en'?'Switch to Sinhala':'Switch to English');
+                           $('#search').placeholder=tr('searchPlaceholder');$('#wishlist').setAttribute('aria-label',tr('savedLabel'));$('#cart-button').setAttribute('aria-label',tr('cartLabel'));$('#menu-toggle').setAttribute('aria-label',tr($('#menu-toggle').getAttribute('aria-expanded')==='true'?'menuClose':'menuLabel'));$$('[data-close]').forEach(el=>el.setAttribute('aria-label',tr('close')));setTheme();renderCategories();renderFilters();renderProducts();renderCart();if(activeProduct)renderDetail(activeProduct);if(activeInfo)renderInfo(activeInfo);storage.set('language',language);}
+  function renderCategories(){$('#category-list').innerHTML=CATEGORIES.map(c=>`<button class="category ${selectedCategory===c.id&&!savedOnly?'selected':''}" data-category="${c.id}" aria-pressed="${selectedCategory===c.id&&!savedOnly}"><span class="category-icon">${icon(c.icon)}</span><span>${esc(c.label[langIndex()])}</span></button>`).join('');}
+  function renderFilters(){const items=[['all','all'],['tech','tech'],['fashion','fashion'],['home','homeCategory'],['saved','saved']];$('#filter-tabs').innerHTML=items.map(([id,key])=>`<button class="filter ${id==='saved'?savedOnly?'active':'':!savedOnly&&selectedCategory===id?'active':''}" data-filter="${id}" aria-pressed="${id==='saved'?savedOnly:!savedOnly&&selectedCategory===id}">${esc(tr(key))}${id==='saved'&&saved.size?` (${saved.size})`:''}</button>`).join('');}
+  function renderProducts(){const query=$('#search').value.trim().toLocaleLowerCase();let list=PRODUCTS.filter(p=>(selectedCategory==='all'||p.category===selectedCategory)&&(!savedOnly||saved.has(p.id))&&(!query||[...p.name,...p.description,...CATEGORIES.find(c=>c.id===p.category).label].join(' ').toLocaleLowerCase().includes(query)));const sort=$('#sort').value;if(sort==='low')list.sort((a,b)=>a.price-b.price);if(sort==='high')list.sort((a,b)=>b.price-a.price);if(sort==='discount')list.sort((a,b)=>(1-b.price/b.market)-(1-a.price/a.market));$('#result-count').textContent=`${list.length} 
+  ${tr('items')}`;$('#product-grid').innerHTML=list.length?list.map(p=>`<article class="product"><div class="product-image"><button class="wish ${saved.has(p.id)?'saved':''}" data-save="${p.id}" aria-label="${esc(tr(saved.has(p.id)?'unsavedToast':'savedToast'))} ${esc(p.name[langIndex()])}" aria-pressed="${saved.has(p.id)}">${icon('heart')}</button><span class="product-tag ${p.tag==='discount'?'discount':''}">${p.tag==='discount'?`${Math.round((1-p.price/p.market)*100)}% ${esc(tr('off'))}`:esc(tr('pick'))}</span>
+  <button class="product-name" data-product="${p.id}" aria-label="${esc(p.name[langIndex()])}">${art(p)}</button></div>
+  <div class="product-info"><span class="product-category">${esc(categoryName(p.category))}</span><h3><button class="product-name" data-product="${p.id}">${esc(p.name[langIndex()])}</button></h3><p class="product-desc">${esc(p.description[langIndex()])}</p><div class="product-bottom"><div><span class="price">${money(p.price)}</span><del class="old-price">${money(p.market)}</del></div><button class="add" data-add="${p.id}" aria-label="${esc(tr('add'))}: ${esc(p.name[langIndex()])}">${icon('bag')}</button></div></div></article>`).join(''):`<div class="empty"><h3>${esc(tr('emptyTitle'))}</h3>
+  <p>${esc(tr('emptyDescription'))}</p><button class="btn primary" data-reset>${esc(tr('resetProducts'))}</button></div>`;}
+  function filterCategory(id){selectedCategory=CATEGORIES.some(c=>c.id===id)?id:'all';savedOnly=false;$('#search').value='';renderCategories();renderFilters();renderProducts();$('#shop').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
+  function reset(){selectedCategory='all';savedOnly=false;$('#search').value='';$('#sort').value='featured';renderCategories();renderFilters();renderProducts();}
+  function saveCart(){storage.set('cart',cart);$('#cart-count').textContent=Object.values(cart).reduce((a,b)=>a+b,0);renderCart();}
+  function add(id){if(!validId(id))return;if((cart[id]||0)>=99){toast(tr('maxQuantity'));return;}cart[id]=(cart[id]||0)+1;saveCart();toast(tr('added'));}
+  function openDialog(id){const dialog=$(id);if(!dialog.open)dialog.showModal();document.body.classList.add('body-lock');}
+  function enquiryLink(ids){const intro=language==='si'?'ආයුබෝවන් Vezlo Mart! මුල් පිටුවේ ආදර්ශ භාණ්ඩ ගැන විමසීමට කැමතියි. සැබෑ භාණ්ඩ, තොග, මිල සහ බෙදාහැරීම් තහවුරු කර දෙන්න.':'Hello Vezlo Mart! I saw these sample items on the homepage. Please confirm the actual products, availability, prices and delivery options.';return 'https://wa.me/94775048455?text='+encodeURIComponent(intro+'\n\n'+ids.map(id=>`${PRODUCTS.find(p=>p.id===id).name[langIndex()]} × ${cart[id]||1}`).join('\n'));}
+  function renderCart(){const ids=Object.keys(cart);$('#cart-count').textContent=Object.values(cart).reduce((a,b)=>a+b,0);$('#cart-body').innerHTML=ids.length?ids.map(id=>{const p=PRODUCTS.find(p=>p.id===id);return `<div class="cart-line">${art(p)}<div><h3>${esc(p.name[langIndex()])}</h3><small>${money(p.price)}</small><div class="qty-control"><button data-quantity="${id}" data-change="-1" aria-label="${language==='si'?'ප්‍රමාණය අඩු කරන්න':'Decrease quantity'}">−</button>
+  <span>${cart[id]}</span><button data-quantity="${id}" data-change="1" ${cart[id]>=99?'disabled':''} aria-label="${language==='si'?'ප්‍රමාණය වැඩි කරන්න':'Increase quantity'}">+</button></div></div><button class="remove" data-remove="${id}" aria-label="${language==='si'?'ඉවත් කරන්න':'Remove'} ${esc(p.name[langIndex()])}">${icon('trash')}</button></div>`;}).join('')+`<div class="cart-total"><span>${esc(tr('sampleTotal'))}</span><span>${money(ids.reduce((n,id)=>n+PRODUCTS.find(p=>p.id===id).price*cart[id],0))}</span></div>
+  <div class="cart-foot"><p>${esc(tr('cartNote'))}</p><a class="btn primary" href="${enquiryLink(ids)}" target="_blank" rel="noopener noreferrer">${esc(tr('enquire'))}${icon('arrow')}</a></div>`:`<div class="empty"><h3>${esc(tr('emptyCart'))}</h3><p>${esc(tr('cartSubtitle'))}</p><button class="btn primary" data-continue>${esc(tr('explore'))}</button></div>`;}
+  function renderDetail(id){const p=PRODUCTS.find(x=>x.id===id);if(!p)return;activeProduct=id;$('#product-detail-body').innerHTML=`<div class="product-detail">${art(p)}<div><div class="eyebrow">${esc(categoryName(p.category))}</div><h3>${esc(p.name[langIndex()])}</h3><p class="detail-description">${esc(p.description[langIndex()])}</p><small>${esc(tr('samplePrice'))}</small><div class="price">${money(p.price)}</div><p class="detail-description">${esc(tr('sampleMarket'))}: <del>${money(p.market)}</del>
+  </p><button class="btn primary" data-add="${p.id}">${esc(tr('add'))}${icon('bag')}</button><p style="margin-top:12px"><a class="btn text" href="${enquiryLink([p.id])}" target="_blank" rel="noopener noreferrer">${esc(tr('askProduct'))}${icon('arrow')}</a></p></div></div><p class="dialog-note">${esc(tr('detailNote'))}</p>`;}
+  function renderInfo(key){activeInfo=key;$('#info-title').textContent=tr(key==='delivery'?'deliveryLink':key);$('#info-body').textContent=INFO[key][langIndex()];}
+  $('#theme').addEventListener('click',()=>{theme=theme==='dark'?'light':'dark';setTheme();});
+  $('#language').addEventListener('click',()=>{language=language==='en'?'si':'en';applyLanguage();});
+  $('#search').addEventListener('input',renderProducts);$('#sort').addEventListener('change',renderProducts);
+  $('#reset-products').addEventListener('click',reset);$('#all-categories').addEventListener('click',reset);
+  $('#cart-button').addEventListener('click',()=>{renderCart();openDialog('#cart-dialog');});
+  $('#wishlist').addEventListener('click',()=>{selectedCategory='all';savedOnly=true;$('#search').value='';renderCategories();renderFilters();renderProducts();$('#shop').scrollIntoView();});
+  function closeMenu(){$('#mobile-nav').classList.remove('open');$('#menu-toggle').setAttribute('aria-expanded','false');$('#menu-toggle').setAttribute('aria-label',tr('menuLabel'));}
+  $('#menu-toggle').addEventListener('click',()=>{const open=$('#mobile-nav').classList.toggle('open');$('#menu-toggle').setAttribute('aria-expanded',String(open));$('#menu-toggle').setAttribute('aria-label',tr(open?'menuClose':'menuLabel'));});
+  $$('#mobile-nav a').forEach(a=>a.addEventListener('click',closeMenu));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
+  document.addEventListener('click',e=>{const el=e.target.closest('button');if(!el)return;if(el.hasAttribute('data-category'))filterCategory(el.dataset.category);
+                                        if(el.hasAttribute('data-filter')){savedOnly=el.dataset.filter==='saved';selectedCategory=savedOnly?'all':el.dataset.filter;renderCategories();renderFilters();renderProducts();}
+                                        if(el.dataset.product){renderDetail(el.dataset.product);openDialog('#product-dialog');}if(el.dataset.save){const id=el.dataset.save;if(saved.has(id)){saved.delete(id);toast(tr('unsavedToast'));}else{saved.add(id);toast(tr('savedToast'));}storage.set('saved',[...saved]);renderFilters();renderProducts();}if(el.dataset.add)add(el.dataset.add);if(el.dataset.remove){delete cart[el.dataset.remove];saveCart();toast(tr('removed'));}
+                                        if(el.dataset.quantity){const id=el.dataset.quantity;const next=(cart[id]||0)+Number(el.dataset.change);if(next<=0)delete cart[id];else cart[id]=Math.min(99,next);saveCart();}if(el.hasAttribute('data-close'))el.closest('dialog').close();if(el.hasAttribute('data-continue')){$('#cart-dialog').close();$('#shop').scrollIntoView();}if(el.hasAttribute('data-reset'))reset();if(el.dataset.info&&INFO[el.dataset.info]){renderInfo(el.dataset.info);openDialog('#info-dialog');}});
+  $$('dialog').forEach(dialog=>{dialog.addEventListener('close',()=>{if(dialog.id==='product-dialog')activeProduct=null;if(dialog.id==='info-dialog')activeInfo=null;if(!document.querySelector('dialog[open]'))document.body.classList.remove('body-lock');});dialog.addEventListener('click',e=>{if(e.target!==dialog)return;const rect=dialog.getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)dialog.close();});});
+  $('#year').textContent=new Date().getFullYear();applyLanguage();
   </script>
-
 </body>
 </html>
