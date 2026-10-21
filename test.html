@@ -1249,37 +1249,24 @@
 <script>
   /* ===== Product Data ===== */
   const products = [
-    { id: 1, name: "JBL Tune 760BT Wireless Headphones", brand: "JBL", price: 16900, old: 23900, rating: 4.8, reviews: 120, sold: "1.2K+", badge: "-30%", badgeClass: "", icon: "fa-headphones" },
-    { id: 2, name: "Samsung Galaxy A06 Smartphone (4GB/64GB)", brand: "Samsung", price: 23900, old: 28900, rating: 4.6, reviews: 84, sold: "890+", badge: "-17%", badgeClass: "", icon: "fa-mobile-screen" },
-    { id: 3, name: "Smart Watch Series 7 — Fitness Tracker", brand: "VezloTech", price: 12500, old: 18900, rating: 4.5, reviews: 56, sold: "450+", badge: "Best Seller", badgeClass: "best", icon: "fa-stopwatch" },
-    { id: 4, name: "Pro Running Shoes — Lightweight Sports", brand: "SportX", price: 6900, old: 9900, rating: 4.4, reviews: 38, sold: "230+", badge: "-30%", badgeClass: "", icon: "fa-shoe-prints" },
-    { id: 5, name: "Travel Backpack 30L — Waterproof", brand: "TravelPro", price: 4900, old: 6200, rating: 4.7, reviews: 92, sold: "670+", badge: "-20%", badgeClass: "", icon: "fa-suitcase" },
-    { id: 6, name: "Wireless Earbuds Pro — Noise Cancelling", brand: "VezloTech", price: 8500, old: 12900, rating: 4.6, reviews: 67, sold: "540+", badge: "-34%", badgeClass: "", icon: "fa-earbuds" },
-    { id: 7, name: "Gaming Controller — Bluetooth Compatible", brand: "GameOn", price: 7200, old: 9800, rating: 4.5, reviews: 41, sold: "320+", badge: "-27%", badgeClass: "", icon: "fa-gamepad" },
-    { id: 8, name: "LED Desk Lamp with Wireless Charging", brand: "BrightHome", price: 5400, old: 7200, rating: 4.3, reviews: 29, sold: "180+", badge: "-25%", badgeClass: "", icon: "fa-lightbulb" },
-    { id: 9, name: "Bluetooth Speaker — 20W Bass Boost", brand: "JBL", price: 11400, old: 14900, rating: 4.7, reviews: 73, sold: "410+", badge: "-23%", badgeClass: "", icon: "fa-volume-high" },
-    { id: 10, name: "Smartphone Power Bank 20000mAh", brand: "Anker", price: 6800, old: 8500, rating: 4.8, reviews: 110, sold: "980+", badge: "-20%", badgeClass: "", icon: "fa-battery-full" }
-  ];
-
-  const newArrivalsData = [
-    { id: 11, name: "4K Webcam with Ring Light — Streaming", brand: "VezloTech", price: 9800, old: 0, rating: 4.4, reviews: 12, sold: "45+", badge: "New", badgeClass: "new", icon: "fa-video" },
-    { id: 12, name: "Mechanical Keyboard RGB — Hot Swappable", brand: "KeyPro", price: 13200, old: 0, rating: 4.6, reviews: 8, sold: "30+", badge: "New", badgeClass: "new", icon: "fa-keyboard" },
-    { id: 13, name: "Wireless Mouse — Silent Click Ergonomic", brand: "LogiPro", price: 3400, old: 0, rating: 4.5, reviews: 15, sold: "60+", badge: "New", badgeClass: "new", icon: "fa-computer-mouse" },
-    { id: 14, name: "USB-C Hub 7-in-1 with HDMI 4K", brand: "VezloTech", price: 5200, old: 0, rating: 4.7, reviews: 22, sold: "85+", badge: "New", badgeClass: "new", icon: "fa-plug" },
-    { id: 15, name: "Portable SSD 1TB — USB 3.2 Gen 2", brand: "Samsung", price: 18900, old: 0, rating: 4.8, reviews: 6, sold: "20+", badge: "New", badgeClass: "new", icon: "fa-hard-drive" }
+    { id: 1, name: "JBL Tune 760BT Wireless Headphones", brand: "JBL", price: 16900, old: 23900, rating: 4.8, reviews: 120, sold: "1.2K+", badge: "-30%", badgeClass: "", icon: "fa-headphones", desc: "JBL Pure Bass sound. Bluetooth 5.0. Up to 35 hours of battery life. Lightweight and foldable design.", specs: ["Bluetooth 5.0", "35H Battery", "Active Noise Cancelling", "Foldable Design"] },
+    { id: 2, name: "Samsung Galaxy A06 Smartphone (4GB/64GB)", brand: "Samsung", price: 23900, old: 28900, rating: 4.6, reviews: 84, sold: "890+", badge: "-17%", badgeClass: "", icon: "fa-mobile-screen", desc: "6.7-inch PLS LCD display, Mediatek Helio G85, 50MP dual camera, 5000mAh battery.", specs: ["6.7 Display", "4GB RAM 64GB ROM", "50MP Camera", "5000mAh Battery"] },
+    { id: 3, name: "Smart Watch Series 7 — Fitness Tracker", brand: "VezloTech", price: 12500, old: 18900, rating: 4.5, reviews: 56, sold: "450+", badge: "Best Seller", badgeClass: "best", icon: "fa-stopwatch", desc: "Heart rate monitor, SpO2 tracking, multiple sports modes, 1.8 inch AMOLED display.", specs: ["AMOLED Display", "Heart Rate Monitor", "Water Resistant", "7-day Battery"] },
+    { id: 4, name: "Pro Running Shoes — Lightweight Sports", brand: "SportX", price: 6900, old: 9900, rating: 4.4, reviews: 38, sold: "230+", badge: "-30%", badgeClass: "", icon: "fa-shoe-prints", desc: "Breathable mesh upper, cushioned sole for maximum comfort during running and gym workouts.", specs: ["Breathable Mesh", "Cushioned Sole", "Lightweight", "Anti-slip Grip"] },
+    { id: 5, name: "Travel Backpack 30L — Waterproof", brand: "TravelPro", price: 4900, old: 6200, rating: 4.7, reviews: 92, sold: "670+", badge: "-20%", badgeClass: "", icon: "fa-suitcase", desc: "30L capacity, waterproof material, USB charging port, anti-theft back pocket.", specs: ["30L Capacity", "Waterproof", "USB Port", "Anti-theft Pocket"] }
   ];
 
   /* ===== Render Products ===== */
-  function renderProducts(list, containerId) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = list.map(p => {
+  function renderProducts() {
+    const container = document.getElementById('productGrid');
+    container.innerHTML = products.map(p => {
       const oldPrice = p.old ? `<span class="price-old">LKR ${p.old.toLocaleString()}</span>` : '';
       const badge = p.badge ? `<span class="product-badge ${p.badgeClass}">${p.badge}</span>` : '';
       return `
-        <div class="product">
+        <div class="product" onclick="window.location.href='product.html?id=${p.id}'" style="cursor:pointer">
           <div class="product-img">
             ${badge}
-            <button class="wishlist-btn" onclick="toggleWishlist(this)"><i class="fas fa-heart"></i></button>
+            <button class="wishlist-btn" onclick="event.stopPropagation(); toggleWishlist(this)"><i class="fas fa-heart"></i></button>
             <i class="fas ${p.icon}"></i>
           </div>
           <div class="product-info">
@@ -1293,7 +1280,7 @@
               <span class="price-now">LKR ${p.price.toLocaleString()}</span>
               ${oldPrice}
             </div>
-            <button class="add-cart" onclick="addToCart(${p.id})">
+            <button class="add-cart" onclick="event.stopPropagation(); addToCart(${p.id})">
               <i class="fas fa-cart-plus"></i> Add to Cart
             </button>
           </div>
@@ -1301,33 +1288,57 @@
       `;
     }).join('');
   }
-  renderProducts(products, 'productGrid');
-  renderProducts(newArrivalsData, 'newArrivals');
+  renderProducts();
 
-  /* ===== Cart ===== */
-  let cart = [
-    { id: 1, qty: 1 },
-    { id: 2, qty: 1 },
-    { id: 5, qty: 1 }
-  ];
+  /* ===== Cart Logic (LocalStorage) ===== */
+  function getCart() {
+    return JSON.parse(localStorage.getItem('vezlo-cart')) || [];
+  }
+  function saveCart(cart) {
+    localStorage.setItem('vezlo-cart', JSON.stringify(cart));
+    renderCart();
+  }
 
   function findProduct(id) {
-    return [...products, ...newArrivalsData].find(p => p.id === id);
+    return products.find(p => p.id === id);
+  }
+
+  function addToCart(id) {
+    let cart = getCart();
+    const existing = cart.find(it => it.id === id);
+    if (existing) existing.qty += 1;
+    else cart.push({ id, qty: 1 });
+    saveCart(cart);
+    const p = findProduct(id);
+    showToast('Added to cart!', p.name);
+  }
+
+  function changeQty(id, delta) {
+    let cart = getCart();
+    const item = cart.find(it => it.id === id);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) cart = cart.filter(it => it.id !== id);
+    saveCart(cart);
+  }
+
+  function removeFromCart(id) {
+    let cart = getCart().filter(it => it.id !== id);
+    saveCart(cart);
   }
 
   function renderCart() {
+    const cart = getCart();
     const container = document.getElementById('cartItems');
     const footer = document.getElementById('cartFooter');
+    
     if (cart.length === 0) {
-      container.innerHTML = `
-        <div class="cart-empty">
-          <i class="fas fa-cart-shopping"></i>
-          <h4>Your cart is empty</h4>
-          <p>Looks like you haven't added anything yet</p>
-        </div>`;
+      container.innerHTML = `<div class="cart-empty"><i class="fas fa-cart-shopping"></i><h4>Your cart is empty</h4><p>Looks like you haven't added anything yet</p></div>`;
       footer.style.display = 'none';
+      document.getElementById('cartCount').textContent = 0;
       return;
     }
+    
     footer.style.display = 'block';
     container.innerHTML = cart.map(item => {
       const p = findProduct(item.id);
@@ -1348,39 +1359,22 @@
         </div>`;
     }).join('');
 
-    // Calc totals
     const subtotal = cart.reduce((s, it) => s + findProduct(it.id).price * it.qty, 0);
     const oldTotal = cart.reduce((s, it) => {
       const p = findProduct(it.id);
       return s + (p.old || p.price) * it.qty;
     }, 0);
     const discount = oldTotal - subtotal;
+    
     document.getElementById('cartSubtotal').textContent = `LKR ${oldTotal.toLocaleString()}`;
     document.getElementById('cartDiscount').textContent = `- LKR ${discount.toLocaleString()}`;
     document.getElementById('cartTotal').textContent = `LKR ${subtotal.toLocaleString()}`;
-    document.getElementById('cartCount').textContent = cart.reduce((s, it) => s + it.qty, 0);
-    document.getElementById('cartCountInner').textContent = cart.reduce((s, it) => s + it.qty, 0);
+    
+    const count = cart.reduce((s, it) => s + it.qty, 0);
+    document.getElementById('cartCount').textContent = count;
+    document.getElementById('cartCountInner').textContent = count;
   }
 
-  function addToCart(id) {
-    const existing = cart.find(it => it.id === id);
-    if (existing) existing.qty += 1;
-    else cart.push({ id, qty: 1 });
-    renderCart();
-    const p = findProduct(id);
-    showToast('Added to cart!', p.name);
-  }
-  function changeQty(id, delta) {
-    const item = cart.find(it => it.id === id);
-    if (!item) return;
-    item.qty += delta;
-    if (item.qty <= 0) cart = cart.filter(it => it.id !== id);
-    renderCart();
-  }
-  function removeFromCart(id) {
-    cart = cart.filter(it => it.id !== id);
-    renderCart();
-  }
   function openCart() {
     document.getElementById('cartDrawer').classList.add('open');
     document.getElementById('cartOverlay').classList.add('open');
@@ -1391,16 +1385,15 @@
     document.getElementById('cartOverlay').classList.remove('open');
     document.body.style.overflow = '';
   }
-  renderCart();
+  renderCart(); // Initialize cart on load
 
-  /* ===== Wishlist ===== */
+  /* ===== Helper Functions ===== */
   function toggleWishlist(btn) {
     btn.classList.toggle('active');
     if (btn.classList.contains('active')) showToast('Added to wishlist!', 'Saved to your wishlist');
     else showToast('Removed', 'Item removed from wishlist');
   }
 
-  /* ===== Toast ===== */
   let toastTimer;
   function showToast(title, msg) {
     document.getElementById('toastTitle').textContent = title;
@@ -1411,7 +1404,6 @@
     toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
   }
 
-  /* ===== Theme ===== */
   function toggleTheme() {
     const html = document.documentElement;
     const current = html.getAttribute('data-theme');
@@ -1419,26 +1411,17 @@
     html.setAttribute('data-theme', next);
     localStorage.setItem('vezlo-theme', next);
   }
-  // Load saved theme
+  
   (function() {
     const saved = localStorage.getItem('vezlo-theme');
     if (saved) document.documentElement.setAttribute('data-theme', saved);
   })();
 
-  /* ===== Newsletter ===== */
-  function subscribeNewsletter(e) {
-    e.preventDefault();
-    const email = e.target.querySelector('input').value;
-    showToast('Subscribed!', `Deals will be sent to ${email}`);
-    e.target.reset();
-  }
-
-  /* ===== Sticky header shadow ===== */
   window.addEventListener('scroll', () => {
     document.getElementById('header').classList.toggle('scrolled', window.scrollY > 10);
   });
 
-  /* ===== Flash timer ===== */
+  // Flash Timer
   let totalSec = 8 * 3600 + 42 * 60 + 17;
   function tickTimer() {
     if (totalSec <= 0) totalSec = 8 * 3600 + 42 * 60 + 17;
@@ -1452,7 +1435,7 @@
   }
   setInterval(tickTimer, 1000);
 
-  /* ===== Reveal on scroll ===== */
+  // Reveal animations
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
